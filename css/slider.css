@@ -1,0 +1,163 @@
+#my-slider {
+
+    width: 100%;
+
+    height: 470px;
+
+    color: white;
+
+    background-image: url("../images/slider/slide1.jpg");
+
+    background-repeat: no-repeat;
+
+}
+
+.crs-image {
+
+    text-align: center;
+
+    padding-top: 50px;
+
+}
+
+
+
+.crs-image img {
+
+    width: 250px;
+
+}
+
+
+
+@media (min-width: 980px){
+
+    .crs-bar {
+
+        height: 80px;
+
+    }
+
+
+
+    .car-slider {
+
+        padding: 0 150px 0 150px;
+
+    }
+
+
+
+    .crs-bar-roll-current {
+
+        width: 130px;
+
+        height: 80px;
+
+        border: 2px #e2e2e2 solid;
+
+        border-radius: 0px;
+
+    }
+
+
+
+    .crs-bar-roll-wrap {
+
+        height: 80px;
+
+    }
+
+
+
+    .crs-bar-roll {
+
+        height: 80px;
+
+    }
+
+
+
+    .crs-bar-roll-item {
+
+        width: 130px;
+
+        height: 80px;
+
+        text-align: center;
+
+    }
+
+
+
+    .crs-bar-roll-item img {
+
+        width: 115px;
+
+    }
+
+}
+
+
+
+@media (max-width: 980px) {
+
+    .crs-bar {
+
+        width: 100%;
+
+        height: 70px;
+
+    }
+
+    #my-slider .crs-bar-roll-current {
+
+        width: 65px;
+
+        height: 65px;
+
+        display: none;
+
+    }
+
+    .crs-bar-roll-wrap {
+
+        height: 50px;
+
+    }
+
+    .crs-bar-roll {
+
+        width: 100%;
+
+        left: 100px;
+
+    }
+
+    .crs-bar-roll-item:not(:last-child) {
+
+        margin-right: 20px;
+
+    }
+
+    #my-slider .crs-bar-roll-item {
+
+        width: 50px;
+
+        height: 50px;
+
+    }
+
+    .crs-image img {
+
+        width: 250px;
+
+    }
+
+    .crs-bar-roll-item img {
+
+        height: 25px;
+
+    }
+
+}

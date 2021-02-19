@@ -1,0 +1,134 @@
+@media only screen and (min-width : 320px) and (max-width : 481px) {
+   
+
+	
+.lft_side{ width:100% !important;}
+.tp_logo a img{width:120px !important;}
+.tp_menu span{ padding-top:14px;}
+
+.tp_header{margin-bottom:20px;}
+
+
+.web_lang {display:none !important;}
+
+.bnr_top{
+	margin-bottom: 0px !important;
+}
+
+.bnr_title{
+	font-size:22px !important;
+}
+
+.bnr_form_inner{
+	top:20px !important;
+	width:100% !important;
+}
+
+.footer-nav li a{
+	font-size:12px !important;
+}
+.copyright{
+	font-size:12px !important;
+}
+.bottom-section{
+	padding: 15px 0 !important;
+}
+.product_footer_taxi{
+	padding: 8px 0px 8px 0px !important;
+	background: inherit !important;
+}
+.product_app{
+	padding:0px !important;
+}
+.product_app ul li{
+	float:left !important;
+	width:50% !important;
+}
+.btn-app-download{
+	padding: 5px 15px 5px 40px !important;
+	float: left !important;
+	font-size: 12px !important;
+}
+.btn-app-download i{
+	margin: 15px 0 0 15px !important;
+	font-size:22px !important;
+}
+.btn-app-download strong{
+	font-size: 15px !important;
+}
+
+.home_input1, .bnr_select1{
+	background:#fff !important;
+}
+.form_heading h2{
+	padding-top:20px !importantss;
+}
+
+
+
+}
+
+@media only screen and (min-width : 481px) and (max-width : 768px) {
+	
+	.lft_side1{
+		width:85% !important;
+	}
+	.overlay1{
+		width:70% !important;
+	}
+	
+	.lft_side{ width:70% !important;}
+	
+	.home_input1, .bnr_select1{
+		background:#fff !important;
+	}
+	
+}
+
+@media only screen and (min-width : 481px) and (max-width : 768px) {
+	.overlay1{
+		width:60% !important;
+	}
+	
+	.lft_side{ width:60% !important;}
+	
+}
+
+
+
+@media only screen and (min-width : 768px) {
+
+	.lft_side {
+		width: 60% !important;
+	}
+
+	.overlay1{
+		width:60% !important;
+	}
+	
+	.home_input1, .bnr_select1{
+		background:#fff !important;
+	}
+	
+}
+
+@media only screen and (min-width : 1024px) {
+	
+	.lft_side {
+		width: 40% !important;
+	}
+
+	.overlay1{
+		width:40% !important;
+	}
+	
+	.lft_side1{
+		width:70% !important;
+	}
+	
+	.home_input1, .bnr_select1{
+		background:#fff !important;
+	}	
+	
+}
+
