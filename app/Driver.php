@@ -2,14 +2,14 @@
 
 namespace App;
 
-
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Driver extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     protected  $guard = 'driver';
     /**
      * The attributes that are mass assignable.
@@ -18,7 +18,7 @@ class Driver extends Authenticatable implements MustVerifyEmail
      */
   	protected $fillable = [
       'first_name', 'last_name', 'gender', 'email', 'password', 'mobile', 'country_id', 'state_id', 'city_id', 'mobile_verified_at','verification_code','email_verified_at', 'ip_address'
-    ];	
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -27,7 +27,7 @@ class Driver extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
-  
+
    //   protected $casts = [
    //     'email_verified_at' => 'datetime',
   //  ];
