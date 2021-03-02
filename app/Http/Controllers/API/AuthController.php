@@ -110,9 +110,11 @@ class AuthController extends Controller
             'phone' => 'required',
             'password' => 'required|min:6'
         ]);
-        if(Auth::guard('rider')->attempt(['mobile' => $request->phone, 'password' => $request->password])){
-            return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => Auth::guard('rider')->user()]);
+        if(!Auth::guard('rider')->attempt(['mobile' => $request->phone, 'password' => $request->password])){
+            return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
         }
-        return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
+        $rider = Auth::guard('rider')->user();
+        $token = $rider->createToken('turvy')->accessToken;
+        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider, 'token' => $token ]);
     }
 }
