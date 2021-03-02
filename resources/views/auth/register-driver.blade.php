@@ -32,6 +32,12 @@
                     <div class="abd-tab-content">
                         <form name="myForm" id="myForm" method="post" action="{{route('driver.register')}}">
                             @csrf
+                         	 @if(session('error'))
+                            <div class="alert alert-danger" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <p>{{session('error')}}</p>
+                            </div>
+                            @endif
                             <div id="register-error-message" class="alert alert-danger" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 <p>Please choose the country.</p>

@@ -281,7 +281,7 @@
                                             <div class="form-line">
                                                 <select id="servicetype" name="servicetypeIDs[]" class="form-control" multiple>
                                                     @foreach($servicetypes as $servicetype)
-                                                    <option value="{{$servicetype->id}}" @if(isset($driver_vehicle)) @if(str_contains($driver_vehicle->servicetype_id, $servicetype->id)) selected @endif @endif>{{$servicetype->name}}</option>
+                                                    <option value="{{$servicetype->id}}" @if(isset($driver_vehicle) && $driver_vehicle->servicetype_id) @if(str_contains($driver_vehicle->servicetype_id, $servicetype->id)) selected @endif @endif>{{$servicetype->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -298,7 +298,7 @@
                                                 <select id="model" name="model_id" class="form-control">
                                                     <option value="0">Default</option>
                                                     @foreach($models as $model)
-                                                    <option value="{{$model->id}}" @if(isset($driver_vehicle)) @if($driver_vehicle->model_id == $model->id) selected @endif @endif>{{$model->name}}</option>
+                                                    <option value="{{$servicetype->id}}" @if(isset($driver_vehicle) && $driver_vehicle->servicetype_id) @if(str_contains($driver_vehicle->servicetype_id, $servicetype->id)) selected @endif @endif>{{$servicetype->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

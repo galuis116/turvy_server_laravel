@@ -9,12 +9,14 @@ use App\Mail\RiderEmailVerification;
 use App\Partner;
 use App\VehicleMake;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
+
 
 class RegisterController extends Controller
 {
@@ -80,6 +82,7 @@ class RegisterController extends Controller
         	'gender' => 1,
             'email' => $data['email'],
             'verification_code' => $data['verification_code'],
+            'ip_address' => $data['ip_address'],
             'mobile' => $mobile,
             'mobile_verified_at' => date('Y-m-d H:i:s'),
             'partner_id' => $data['partnerID'],
@@ -89,6 +92,8 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        // Cache::put("key", "dd");
+        // return Cache::get("key");
         $countries = Country::all();
         $partners = Partner::where('is_approved', 1)->get();
         $makes = VehicleMake::where('status', 1)->get();
@@ -102,6 +107,12 @@ class RegisterController extends Controller
     {
         //Validates data
         $validator = $this->validator($request->all());
+        
+        $hask_key=Cache::get('sec_key');
+        if(!$hask_key || !Hash::check('world', $hask_key)){
+            return response()->json(['status' => 0, 'message' => 'You are hacker!']);
+        }
+
         if($validator->fails())
         {
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
@@ -111,11 +122,12 @@ class RegisterController extends Controller
         $verification_code = substr(md5(rand()),0,29);
 
         $request->merge([
-            'verification_code'=>$verification_code
+            'verification_code'=>$verification_code,
+            'ip_address' => $request->ip()
         ]);
 
         $rider = $this->create($request->all());
-
+        Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
         } catch (Exception $e) {

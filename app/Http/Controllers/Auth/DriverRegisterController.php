@@ -12,6 +12,7 @@ use App\Mail\DriverEmailVerification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -21,7 +22,7 @@ class DriverRegisterController extends Controller
 {
     protected $redirectPath = '/driver';
     //shows registration form to seller
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
         $countries = Country::all();
         $partners = Partner::where('is_approved', 1)->get();
@@ -39,12 +40,19 @@ class DriverRegisterController extends Controller
         //Create driver
         $verification_code = substr(md5(rand()),0,29);
 
+        $hask_key=Cache::get('sec_key');
+        if(!$hask_key || !Hash::check('world', $hask_key)){
+            return redirect()->back()->with(['error' => 'You are hacker!']);
+        }
+        
+
         $request->merge([
-            'verification_code'=>$verification_code
+            'verification_code'=>$verification_code,
+            'ip_address' => $request->ip()
         ]);
 
         $driver = $this->create($request->all());
-
+        Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new DriverEmailVerification($driver));
         } catch (Exception $e) {
@@ -87,6 +95,7 @@ class DriverRegisterController extends Controller
             'country_id' => $data['country_id'],
             'state_id' => $data['state_id'],
             'city_id' => $data['city_id'],
+            'ip_address' => $data['ip_address'],
             'mobile_verified_at' => $data['mobile_verified_at'],
             'password' => Hash::make($data['password']),
         ]);
