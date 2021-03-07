@@ -2,6 +2,10 @@
 
 @section('title') Our Charity @endsection
 
+@section('styles')
+    <link href="{{asset('plugins/flexslider/flexslider.css')}}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
 
     <section class="abd-inner-page-head">
@@ -29,24 +33,36 @@
                     </div>
                     <article class="about-content">
                         <h3>{{isset($content->charity_title) ? $content->charity_title : ''}}</h3>
-                        <p>{{isset($content->charity_description) ? $content->charity_description : ''}}</p>
+                        {!! isset($content->charity_description) ? $content->charity_description : '' !!}
                     </article>
                 </div>
                 <div class="col-md-6">
-                    @foreach($partners as $partner)
-                        <div class="partner-card col-md-4">
-                            <div class="thumbnail" style="background-color: transparent;border:none">
-                                <a href="{{$partner->url}}" target="_blank" style="display: block!important;">
-                                    <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:140px;margin:auto;display: block!important;height: 140px;">
-                                </a>
-                                <div class="caption">
-                                    <p style="text-align: center;">{{$partner->organization}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="flexslider">
+                        <ul class="slides">
+                            @foreach($partners as $partner)
+                                <li class="text-center">
+                                    <h1>{{$partner->organization}}</h1>
+                                    <a href="{{$partner->url}}" target="_blank">
+                                    <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:550px;margin:auto;display: block!important;height: 309px;">
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    <script src="{{asset('plugins/flexslider/jquery.flexslider.js')}}"></script>
+    <script>
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function(slider){
+                $('body').removeClass('loading');
+            }
+        });
+    </script>
 @endsection

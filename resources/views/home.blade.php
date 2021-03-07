@@ -5,6 +5,7 @@
 @section('styles')
     <link href="{{asset('css/camroll_slider.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/slider.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/flexslider/flexslider.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -140,18 +141,18 @@
                     </article>
                 </div>
                 <div class="col-md-6">
-                    @foreach($partners as $partner)
-                        <div class="partner-card col-md-4">
-                            <div class="thumbnail" style="background-color: transparent;border:none">
-                                <a href="{{$partner->url}}" target="_blank" style="display: block!important;">
-                                    <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:140px;margin:auto;display: block!important;height: 140px;">
-                                </a>
-                                <div class="caption">
-                                    <p style="text-align: center;">{{$partner->organization}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="flexslider">
+                        <ul class="slides">
+                            @foreach($partners as $partner)
+                                <li class="text-center">
+                                    <h1>{{$partner->organization}}</h1>
+                                    <a href="{{$partner->url}}" target="_blank">
+                                    <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:550px;margin:auto;display: block!important;height: 309px;">
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -254,9 +255,15 @@
 @section('scripts')
     <script src="https://maps.googleapis.com/maps/api/js?key={{config('services.googlemap.apikey')}}&map_ids=af9935eed520f3ec&libraries=places"></script>
     <script src="{{asset('js/camroll_slider.js')}}"></script>
+    <script src="{{asset('plugins/flexslider/jquery.flexslider.js')}}"></script>
     <script>
         $("#my-slider").camRollSlider();
-
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function(slider){
+                $('body').removeClass('loading');
+            }
+        });
         var source, destination;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
@@ -360,7 +367,7 @@
                     var duration = response.rows[0].elements[0].duration.value/60;
                     var durationText = response.rows[0].elements[0].duration.text;
                     document.getElementById('fare_distance').innerHTML = "distance :  " + distance + "<br>"+ "duration :  "+durationText;
-                    
+
                     str = '<ul style="width:100%">';
                     for(i=0;i<service_types.length;i++){
                         //console.log("sevice type is:");
