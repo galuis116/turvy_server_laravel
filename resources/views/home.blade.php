@@ -6,6 +6,20 @@
     <link href="{{asset('css/camroll_slider.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/slider.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('plugins/flexslider/flexslider.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .partner-nav {
+            padding: 10px;
+            background-color: #226CA8;
+            margin-top: -45px;
+            margin-bottom: 20px;
+        }
+        .partner-nav a {
+            color: white !important;
+            font-size: 18px;
+            padding: 0 15px;
+            border-right: 2px solid white;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -132,12 +146,21 @@
             Lists of Our Charity
         </div>
         <div class="container">
+            <div class="row partner-nav">
+                <div class="col-md-12">
+                    @foreach($partners as $partner)
+                        <a href="{{$partner->url}}">
+                            {{$partner->organization}}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <article class="about-content">
                         <h3>{{isset($content->charity_title) ? $content->charity_title : null}}</h3>
-                        <p>{{isset($content->charity_description) ? str_limit($content->charity_description, 600): null}}</p>
-                        <a href="{{route('charity')}}" class="abd-btn">Read More</a>
+                        {!! isset($content->charity_description) ? str_limit($content->charity_description, 600): null !!}
+                        <a href="{{route('charity')}}" class="abd-btn btn-block">Read More</a>
                     </article>
                 </div>
                 <div class="col-md-6">
@@ -145,7 +168,7 @@
                         <ul class="slides">
                             @foreach($partners as $partner)
                                 <li class="text-center">
-                                    <h1>{{$partner->organization}}</h1>
+                                    <h3>{{$partner->organization}}</h3>
                                     <a href="{{$partner->url}}" target="_blank">
                                     <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:550px;margin:auto;display: block!important;height: 309px;">
                                     </a>

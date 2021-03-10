@@ -46,13 +46,4 @@ class CommonController extends Controller
             'data' => $partners
         ]);
     }
-
-    public function getProfileInfo($id){
-        $rider = User::find($id);
-        return response()->json([
-            'status' => 1,
-            'datetime' => date('Y-m-d H:i'),
-            'data' => $rider
-        ]);
-    }
 }

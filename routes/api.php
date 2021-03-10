@@ -31,4 +31,5 @@ Route::post('/rider/login/phone', 'API\AuthController@riderPostPhone');
 Route::post('/rider/login/otp', 'API\AuthController@riderPostVerificationCode');
 Route::post('/rider/login', 'API\AuthController@riderLogin');
 
-Route::get('/rider/profile/{id}', 'API\CommonController@getProfileInfo');
+Route::get('/rider/profile/{id}', 'API\RiderController@getProfileInfo');
+Route::post('/rider/profile/{id}', 'API\RiderController@putProfileInfo');
