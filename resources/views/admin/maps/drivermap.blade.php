@@ -102,7 +102,7 @@
     var map;
     var markers = [
         @foreach($drivers as $driver)
-        { driver_id: "{{ $driver->user_id }}",name: "{{ $driver->user->name }}", lat: {{ $driver->lat }}, lng: {{ $driver->lng }}, available: {{ $driver->user->is_available }} },
+        { driver_id: "{{ $driver->driverId }}",name: "{{ $driver->driver->name }}", lat: {{ $driver->lat }}, lng: {{ $driver->lng }}, available: {{ $driver->driver->is_available }} },
         @endforeach
     ];
 
@@ -131,7 +131,8 @@
         */
 
         markers.forEach( function(element, index) {
-            var url = "/admin/user/driver/"+ element.driver_id +"/show"
+            var dURL = "/admin/user/driver/"+ element.driver_id +"/show"
+            var url = '{{url("/")}}' + dURL
             marker = new google.maps.Marker({
                 position: {lat: element.lat, lng: element.lng},
                 map: map,

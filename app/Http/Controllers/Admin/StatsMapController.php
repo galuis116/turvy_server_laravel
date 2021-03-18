@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Driver;
+use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Location;
@@ -27,7 +28,7 @@ class StatsMapController extends Controller
     }
     public function drivermap()
     {
-        $drivers = Location::where('driver_id', '<>', null)->get();
+        $drivers = DriverLocation::all();
         $page = 'maps';
         $subpage = 'drivermap';
         return view('admin.maps.drivermap', compact('drivers', 'page', 'subpage'));
