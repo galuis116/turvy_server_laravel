@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Country;
 use App\Homepage;
 use App\Partner;
+use App\Setting;
 use App\User;
 
 class CommonController extends Controller
@@ -44,6 +45,15 @@ class CommonController extends Controller
             'status' => 1,
             'datetime' => date('Y-m-d H:i'),
             'data' => $partners
+        ]);
+    }
+
+    public function settings(){
+        $info = Setting::all();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $info
         ]);
     }
 }
