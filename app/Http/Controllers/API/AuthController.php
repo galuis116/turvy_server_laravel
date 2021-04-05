@@ -115,8 +115,9 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
         }
         $rider = Auth::guard('rider')->user();
-        $token = $rider->createToken('turvy')->accessToken;
-        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider, 'token' => $token ]);
+        //$token = $rider->createToken('turvy')->accessToken;
+        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider ]);
+        //return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider, 'token' => $token ]);
     }
 
     public function verifyPhoneDriver(Request $request) {
@@ -158,7 +159,8 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
         }
         $driver = Auth::guard('driver')->user();
-        $token = $driver->createToken('turvy')->accessToken;
-        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver, 'token' => $token ]);
+        //$token = $driver->createToken('turvy')->accessToken;
+        //return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver, 'token' => $token ]);
+        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver ]);
     }
 }
