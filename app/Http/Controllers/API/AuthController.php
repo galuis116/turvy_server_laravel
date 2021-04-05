@@ -43,6 +43,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'phone' => ['required', 'string', 'max:14'],
         ]);
+
         if($validator->fails())
         {
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
@@ -51,14 +52,13 @@ class AuthController extends Controller
         $token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
+
         try {
             $twilio = new Client($twilio_sid, $token);
             $verification = $twilio->verify->v2->services($twilio_verify_sid)
                 ->verifications
                 ->create($request->phone, "sms");
-            if(!$verification->valid) {
-                return response()->json(['status' => 0, 'message' => 'This phone number does not support in our system or it is wrong number.']);
-            }
+
             return response()->json(['status' => 1, 'message' => 'SMS has be sent to your phone number.']);
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
