@@ -31,7 +31,7 @@ Route::post('/rider/register', 'API\AuthController@riderRegister');
 
 /* Rider Login */
 Route::post('/rider/login/phone', 'API\AuthController@riderPostPhone');
-Route::post('/rider/login/otp', 'API\AuthController@riderPostVerificationCode');
+Route::post('/rider/login/otp', 'API\AuthController@verifyOTP');
 Route::post('/rider/login', 'API\AuthController@riderLogin');
 
 Route::get('/rider/profile/{id}', 'API\RiderController@getProfileInfo');
@@ -41,7 +41,10 @@ Route::post('/rider/{id}/online', 'API\RiderController@onlineRider');
 Route::get('/rider/{id}/offline', 'API\RiderController@offlineRider');
 Route::get('/rider/{id}/nearByDrivers', 'API\RiderController@nearByDrivers');
 
-/* Driver Lopgin */
+/* Driver Login */
+Route::post('/driver/phone/verify', 'API\AuthController@verifyPhoneDriver');
+Route::post('/driver/otp/check', 'API\AuthController@verifyOTP');
+Route::post('/driver/login', 'API\AuthController@loginDriver');
 Route::post('/driver/{id}/online', 'API\DriverController@onlineDriver');
 Route::get('/driver/{id}/offline', 'API\DriverController@offlineDriver');
 Route::get('/driver/{id}/profile', 'API\DriverController@getDriverInfo');

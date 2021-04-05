@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Driver;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -65,7 +66,7 @@ class AuthController extends Controller
         }
     }
 
-    public function riderPostVerificationCode(Request $request){
+    public function verifyOTP(Request $request){
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'numeric'],
             'phone' => ['required', 'string'],
@@ -116,5 +117,48 @@ class AuthController extends Controller
         $rider = Auth::guard('rider')->user();
         $token = $rider->createToken('turvy')->accessToken;
         return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider, 'token' => $token ]);
+    }
+
+    public function verifyPhoneDriver(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'phone' => ['required', 'string', 'max:14'],
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+
+        if(Driver::where('mobile', $request->phone)->count() == 0){
+            return response()->json(['status' => 0, 'message' => "Wrong phone number or not registered yet."]);
+        }
+
+        $token = config("services.twilio.authtoken");
+        $twilio_sid = config("services.twilio.sid");
+        $twilio_verify_sid = config("services.twilio.verifysid");
+
+        try {
+            $twilio = new Client($twilio_sid, $token);
+            $verification = $twilio->verify->v2->services($twilio_verify_sid)
+                ->verifications
+                ->create($request->phone, "sms");
+
+            return response()->json(['status' => 1, 'message' => 'SMS has be sent to your phone number.']);
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function loginDriver(Request $request){
+        $this->validate($request, [
+            'phone' => 'required',
+            'password' => 'required|min:6'
+        ]);
+        if(!Auth::guard('driver')->attempt(['mobile' => $request->phone, 'password' => $request->password])){
+            return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
+        }
+        $driver = Auth::guard('driver')->user();
+        $token = $driver->createToken('turvy')->accessToken;
+        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver, 'token' => $token ]);
     }
 }
