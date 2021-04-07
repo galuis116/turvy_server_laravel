@@ -22,11 +22,11 @@ Route::get('/terms', 'API\CommonController@terms');
 Route::get('/policy', 'API\CommonController@policy');
 Route::get('/countries', 'API\CommonController@countries');
 Route::get('/settings/info', 'API\CommonController@settings');
+Route::get('/partners', 'API\CommonController@partners');
 
 /* Rider Register */
 Route::post('/rider/register/phone', 'API\AuthController@riderPostPhone');
-Route::post('/rider/register/otp', 'API\AuthController@riderPostVerificationCode');
-Route::get('/partners', 'API\CommonController@partners');
+Route::post('/rider/register/otp', 'API\AuthController@verifyOTP');
 Route::post('/rider/register', 'API\AuthController@riderRegister');
 
 /* Rider Login */
