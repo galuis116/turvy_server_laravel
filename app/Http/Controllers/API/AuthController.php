@@ -37,7 +37,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:14'. 'unique:drivers,mobile'],
+            'phone' => ['required', 'string', 'max:14', 'unique:drivers,mobile'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:drivers'],
             'password' => ['required', 'string', 'min:8'],
             'country_id' => ['required', 'numeric'],
