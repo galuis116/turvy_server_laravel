@@ -130,7 +130,7 @@ class AuthController extends Controller
         }
 
         $rider = User::where('mobile', $request->phone)->get();
-        if(!$rider){
+        if($rider->count() == 0){
             return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
         }
 
@@ -220,7 +220,8 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
 
-        if(Driver::where('mobile', $request->phone)->count() == 0){
+        $driver = Driver::where('mobile', $request->phone)->get();
+        if($driver->count() == 0){
             return response()->json(['status' => 0, 'message' => "Wrong phone number or not registered yet."]);
         }
 
