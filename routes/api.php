@@ -29,7 +29,7 @@ Route::get('/makes', 'API\CommonController@makes');
 Route::get('/models/{make_id}', 'API\CommonController@models');
 
 /* Rider Register */
-Route::post('/rider/register/phone', 'API\AuthController@riderPostPhone');
+Route::post('/rider/register/phone', 'API\AuthController@riderRegisterPostPhone');
 Route::post('/rider/register/otp', 'API\AuthController@verifyOTP');
 Route::post('/rider/register', 'API\AuthController@riderRegister');
 
@@ -47,6 +47,7 @@ Route::get('/rider/{id}/nearByDrivers', 'API\RiderController@nearByDrivers');
 
 /* Driver Login */
 Route::post('/driver/phone/verify', 'API\AuthController@verifyPhoneDriver');
+Route::post('/driver/login/phone/verify', 'API\AuthController@verifyPhoneDriverForLogin');
 Route::post('/driver/otp/check', 'API\AuthController@verifyOTP');
 Route::post('/driver/login', 'API\AuthController@loginDriver');
 Route::post('/driver/register', 'API\AuthController@registerDriver');
