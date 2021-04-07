@@ -7,6 +7,7 @@ use App\DriverVehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\DriverEmailVerification;
+use App\Mail\RiderEmailVerification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
@@ -154,6 +155,12 @@ class AuthController extends Controller
         }
 
         $rider = $this->createRider($request->all());
+
+        try {
+            Mail::to($request->email)->send(new RiderEmailVerification($rider));
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
 
         return response()->json(['status' => 1, 'message' => 'Rider created.']);
     }
