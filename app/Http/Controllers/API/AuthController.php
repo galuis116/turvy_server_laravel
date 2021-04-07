@@ -6,11 +6,13 @@ use App\Driver;
 use App\DriverVehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\DriverEmailVerification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 
 class AuthController extends Controller
@@ -223,6 +225,13 @@ class AuthController extends Controller
         }
 
         $driver = $this->createDriver($request->all());
+
+        // Email integration
+        try {
+            Mail::to($request->email)->send(new DriverEmailVerification($driver));
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
 
         return response()->json(['status' => 1, 'message' => 'Driver created.']);
     }
