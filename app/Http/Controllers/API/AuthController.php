@@ -23,6 +23,8 @@ class AuthController extends Controller
             'partner_id' => ['required', 'numeric'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'device_type' => ['required'],
+            'device_token' => ['required']
         ]);
     }
 
@@ -37,6 +39,8 @@ class AuthController extends Controller
             'mobile' => $data['phone'],
             'mobile_verified_at' => date('Y-m-d H:i:s'),
             'password' => Hash::make($data['password']),
+            'device_type' => $data['device_type'],
+            'device_token' => $data['device_token']
         ]);
     }
 
