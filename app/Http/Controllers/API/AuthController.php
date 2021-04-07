@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Driver;
+use App\DriverVehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +29,25 @@ class AuthController extends Controller
         ]);
     }
 
+    protected function driverValidator($data)
+    {
+        return Validator::make($data, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:14'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:drivers'],
+            'password' => ['required', 'string', 'min:8'],
+            'country_id' => ['required', 'numeric'],
+            'state_id' => ['required', 'numeric'],
+            'city_id' => ['required', 'numeric'],
+            'make_id' => ['required', 'numeric'],
+            'model_id' => ['required', 'numeric'],
+            'plate' => ['required', 'string', 'max:15'],
+            'device_type' => ['required'],
+            'device_token' => ['required']
+        ]);
+    }
+
     protected function createRider(array $data)
     {
         return User::create([
@@ -42,6 +62,32 @@ class AuthController extends Controller
             'device_type' => $data['device_type'],
             'device_token' => $data['device_token']
         ]);
+    }
+
+    protected function createDriver(array $data)
+    {
+        $driver = Driver::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+        	'gender' => 1,
+            'email' => $data['email'],
+            'mobile' => $data['phone'],
+            'mobile_verified_at' => date('Y-m-d H:i:s'),
+            'password' => Hash::make($data['password']),
+            'country_id' => $data['country_id'],
+            'state_id' => $data['state_id'],
+            'city_id' => $data['city_id'],
+            'device_type' => $data['device_type'],
+            'device_token' => $data['device_token']
+        ]);
+
+        DriverVehicle::create([
+            'driver_id' => $driver->id,
+            'make_id' => $data['make_id'],
+            'model_id' => $data['model_id'],
+            'plate' => $data['plate']
+        ]);
+        return $driver;
     }
 
     public function riderPostPhone(Request $request){
@@ -166,5 +212,18 @@ class AuthController extends Controller
         //$token = $driver->createToken('turvy')->accessToken;
         //return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver, 'token' => $token ]);
         return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $driver ]);
+    }
+
+    public function registerDriver(Request $request){
+        //Validates data
+        $validator = $this->driverValidator($request->all());
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+
+        $driver = $this->createDriver($request->all());
+
+        return response()->json(['status' => 1, 'message' => 'Driver created.']);
     }
 }

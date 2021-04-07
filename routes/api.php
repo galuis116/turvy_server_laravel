@@ -21,8 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/terms', 'API\CommonController@terms');
 Route::get('/policy', 'API\CommonController@policy');
 Route::get('/countries', 'API\CommonController@countries');
+Route::get('/states/{country_id}', 'API\CommonController@states');
+Route::get('/cities/{city_id}', 'API\CommonController@cities');
 Route::get('/settings/info', 'API\CommonController@settings');
 Route::get('/partners', 'API\CommonController@partners');
+Route::get('/makes', 'API\CommonController@makes');
+Route::get('/models/{make_id}', 'API\CommonController@models');
 
 /* Rider Register */
 Route::post('/rider/register/phone', 'API\AuthController@riderPostPhone');
@@ -45,6 +49,7 @@ Route::get('/rider/{id}/nearByDrivers', 'API\RiderController@nearByDrivers');
 Route::post('/driver/phone/verify', 'API\AuthController@verifyPhoneDriver');
 Route::post('/driver/otp/check', 'API\AuthController@verifyOTP');
 Route::post('/driver/login', 'API\AuthController@loginDriver');
+Route::post('/driver/register', 'API\AuthController@registerDriver');
 Route::post('/driver/{id}/online', 'API\DriverController@onlineDriver');
 Route::get('/driver/{id}/offline', 'API\DriverController@offlineDriver');
 Route::get('/driver/{id}/profile', 'API\DriverController@getDriverInfo');

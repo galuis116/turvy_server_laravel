@@ -99,6 +99,14 @@ class RiderController extends Controller
     public function nearByDrivers($id){
         // Get rider's location
         $rl = RiderLocation::where('riderId', $id)->first();
+        if(!$rl){
+            return response()->json([
+                'status' => 1,
+                'message' => 'Not found your location data.',
+                'datetime' => date('Y-m-d H:i'),
+                'data' => null
+            ]);
+        }
 
         // Base paramaters
         $distance = 2; // Get from settings
