@@ -103,11 +103,6 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
 
-        $rider = User::where('mobile', $request->phone)->get();
-        if(!$rider){
-            return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
-        }
-
         $token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
@@ -132,6 +127,11 @@ class AuthController extends Controller
         if($validator->fails())
         {
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+
+        $rider = User::where('mobile', $request->phone)->get();
+        if(!$rider){
+            return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
         }
 
         $token = config("services.twilio.authtoken");
