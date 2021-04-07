@@ -56,4 +56,18 @@ class DriverController extends Controller
             'data' => $driver
         ]);
     }
+
+    public function updateDevice(Request $request){
+        $driver = Driver::find($request->driver_id);
+        $driver->device_type = $request->device_type;
+        $driver->device_token = $request->device_token;
+        $driver->update();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Device information has been updated.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => null
+        ]);
+    }
 }

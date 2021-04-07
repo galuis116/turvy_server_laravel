@@ -131,4 +131,18 @@ class RiderController extends Controller
             'data' => $driverLocations
         ]);
     }
+
+    public function updateDevice(Request $request){
+        $rider = User::find($request->rider_id);
+        $rider->device_type = $request->device_type;
+        $rider->device_token = $request->device_token;
+        $rider->update();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Device information has been updated.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => null
+        ]);
+    }
 }

@@ -38,6 +38,8 @@ Route::post('/rider/login/phone', 'API\AuthController@riderPostPhone');
 Route::post('/rider/login/otp', 'API\AuthController@verifyOTP');
 Route::post('/rider/login', 'API\AuthController@riderLogin');
 
+Route::post('/rider/device/update', 'API\RiderController@updateDevice');
+
 Route::get('/rider/profile/{id}', 'API\RiderController@getProfileInfo');
 Route::post('/rider/profile/{id}', 'API\RiderController@putProfileInfo');
 
@@ -51,6 +53,7 @@ Route::post('/driver/login/phone/verify', 'API\AuthController@verifyPhoneDriverF
 Route::post('/driver/otp/check', 'API\AuthController@verifyOTP');
 Route::post('/driver/login', 'API\AuthController@loginDriver');
 Route::post('/driver/register', 'API\AuthController@registerDriver');
+Route::post('/driver/device/update', 'API\DriverController@updateDevice');
 Route::post('/driver/{id}/online', 'API\DriverController@onlineDriver');
 Route::get('/driver/{id}/offline', 'API\DriverController@offlineDriver');
 Route::get('/driver/{id}/profile', 'API\DriverController@getDriverInfo');
