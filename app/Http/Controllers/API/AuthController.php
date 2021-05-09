@@ -11,6 +11,7 @@ use App\Mail\RiderEmailVerification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -205,9 +206,20 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => 'Password is incorrect.']);
         }
         $rider = Auth::guard('rider')->user();
-        //$token = $rider->createToken('turvy')->accessToken;
-        return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider ]);
-        //return response()->json(['status' => 1, 'message' => 'Login Succeful.', 'user_info' => $rider, 'token' => $token ]);
+        $tokenResult = $rider->createToken('turvy');
+        $token = $tokenResult->token;
+
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+
+        $token->save();
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ]);
     }
 
     public function verifyPhoneDriverForLogin(Request $request){

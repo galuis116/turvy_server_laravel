@@ -6,6 +6,7 @@ use App\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Country;
+use App\Coupon;
 use App\Homepage;
 use App\Partner;
 use App\Setting;
@@ -13,6 +14,7 @@ use App\State;
 use App\User;
 use App\VehicleMake;
 use App\VehicleModel;
+use App\VehicleType;
 
 class CommonController extends Controller
 {
@@ -94,6 +96,24 @@ class CommonController extends Controller
             'status' => 1,
             'datetime' => date('Y-m-d H:i'),
             'data' => $info
+        ]);
+    }
+
+    public function promocodes(){
+        $coupons = Coupon::whereRaw('usetotal > usecustomer')->whereDate('expired_at', '>', date("Y-m-d"))->get();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $coupons
+        ]);
+    }
+
+    public function servicetypes(){
+        $servicetypes = VehicleType::where('status', 1)->get();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $servicetypes
         ]);
     }
 }

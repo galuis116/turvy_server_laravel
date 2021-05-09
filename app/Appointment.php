@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     protected $fillable = [
-        'rider_id', 
+        'rider_id',
         'rider_country_id',
         'rider_name',
         'rider_mobile',
@@ -16,7 +16,11 @@ class Appointment extends Model
         'booking_date',
         'booking_time',
         'origin',
+        'origin_lat',
+        'origin_lng',
         'destination',
+        'destination_lat',
+        'destination_lng',
         'servicetype_id',
         'driver_id',
         'coupon_id',

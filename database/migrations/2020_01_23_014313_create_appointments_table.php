@@ -26,7 +26,11 @@ class CreateAppointmentsTable extends Migration
             $table->date('booking_date');
             $table->time('booking_time');
             $table->string('origin');
+            $table->double('origin_lat', 15, 8)->nullable();
+            $table->double('origin_lng', 15, 8)->nullable();
             $table->string('destination');
+            $table->double('destination_lat', 15, 8)->nullable();
+            $table->double('destination_lng', 15, 8)->nullable();
             $table->integer('servicetype_id')->unsigned()->nullable();
             $table->foreign('servicetype_id')->references('id')->on('vehicle_types')->onDelete('set null');
             $table->integer('driver_id')->unsigned()->nullable();

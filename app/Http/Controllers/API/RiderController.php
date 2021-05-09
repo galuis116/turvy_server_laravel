@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Appointment;
 use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RiderLocation;
 use App\User;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class RiderController extends Controller
 {
@@ -52,7 +54,7 @@ class RiderController extends Controller
 
         return response()->json([
             'status' => 1,
-            'message' => 'Rider created.',
+            'message' => 'Rider updated.',
             'datetime' => date('Y-m-d H:i'),
             'data' => $rider
         ]);
@@ -143,6 +145,44 @@ class RiderController extends Controller
             'message' => 'Device information has been updated.',
             'datetime' => date('Y-m-d H:i'),
             'data' => null
+        ]);
+    }
+
+    public function bookRide(Request $request){
+        $origin = $request->pickup_address;
+        $origin_lat = $request->pickup_lat;
+        $origin_lng = $request->pickup_lng;
+        $destination = $request->drop_address;
+        $destination_lat = $request->drop_lat;
+        $destination_lng = $request->drop_lng;
+        $servicetype_id = $request->servicetype_id;
+        $rider_id = Auth::guard('api')->user()->id;
+        $rider_name = Auth::guard('api')->user()->name;
+        $rider_mobile = Auth::guard('api')->user()->mobile;
+        $rider_email = Auth::guard('api')->user()->email;
+
+        $book = new Appointment();
+        $book->rider_id = $rider_id;
+        $book->rider_name = $rider_name;
+        $book->rider_mobile = $rider_mobile;
+        $book->rider_email = $rider_email;
+        $book->booking_date = date("Y-m-d");
+        $book->booking_time = date("H:i:s");
+        $book->origin = $origin;
+        $book->origin_lat = $origin_lat;
+        $book->origin_lng = $origin_lng;
+        $book->destination = $destination;
+        $book->destination_lat = $destination_lat;
+        $book->destination_lng = $destination_lng;
+        $book->servicetype_id = $servicetype_id;
+        $book->status = 0;
+        $book->save();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Your ride booked.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $book
         ]);
     }
 }

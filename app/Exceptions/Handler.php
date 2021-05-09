@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return response()->json(['User have not permission for this page access.']);
         }
-     
+
         return parent::render($request, $exception);
     }
 
@@ -85,6 +85,9 @@ class Handler extends ExceptionHandler
         }
         if ($request->is('rider') || $request->is('rider/*')) {
             return redirect()->guest('/rider/login');
+        }
+        if ($request->is('api') || $request->is('api/*')) {
+            return response()->json(['status' => 403, 'message' => 'Not authorized yet.']);
         }
         return redirect()->guest(route('rider.login'));
     }
