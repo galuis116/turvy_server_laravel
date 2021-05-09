@@ -6,10 +6,12 @@ use App\Driver;
 use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class DriverController extends Controller
 {
-    public function onlineDriver(Request $request, $id){
+    public function onlineDriver(Request $request){
+        $id = Auth::guard('apidriver')->user()->id;
         // Get POST data
         $lat = $request->lat;
         $lng = $request->lng;
@@ -37,7 +39,8 @@ class DriverController extends Controller
         ]);
     }
 
-    public function offlineDriver($id){
+    public function offlineDriver(){
+        $id = Auth::guard('apidriver')->user()->id;
         DriverLocation::where('driverId', $id)->delete();
         return response()->json([
             'status' => 1,
@@ -47,8 +50,8 @@ class DriverController extends Controller
         ]);
     }
 
-    public function getDriverInfo($id){
-        $driver = Driver::find($id);
+    public function getDriverInfo(){
+        $driver = Auth::guard('apidriver')->user();
         return response()->json([
             'status' => 1,
             'message' => 'Driver personal info.',
@@ -58,7 +61,7 @@ class DriverController extends Controller
     }
 
     public function updateDevice(Request $request){
-        $driver = Driver::find($request->driver_id);
+        $driver = Driver::find(Auth::guard('apidriver')->user()->id);
         $driver->device_type = $request->device_type;
         $driver->device_token = $request->device_token;
         $driver->update();

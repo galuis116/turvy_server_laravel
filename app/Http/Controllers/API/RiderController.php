@@ -14,8 +14,8 @@ use Auth;
 class RiderController extends Controller
 {
     //
-    public function getProfileInfo($id){
-        $rider = User::find($id);
+    public function getProfileInfo(){
+        $rider = Auth::guard('api')->user();
         if(!$rider)
             return response()->json([
                 'status' => 0,
@@ -31,7 +31,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function putProfileInfo(Request $request, $id) {
+    public function putProfileInfo(Request $request) {
+        $id = Auth::guard('api')->user()->id;
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -60,10 +61,11 @@ class RiderController extends Controller
         ]);
     }
 
-    public function onlineRider(Request $request, $id){
+    public function onlineRider(Request $request){
         // Get POST data
         $lat = $request->lat;
         $lng = $request->lng;
+        $id = Auth::guard('api')->user()->id;
 
         $rl = RiderLocation::where('riderId', $id)->first();
         if($rl)
@@ -88,7 +90,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function offlineRider($id){
+    public function offlineRider(){
+        $id = Auth::guard('api')->user()->id;
         RiderLocation::where('riderId', $id)->delete();
         return response()->json([
             'status' => 1,
@@ -98,7 +101,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function nearByDrivers($id){
+    public function nearByDrivers(){
+        $id = Auth::guard('api')->user()->id;
         // Get rider's location
         $rl = RiderLocation::where('riderId', $id)->first();
         if(!$rl){
@@ -135,7 +139,7 @@ class RiderController extends Controller
     }
 
     public function updateDevice(Request $request){
-        $rider = User::find($request->rider_id);
+        $rider = User::find(Auth::guard('api')->user()->id);
         $rider->device_type = $request->device_type;
         $rider->device_token = $request->device_token;
         $rider->update();

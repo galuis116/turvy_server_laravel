@@ -47,6 +47,12 @@ return [
             'hash' => false,
         ],
 
+        'apidriver' => [
+            'driver' => 'passport',
+            'provider' => 'drivers',
+            'hash' => false,
+        ],
+
         'rider' => [
             'driver' => 'session',
             'provider' => 'users',
