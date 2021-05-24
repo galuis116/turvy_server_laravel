@@ -151,6 +151,50 @@ class AuthController extends Controller
         }
     }
 
+    public function riderVerifyOTP(Request $request){
+        $validator = Validator::make($request->all(), [
+            'otp' => ['required', 'numeric'],
+            'phone' => ['required', 'string'],
+        ]);
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+        /* Get credentials from .env */
+        $token = config("services.twilio.authtoken");
+        $twilio_sid = config("services.twilio.sid");
+        $twilio_verify_sid = config("services.twilio.verifysid");
+        try {
+            $twilio = new Client($twilio_sid, $token);
+            $verification = $twilio->verify->v2->services($twilio_verify_sid)
+                ->verificationChecks
+                ->create($request->otp, array('to' => $request->phone));
+
+            if ($verification->valid) {
+                $rider = User::where('mobile', $request->phone)->first();
+
+                Auth::guard('rider')->login($rider);
+                $tokenResult = $rider->createToken('turvy');
+                $token = $tokenResult->token;
+
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+
+                $token->save();
+                return response()->json([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+    }
+
+
     public function verifyOTP(Request $request){
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'numeric'],

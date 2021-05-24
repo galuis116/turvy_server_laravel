@@ -15,6 +15,7 @@ class CreateRiderRatingsTable extends Migration
     {
         Schema::create('rider_ratings', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('book_id')->unsigned()->nullable();
             $table->integer('driver_id')->unsigned()->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
             $table->integer('rider_id')->unsigned();

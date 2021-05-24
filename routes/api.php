@@ -37,7 +37,7 @@ Route::group(['prefix' => 'rider'], function(){
 
     // Login
     Route::post('/login/phone', 'API\AuthController@riderPostPhone');
-    Route::post('/login/otp', 'API\AuthController@verifyOTP');
+    Route::post('/login/otp', 'API\AuthController@riderVerifyOTP');
     Route::post('/login', 'API\AuthController@riderLogin');
 
     Route::group(['middleware' => 'auth:api'], function(){
@@ -51,6 +51,9 @@ Route::group(['prefix' => 'rider'], function(){
         Route::get('/offline', 'API\RiderController@offlineRider');
         Route::get('/nearByDrivers', 'API\RiderController@nearByDrivers');
         Route::post('/book', 'API\RiderController@bookRide');
+        Route::get('/book/cancel/{book_id}', 'API\RiderController@cancelRide');
+        Route::post('/book/feedback/{book_id}', 'API\RiderController@feedbackRide');
+        Route::get('/myrides/{type}', 'API\RiderController@myrides');
 
         Route::get('/promocodes', 'API\CommonController@promocodes');
     });

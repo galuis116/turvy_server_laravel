@@ -7,6 +7,7 @@ use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RiderLocation;
+use App\RiderRating;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -187,6 +188,52 @@ class RiderController extends Controller
             'message' => 'Your ride booked.',
             'datetime' => date('Y-m-d H:i'),
             'data' => $book
+        ]);
+    }
+
+    public function cancelRide($book_id){
+        /*
+        * 0: new ride, 1: progress, 2: complete, 3: cancel
+        */
+        $book = Appointment::find($book_id);
+        $book->status = 3;
+        $book->save();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Your ride was cancelled.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $book
+        ]);
+    }
+
+    public function feedbackRide(Request $request, $book_id){
+        $book = Appointment::find($book_id);
+        $feedback = new RiderRating();
+        $feedback->book_id = $book_id;
+        $feedback->driver_id = $book->driver_id;
+        $feedback->rider_id = $book->rider_id;
+        $feedback->rating = $request->rate;
+        $feedback->comment = $request->comment;
+        $feedback->status = 0;
+        $feedback->save();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Your feedback was submitted.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $book
+        ]);
+    }
+
+    public function myrides($type){
+        $rider_id = Auth::guard('api')->user()->id;
+        $books = Appointment::where('rider_id', $rider_id)->where('status', $type)->get();
+        return response()->json([
+            'status' => 1,
+            'message' => 'Your rides.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $books
         ]);
     }
 }
