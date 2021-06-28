@@ -72,5 +72,11 @@ Route::group(['prefix' => 'driver'], function(){
         Route::post('/online', 'API\DriverController@onlineDriver');
         Route::get('/offline', 'API\DriverController@offlineDriver');
         Route::get('/profile', 'API\DriverController@getDriverInfo');
+
+        # booking
+        Route::get('/book/{id}/accept', 'API\DriverController@acceptBook');
+        Route::get('/book/{id}/decline', 'API\DriverController@declineBook');
+        Route::post('/book/{id}/cancel', 'API\DriverController@cancelBook');
+        Route::post('/book/{id}/end', 'API\DriverController@endBook');
     });
 });

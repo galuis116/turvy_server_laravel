@@ -44,6 +44,8 @@ class CreateAppointmentsTable extends Migration
             $table->timestamp('end_time')->nullable();
             $table->timestamp('arrival_time')->nullable();
             $table->integer('status')->unsigned();
+            $table->text('cancel_reason')->nullable();
+            $table->text('travel_path')->nullable();
             $table->timestamps();
         });
     }

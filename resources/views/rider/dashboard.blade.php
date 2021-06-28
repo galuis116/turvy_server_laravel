@@ -45,54 +45,6 @@
                             <label>Email</label>
                             <input type="email" name="email" class="form-control edit_profile_field" id="email" placeholder="Your Email" value="{{$rider->email}}" disabled>
                         </div>
-                        <div class="col-md-12" style="margin-bottom: 20px;">
-                            <div id="add-payment" style="font-size: 22px; padding: 10px 0; cursor: pointer;">+ Add payment method</div>
-                            <div id="choose-payment-method" style="font-size: 20px; display:none">
-                                <li id="stripe" style="margin: 15px 0;cursor: pointer;"><img src="{{asset('images/stripe.png')}}" width="50px"> Credit or debit card</li>
-                                <li id="paypal" style="margin: 15px 0;cursor: pointer;"><img src="{{asset('images/paypal.jpg')}}" width="50px"> PayPal</li>
-                            </div>
-                            <div id="paypal-payment" style="display:none">
-                                <h3>Add your paypal</h3>
-                                <div class="row">
-                                    <div class="form-group edit_profile_label col-md-12">
-                                        <label>PayPal address</label>
-                                        <input type="text"  class="form-control edit_profile_field" id="mobile" name="mobile" placeholder="Your Mobile Number" value="{{$rider->mobile}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-12">
-                                        <button id="add-stripe" type="button" class="btn btn-block btn-primary">Add card</button>
-                                        <button type="button" class="btn btn-block btn-default btn-cancel">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="stripe-payment" style="display:none">
-                                <div class="row">
-                                    <div class="form-group edit_profile_label col-md-12">
-                                        <label>Card number</label>
-                                        <input type="text"  class="form-control edit_profile_field" id="mobile" name="mobile" placeholder="Your Mobile Number" value="{{$rider->mobile}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-6">
-                                        <label>Exp.date</label>
-                                        <input type="email" name="email" class="form-control edit_profile_field" id="email" placeholder="Your Email" value="{{$rider->email}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-6">
-                                        <label>Security code</label>
-                                        <input type="email" name="email" class="form-control edit_profile_field" id="email" placeholder="Your Email" value="{{$rider->email}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-6">
-                                        <label>Country</label>
-                                        <input type="email" name="email" class="form-control edit_profile_field" id="email" placeholder="Your Email" value="{{$rider->email}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-6">
-                                        <label>Postcode</label>
-                                        <input type="email" name="email" class="form-control edit_profile_field" id="email" placeholder="Your Email" value="{{$rider->email}}" disabled>
-                                    </div>
-                                    <div class="form-group edit_profile_label col-md-12">
-                                        <button type="button" class="btn btn-block btn-primary">Add card</button>
-                                        <button type="button" class="btn btn-block btn-default btn-cancel">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group edit_profile_label col-md-12">
                             <label> Upload Your Photo </label>
                             <br>

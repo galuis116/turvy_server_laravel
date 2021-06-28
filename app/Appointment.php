@@ -27,6 +27,8 @@ class Appointment extends Model
         'payment_id',
         'is_manual',
         'status',
+        'cancel_reason',
+        'travel_path'
     ];
 
     public function driver()

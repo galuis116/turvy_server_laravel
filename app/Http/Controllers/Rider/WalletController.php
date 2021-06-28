@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 class WalletController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:rider');
+    }
     /**
      * Display a listing of the resource.
      *
