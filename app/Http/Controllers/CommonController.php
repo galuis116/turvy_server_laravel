@@ -175,19 +175,19 @@ class CommonController extends Controller
         $currency = State::find($state_id)->currency->symbol;
         $data = Fare::where('servicetype_id', $servicetype_id)->where('state_id', $state_id)->first();
 
-        $base_distance_price = number_format(floatval($data->base_distance_price), 2);
+        $base_distance_price = number_format(floatval($data->base_ride_distance_charge), 2);
         $base_distance = $data->base_distance;
-        $base_price_per_unit = number_format(floatval($data->base_price_per_unit), 2);
+        $base_price_per_unit = number_format(floatval($data->price_per_unit), 2);
         $free_ride_minutes = number_format(floatval($data->free_ride_minutes), 2);
         $price_per_ride_minute = number_format(floatval($data->price_per_ride_minute), 2);
-        $free_waiting_time = number_format(floatval($data->free_waiting_time), 2);
-        $wating_price_minute = number_format(floatval($data->wating_price_minute), 2);
+        $free_waiting_time = $data->fee_waiting_time;
+        $waiting_price_minute = number_format(floatval($data->waiting_price_per_minute), 2);
         $gst_charge = $data->gst_charge;
-        $fuel_charge = number_format(floatval($data->govt_charge), 2);
-        $nsw_govt_levy_charge = number_format(floatval($data->nsw_govt_levy_charge), 2);
+        $fuel_charge = number_format(floatval($data->fuel_surge_charge), 2);
+        $nsw_govt_levy_charge = number_format(floatval($data->nsw_gtl_charge), 2);
         $nsw_ctp_charge = number_format(floatval($data->nsw_ctp_charge), 2);
         $booking_charge = number_format(floatval($data->booking_charge), 2);
-        $cancel_fee = number_format(floatval($data->cancel_fee),2);
+        $cancel_fee = number_format(floatval($data->cancel_charge),2);
 
         $result = '';
         $result .= "<table class='rslt_table'>";
@@ -224,7 +224,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Free Waiting Time</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$free_waiting_time." </td>";
+        $result .= "<td width='50%'>"." ".$free_waiting_time." </td>";
 
         $result .= "</tr>";
 
@@ -232,7 +232,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Waiting Price Per Minute</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$wating_price_minute." </td>";
+        $result .= "<td width='50%'>".$currency ." ".$waiting_price_minute." </td>";
 
         $result .= "</tr>";
 
@@ -270,9 +270,9 @@ class CommonController extends Controller
 
         $result .= "<tr>";
 
-        $result .= "<td width='50%'>Fuel Surge Charge   Per KM</td>";
+        $result .= "<td width='50%'>NSW CTP Charge   Per KM</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$fuel_charge." </td>";
+        $result .= "<td width='50%'>".$currency ." ". $nsw_ctp_charge." </td>";
 
         $result .= "</tr>";
 
@@ -284,16 +284,26 @@ class CommonController extends Controller
 
         $result .= "</tr>";
 
+        $result .= "</table>";
+
+
+        $result .= "<table class='rslt_table'>";
+
+        $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
+
+        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Other Charges :";
+
+        $result .= "</td></tr>";
+
         $result .= "<tr>";
 
-        $result .= "<td width='50%'>NSW CTP Charge   Per KM</td>";
+        $result .= "<td width='50%'>Fuel Surge Charge   Per KM</td>";
 
-        $result .= "<td width='50%'>".$currency ." ". $nsw_ctp_charge." </td>";
+        $result .= "<td width='50%'>".$currency ." ".$fuel_charge." </td>";
 
         $result .= "</tr>";
 
         $result .= "</table>";
-
 
 
         $result .= "<table class='rslt_table'>";
@@ -562,7 +572,7 @@ class CommonController extends Controller
             }else{
                 return response()->json(['status' => 0, 'message' => 'Please check phone code again']);
             }
-     
+
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }

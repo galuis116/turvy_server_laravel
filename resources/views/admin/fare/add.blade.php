@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="base_ride_distance_charge">Base Ride Distance Charges</label>
+                                        <label for="base_ride_distance_charge">Base Fare</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
@@ -155,7 +155,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="price_per_unit">Price Per Unit</label>
+                                        <label for="price_per_unit">Price Per KM</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
@@ -187,7 +187,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="waiting_price_per_minute">Waiting Price Per Minute</label>
+                                        <label for="waiting_price_per_minute">Waiting Time Per Min</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
@@ -319,7 +319,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="free_ride_minute">Free Ride Minute</label>
+                                        <label for="free_ride_minute">Free Ride Per Minute</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
@@ -331,7 +331,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="price_per_ride_minute">Price Per Ride Minute</label>
+                                        <label for="price_per_ride_minute">Ride Per Minute</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
