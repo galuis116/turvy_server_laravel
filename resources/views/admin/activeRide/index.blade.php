@@ -22,19 +22,20 @@
                                     </a>
                                 </li>
                             </ul>
-                
+
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade @if($tab == 'ride_now') in active @endif" id="all">
                                     <table class="table table-bordered table-striped js-basic-example dataTable">
-                                        <thead>        
-                                            <tr>           
+                                        <thead>
+                                            <tr>
                                                 <th>SrNo</th>
                                                 <th>Rider Details</th>
                                                 <th>Driver Details</th>
                                                 <th>Pickup Address</th>
                                                 <th>Drop Address</th>
                                                 <th>Payment Mode</th>
+                                                <th>Payment Amount</th>
                                                 <th>Ride booked time</th>
                                                 <th>Current Status</th>
                                                 <th>Ride Action</th>
@@ -57,6 +58,11 @@
                                                 <td>{{$ride->origin}}</td>
                                                 <td>{{$ride->destination}}</td>
                                                 <td>{{$ride->payment_id == null ? 'None' : $ride->payment->name}}</td>
+                                                <td>
+                                                    Total: {{ currency_format($ride->payment_total) }} <br/>
+                                                    Surge: {{ currency_format($ride->payment_surge) }} <br/>
+                                                    Tips: {{ currency_format($ride->payment_tip) }}
+                                                </td>
                                                 <td>{{$ride->booking_date}} <br> {{$ride->booking_time}}</td>
                                                 <td><span> {{getRideStatusName($ride->status)}}</span><br><span>{{$ride->updated_at}}</span></td>
                                                 <td align="center">
@@ -80,16 +86,17 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade @if($tab == 'ride_later') in active @endif" id="city">
                                     <table class="table table-bordered table-striped js-basic-example dataTable">
-                                        <thead>        
-                                            <tr>        
-                                                <th>SrNo</th>           
-                                                <th>Rider Details</th>        
-                                                <th>Driver Details</th>        
-                                                <th>Pickup-Drop Address</th> 
-                                                <th>Payment Mode</th>        
-                                                <th>Ride booked time</th>        
-                                                <th>Current Status</th>        
-                                                <th>Ride Action</th>        
+                                        <thead>
+                                            <tr>
+                                                <th>SrNo</th>
+                                                <th>Rider Details</th>
+                                                <th>Driver Details</th>
+                                                <th>Pickup-Drop Address</th>
+                                                <th>Payment Mode</th>
+                                                <th>Payment Amount</th>
+                                                <th>Ride booked time</th>
+                                                <th>Current Status</th>
+                                                <th>Ride Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -103,22 +110,27 @@
                                                     @else
                                                         {{$ride->driver->name}}<br>{{$ride->driver->mobile}}<br>{{$ride->driver->email}}
                                                     @endif
-                                                </td>        
+                                                </td>
                                                 <td><span style="color:#2b982b">{{$ride->origin}}</span>-<span style="color:coral">{{$ride->destination}}</span></td>
-                                                <td>{{$ride->payment_id == null ? 'None' : $ride->payment->name}}</td>        
-                                                <td>{{$ride->booking_date}}<br> {{$ride->booking_time}}</td>        
-                                                <td><span> {{getRideStatusName($ride->status)}}</span><br><span>{{$ride->updated_at}}</span></td>        
-                                                <td align="center">        
+                                                <td>{{$ride->payment_id == null ? 'None' : $ride->payment->name}}</td>
+                                                <td>
+                                                    Total: {{ currency_format($ride->payment_total) }} <br/>
+                                                    Surge: {{ currency_format($ride->payment_surge) }} <br/>
+                                                    Tips: {{ currency_format($ride->payment_tip) }}
+                                                </td>
+                                                <td>{{$ride->booking_date}}<br> {{$ride->booking_time}}</td>
+                                                <td><span> {{getRideStatusName($ride->status)}}</span><br><span>{{$ride->updated_at}}</span></td>
+                                                <td align="center">
                                                     @if($ride->status == 1)
                                                         <span data-target="#ridelatercancel{{$ride->id}}" data-toggle="modal">
                                                             <a data-original-title="Cancel Ride"  data-toggle="tooltip" data-placement="top" class="btn bg-orange waves-effect"> <i class="material-icons">clear</i> </a>
                                                         </span>
-                                                    @else        
-                                                        <span data-target="#ridelatercancel{{$ride->id}}" data-toggle="modal">        
-                                                            <a data-original-title="Cancel Ride"  data-toggle="tooltip" data-placement="top" class="btn bg-orange waves-effect"> <i class="material-icons">clear</i> </a>        
-                                                        </span>        
-                                                        @if($ride->status != 0)        
-                                                            <a target="_blank" href="{{route('admin.ride.active.track', $ride->id)}}" data-original-title="Track" data-toggle="tooltip" data-placement="top" class="btn btn-primary waves-effect"> <i class="material-icons">replay</i> </a>        
+                                                    @else
+                                                        <span data-target="#ridelatercancel{{$ride->id}}" data-toggle="modal">
+                                                            <a data-original-title="Cancel Ride"  data-toggle="tooltip" data-placement="top" class="btn bg-orange waves-effect"> <i class="material-icons">clear</i> </a>
+                                                        </span>
+                                                        @if($ride->status != 0)
+                                                            <a target="_blank" href="{{route('admin.ride.active.track', $ride->id)}}" data-original-title="Track" data-toggle="tooltip" data-placement="top" class="btn btn-primary waves-effect"> <i class="material-icons">replay</i> </a>
                                                         @endif
                                                     @endif
                                                 </td>

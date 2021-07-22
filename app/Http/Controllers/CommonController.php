@@ -16,6 +16,7 @@ use Twilio\Rest\Client;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class CommonController extends Controller
 {
@@ -426,12 +427,11 @@ class CommonController extends Controller
         //             ->whereBetween('longitude', array($minLng, $maxLng));
         //     })
         //     ->get();
-
-        $driverIds = DriverVehicle::select(['id'])->where('servicetype_id', $vehicleType)->get();
-
+        $driverVehicles = DriverVehicle::all();
         $drivers = [];
-        foreach($driverIds as $driverId){
-            array_push($drivers, Driver::find($driverId));
+        foreach($driverVehicles as $driver){
+            if(Str::contains($driver->servicetype_id, (string)$vehicleType))
+                array_push($drivers, Driver::find($driver->driver_id));
         }
 
         return $drivers;

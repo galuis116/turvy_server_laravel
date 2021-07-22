@@ -23,7 +23,9 @@ class CreatePaymentRequestsTable extends Migration
             $table->foreign('payment_method_id')->references('id')->on('payments')->onDelete('set null');
             $table->integer('appointment_id')->unsigned()->nullable();
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('set null');
+            $table->string('type');
             $table->string('total');
+            $table->string('surge');
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

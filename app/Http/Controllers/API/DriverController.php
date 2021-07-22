@@ -124,6 +124,7 @@ class DriverController extends Controller
         $ride->travel_path = $path;
         $ride->end_time = date('Y-m-d H:m:s');
         $ride->save();
+
         return response()->json([
             'status' => 1,
             'message' => 'Success.',

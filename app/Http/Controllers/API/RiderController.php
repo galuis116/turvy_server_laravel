@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Appointment;
+use App\Driver;
 use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\PaymentRequest;
 use App\RiderLocation;
 use App\RiderRating;
 use App\User;
@@ -15,9 +17,10 @@ use Auth;
 class RiderController extends Controller
 {
     //
-    public function getProfileInfo(){
+    public function getProfileInfo()
+    {
         $rider = Auth::guard('api')->user();
-        if(!$rider)
+        if (!$rider)
             return response()->json([
                 'status' => 0,
                 'message' => 'Failed! No such rider in our system.',
@@ -32,17 +35,17 @@ class RiderController extends Controller
         ]);
     }
 
-    public function putProfileInfo(Request $request) {
+    public function putProfileInfo(Request $request)
+    {
         $id = Auth::guard('api')->user()->id;
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'mobile' => 'required|string|max:14',
             'partner_id' => 'required|numeric',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
         ]);
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 0,
                 'message' => $validator->errors(),
@@ -62,21 +65,19 @@ class RiderController extends Controller
         ]);
     }
 
-    public function onlineRider(Request $request){
+    public function onlineRider(Request $request)
+    {
         // Get POST data
         $lat = $request->lat;
         $lng = $request->lng;
         $id = Auth::guard('api')->user()->id;
 
         $rl = RiderLocation::where('riderId', $id)->first();
-        if($rl)
-        {
+        if ($rl) {
             $rl->lat = $lat;
             $rl->lng = $lng;
             $rl->save();
-        }
-        else
-        {
+        } else {
             RiderLocation::create([
                 'riderId' => $id,
                 'lat' => $lat,
@@ -91,7 +92,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function offlineRider(){
+    public function offlineRider()
+    {
         $id = Auth::guard('api')->user()->id;
         RiderLocation::where('riderId', $id)->delete();
         return response()->json([
@@ -102,11 +104,12 @@ class RiderController extends Controller
         ]);
     }
 
-    public function nearByDrivers(){
+    public function nearByDrivers()
+    {
         $id = Auth::guard('api')->user()->id;
         // Get rider's location
         $rl = RiderLocation::where('riderId', $id)->first();
-        if(!$rl){
+        if (!$rl) {
             return response()->json([
                 'status' => 1,
                 'message' => 'Not found your location data.',
@@ -121,12 +124,12 @@ class RiderController extends Controller
         $lat = $rl->lat;
         $lng = $rl->lng;
 
-        $maxLat = $lat + rad2deg($distance/$R);
-        $minLat = $lat - rad2deg($distance/$R);
-        $maxLng = $lng + rad2deg(asin($distance/$R) / cos(deg2rad($lat)));
-        $minLng = $lng - rad2deg(asin($distance/$R) / cos(deg2rad($lat)));
+        $maxLat = $lat + rad2deg($distance / $R);
+        $minLat = $lat - rad2deg($distance / $R);
+        $maxLng = $lng + rad2deg(asin($distance / $R) / cos(deg2rad($lat)));
+        $minLng = $lng - rad2deg(asin($distance / $R) / cos(deg2rad($lat)));
 
-        $driverLocations = DriverLocation::where(function($q) use ($minLat, $maxLat, $minLng, $maxLng){
+        $driverLocations = DriverLocation::where(function ($q) use ($minLat, $maxLat, $minLng, $maxLng) {
             $q->whereBetween('lat', array($minLat, $maxLat))
                 ->whereBetween('lng', array($minLng, $maxLng));
         })->get();
@@ -139,7 +142,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function updateDevice(Request $request){
+    public function updateDevice(Request $request)
+    {
         $rider = User::find(Auth::guard('api')->user()->id);
         $rider->device_type = $request->device_type;
         $rider->device_token = $request->device_token;
@@ -153,7 +157,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function bookRide(Request $request){
+    public function bookRide(Request $request)
+    {
         $origin = $request->pickup_address;
         $origin_lat = $request->pickup_lat;
         $origin_lng = $request->pickup_lng;
@@ -180,6 +185,8 @@ class RiderController extends Controller
         $book->destination_lat = $destination_lat;
         $book->destination_lng = $destination_lng;
         $book->servicetype_id = $servicetype_id;
+        $book->is_current = 1;
+        $book->is_manual = 0;
         $book->status = 0;
         $book->save();
 
@@ -191,7 +198,8 @@ class RiderController extends Controller
         ]);
     }
 
-    public function cancelRide($book_id){
+    public function cancelRide($book_id)
+    {
         /*
         * 0: new ride, 1: progress, 2: complete, 3: cancel
         */
@@ -207,7 +215,14 @@ class RiderController extends Controller
         ]);
     }
 
-    public function feedbackRide(Request $request, $book_id){
+    /**
+     * Rider is able to give the rate, feedback to the driver
+     * @params - rate, feedback
+     * @response - JSON object
+     */
+    public function feedbackRide(Request $request, $book_id)
+    {
+        // Rider feedback
         $book = Appointment::find($book_id);
         $feedback = new RiderRating();
         $feedback->book_id = $book_id;
@@ -226,7 +241,47 @@ class RiderController extends Controller
         ]);
     }
 
-    public function myrides($type){
+    /**
+     * create payment record for tips, ride's amount
+     * @queryString - book_id
+     * @params - payment_method_id, type, amount
+     * @response - JSON object
+     */
+    public function requestPayment(Request $request, $book_id)
+    {
+        $book = Appointment::find($book_id);
+        $requestPayment = new PaymentRequest();
+        $requestPayment->appointment_id = $book_id;
+        $requestPayment->driver_id = $book->driver_id;
+        $requestPayment->rider_id = $book->rider_id;
+        $requestPayment->payment_method_id = $request->payment_method_id;
+        $requestPayment->type = $request->type;
+        if ($request->type != 'TIP') {
+            $requestPayment->total = $request->amount;
+            if ($book->is_current == 0 && $book->is_manual == 1) {
+                // Get driver commission
+                $driver = Driver::find($book->driver_id);
+                $requestPayment->surge = $request->amount * $driver->commission / 100;
+            } else {
+                $requestPayment->surge = 0;
+            }
+        } else {
+            $requestPayment->total = $request->amount;
+            $requestPayment->surge = 0;
+        }
+        $requestPayment->status = 0;
+        $requestPayment->save();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Payment requested.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $requestPayment
+        ]);
+    }
+
+    public function myrides($type)
+    {
         $rider_id = Auth::guard('api')->user()->id;
         $books = Appointment::where('rider_id', $rider_id)->where('status', $type)->get();
         return response()->json([

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     protected $fillable = [
+        'id',
         'rider_id',
         'rider_country_id',
         'rider_name',
@@ -31,6 +32,8 @@ class Appointment extends Model
         'travel_path'
     ];
 
+    protected $appends = ['payment_total', 'payment_surge', 'payment_tip'];
+
     public function driver()
     {
         return $this->belongsTo(Driver::class, 'driver_id', 'id');
@@ -44,5 +47,32 @@ class Appointment extends Model
     public function servicetype()
     {
         return $this->belongsTo(VehicleType::class, 'servicetype_id', 'id');
+    }
+
+    public function getPaymentTotalAttribute()
+    {
+        $payment = PaymentRequest::where('appointment_id', $this->id)->where('type', 'BOOK')->first();
+        if ($payment)
+            return $payment->total;
+        else
+            return 0;
+    }
+
+    public function getPaymentSurgeAttribute()
+    {
+        $payment = PaymentRequest::where('appointment_id', $this->id)->where('type', 'BOOK')->first();
+        if ($payment)
+            return $payment->surge;
+        else
+            return 0;
+    }
+
+    public function getPaymentTipAttribute()
+    {
+        $payment = PaymentRequest::where('appointment_id', $this->id)->where('type', 'TIP')->first();
+        if ($payment)
+            return $payment->total;
+        else
+            return 0;
     }
 }

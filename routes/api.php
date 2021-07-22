@@ -53,6 +53,7 @@ Route::group(['prefix' => 'rider'], function(){
         Route::post('/book', 'API\RiderController@bookRide');
         Route::get('/book/cancel/{book_id}', 'API\RiderController@cancelRide');
         Route::post('/book/feedback/{book_id}', 'API\RiderController@feedbackRide');
+        Route::post('/book/payment/{book_id}', 'API\RiderController@requestPayment');
         Route::get('/myrides/{type}', 'API\RiderController@myrides');
 
         Route::get('/promocodes', 'API\CommonController@promocodes');
