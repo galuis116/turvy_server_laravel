@@ -24,14 +24,11 @@ class CommonController extends Controller
     {
         $make_id = $request->make_id;
         $opt_content = '<option value="0">Default</option>';
-        if($make_id != 0)
-        {
+        if ($make_id != 0) {
             $models = VehicleModel::where('make_id', $make_id)->where('status', 1)->get();
-            if($models)
-            {
-                foreach($models as $model)
-                {
-                    $opt_content .= '<option value="'. $model->id .'">' . $model->name . '</option>';
+            if ($models) {
+                foreach ($models as $model) {
+                    $opt_content .= '<option value="' . $model->id . '">' . $model->name . '</option>';
                 }
             }
         }
@@ -41,11 +38,9 @@ class CommonController extends Controller
     {
         $opt_content = '<option value="0">Default</option>';
         $models = VehicleModel::all();
-        if($models)
-        {
-            foreach($models as $model)
-            {
-                $opt_content .= '<option value="'. $model->id .'">' . $model->name . '</option>';
+        if ($models) {
+            foreach ($models as $model) {
+                $opt_content .= '<option value="' . $model->id . '">' . $model->name . '</option>';
             }
         }
         return $opt_content;
@@ -55,15 +50,12 @@ class CommonController extends Controller
         $make_id = $request->make_id;
         $servicetype_id = $request->servicetype_id;
         $opt_content = '<option value="0">Default</option>';
-        if($make_id != 0)
-        {
+        if ($make_id != 0) {
             //$models = VehicleModel::where('make_id', $make_id)->where('servicetype_id', $servicetype_id)->where('status', 1)->get();
             $models = VehicleModel::all();
-            if($models)
-            {
-                foreach($models as $model)
-                {
-                    $opt_content .= '<option value="'. $model->id .'">' . $model->name . '</option>';
+            if ($models) {
+                foreach ($models as $model) {
+                    $opt_content .= '<option value="' . $model->id . '">' . $model->name . '</option>';
                 }
             }
         }
@@ -74,14 +66,11 @@ class CommonController extends Controller
         $make_id = $request->make_id;
         $model_id = $request->model_id;
         $opt_content = '<option value="0">Default</option>';
-        if($make_id != 0 && $model_id != 0)
-        {
+        if ($make_id != 0 && $model_id != 0) {
             $types = VehicleType::where('make_id', $make_id)->where('model_id', $model_id)->where('status', 1)->get();
-            if($types)
-            {
-                foreach($types as $type)
-                {
-                    $opt_content .= '<option value="'. $type->id .'">' . $type->name . '</option>';
+            if ($types) {
+                foreach ($types as $type) {
+                    $opt_content .= '<option value="' . $type->id . '">' . $type->name . '</option>';
                 }
             }
         }
@@ -91,14 +80,11 @@ class CommonController extends Controller
     {
         $country_id = $request->country_id;
         $opt_content = '<option value="0">Default</option>';
-        if($country_id != 0)
-        {
+        if ($country_id != 0) {
             $states = State::where('country_id', $country_id)->get();
-            if($states)
-            {
-                foreach($states as $state)
-                {
-                    $opt_content .= '<option value="'. $state->id .'">' . $state->name . '</option>';
+            if ($states) {
+                foreach ($states as $state) {
+                    $opt_content .= '<option value="' . $state->id . '">' . $state->name . '</option>';
                 }
             }
         }
@@ -108,14 +94,11 @@ class CommonController extends Controller
     {
         $state_id = $request->state_id;
         $opt_content = '<option value="0">Default</option>';
-        if($state_id != 0)
-        {
+        if ($state_id != 0) {
             $cities = City::where('state_id', $state_id)->get();
-            if($cities)
-            {
-                foreach($cities as $city)
-                {
-                    $opt_content .= '<option value="'. $city->id .'">' . $city->name . '</option>';
+            if ($cities) {
+                foreach ($cities as $city) {
+                    $opt_content .= '<option value="' . $city->id . '">' . $city->name . '</option>';
                 }
             }
         }
@@ -125,21 +108,18 @@ class CommonController extends Controller
     {
         $result = [];
         $service_types = VehicleType::where('status', 1)->get();
-        foreach($service_types as $service_type){
+        foreach ($service_types as $service_type) {
             $tmp = [];
             $tmp['name'] = $service_type->name;
             $tmp['image'] = $service_type->image;
             $tmp['number_seat'] = $service_type->number_seat;
             $fare = Fare::where('servicetype_id', $service_type->id)->first();
-            if($fare)
-            {
+            if ($fare) {
                 $tmp['base_price_per_unit'] = $fare->price_per_unit;
                 $tmp['base_distance_price'] = $fare->base_ride_distance_charge;
                 $tmp['govt_charge'] = $fare->new_ctp_charge;
                 $tmp['gst_charge'] = $fare->gst_charge;
-            }
-            else
-            {
+            } else {
                 $tmp['base_price_per_unit'] = 0;
                 $tmp['base_distance_price'] = 0;
                 $tmp['govt_charge'] = 0;
@@ -154,15 +134,12 @@ class CommonController extends Controller
     {
         $state_id = $request->state_id;
         $opt_content = '<option value="0">Default</option>';
-        if($state_id != 0)
-        {
+        if ($state_id != 0) {
             $fares = Fare::where('state_id', $state_id)->get();
-            if($fares)
-            {
-                foreach($fares as $fare)
-                {
+            if ($fares) {
+                foreach ($fares as $fare) {
                     $servicetype = VehicleType::find($fare->servicetype_id);
-                    $opt_content .= '<option value="'. $servicetype->id .'">' . $servicetype->name . '</option>';
+                    $opt_content .= '<option value="' . $servicetype->id . '">' . $servicetype->name . '</option>';
                 }
             }
         }
@@ -188,24 +165,24 @@ class CommonController extends Controller
         $nsw_govt_levy_charge = number_format(floatval($data->nsw_gtl_charge), 2);
         $nsw_ctp_charge = number_format(floatval($data->nsw_ctp_charge), 2);
         $booking_charge = number_format(floatval($data->booking_charge), 2);
-        $cancel_fee = number_format(floatval($data->cancel_charge),2);
+        $cancel_fee = number_format(floatval($data->cancel_charge), 2);
 
         $result = '';
         $result .= "<table class='rslt_table'>";
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
-        $result .= "<img src='".asset('images/rate_distance.png')."' width='20' height='20'/>  Ride Distance Charges : ";
+        $result .= "<img src='" . asset('images/rate_distance.png') . "' width='20' height='20'/>  Ride Distance Charges : ";
         $result .= "</td></tr>";
 
         $result .= "<tr>";
         $result .= "<td width='50%'> Base Fare     </td>";
-        $result .= "<td width='50%'>".$currency ." ". $base_distance_price. "</td>";
+        $result .= "<td width='50%'>" . $currency . " " . $base_distance_price . "</td>";
         $result .= "</tr>";
 
         $result .= "<tr>";
 
         $result .= "<td width='50%'>Per KM   </td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$base_price_per_unit. "</td>";
+        $result .= "<td width='50%'>" . $currency . " " . $base_price_per_unit . "</td>";
 
         $result .= "</tr>";
 
@@ -217,7 +194,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Waiting Time Charges : ";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Waiting Time Charges : ";
 
         $result .= "</td></tr>";
 
@@ -225,7 +202,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Free Waiting Time</td>";
 
-        $result .= "<td width='50%'>"." ".$free_waiting_time." </td>";
+        $result .= "<td width='50%'>" . " " . $free_waiting_time . " </td>";
 
         $result .= "</tr>";
 
@@ -233,19 +210,57 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Waiting Price Per Minute</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$waiting_price_minute." </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $waiting_price_minute . " </td>";
 
         $result .= "</tr>";
 
         $result .= "</table>";
 
+        if(!is_null($data->baby_seat_charge)) {
+            $result .= "<table class='rslt_table'>";
 
+            $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
+
+            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   GST Charges : ";
+
+            $result .= "</td></tr>";
+
+            $result .= "<tr>";
+
+            $result .= "<td width='50%'>Baby Seat:</td>";
+
+            $result .= "<td width='50%'>" . $currency . " " .  $data->baby_seat_charge . " %</td>";
+
+            $result .= "</tr>";
+
+            $result .= "</table>";
+        }
+
+        if(!is_null($data->pet_charge)) {
+            $result .= "<table class='rslt_table'>";
+
+            $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
+
+            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   GST Charges : ";
+
+            $result .= "</td></tr>";
+
+            $result .= "<tr>";
+
+            $result .= "<td width='50%'>Baby Seat:</td>";
+
+            $result .= "<td width='50%'>" . $currency . " " .  $data->pet_charge . " %</td>";
+
+            $result .= "</tr>";
+
+            $result .= "</table>";
+        }
 
         $result .= "<table class='rslt_table'>";
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/speedometer.png')."' width='20' height='20'/>   GST Charges : ";
+        $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   GST Charges : ";
 
         $result .= "</td></tr>";
 
@@ -253,7 +268,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>GST charge</td>";
 
-        $result .= "<td width='50%'>".$gst_charge." %</td>";
+        $result .= "<td width='50%'>" . $gst_charge . " %</td>";
 
         $result .= "</tr>";
 
@@ -265,7 +280,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/speedometer.png')."' width='20' height='20'/>   Government charges : ";
+        $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   Government charges : ";
 
         $result .= "</td></tr>";
 
@@ -273,7 +288,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>NSW CTP Charge   Per KM</td>";
 
-        $result .= "<td width='50%'>".$currency ." ". $nsw_ctp_charge." </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $nsw_ctp_charge . " </td>";
 
         $result .= "</tr>";
 
@@ -281,7 +296,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>NSW Government Transport Levy Charge</td>";
 
-        $result .= "<td width='50%'>".$currency ." ". $nsw_govt_levy_charge." </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $nsw_govt_levy_charge . " </td>";
 
         $result .= "</tr>";
 
@@ -292,7 +307,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Other Charges :";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Other Charges :";
 
         $result .= "</td></tr>";
 
@@ -300,7 +315,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Fuel Surge Charge   Per KM</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$fuel_charge." </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $fuel_charge . " </td>";
 
         $result .= "</tr>";
 
@@ -311,7 +326,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Booking Charges :";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Booking Charges :";
 
         $result .= "</td></tr>";
 
@@ -319,7 +334,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Booking Charges </td>";
 
-        $result .= "<td width='50%'>".$currency ." ". $booking_charge."</td>";
+        $result .= "<td width='50%'>" . $currency . " " . $booking_charge . "</td>";
 
         $result .= "</tr>";
 
@@ -331,7 +346,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Cancellation Charges :";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Cancellation Charges :";
 
         $result .= "</td></tr>";
 
@@ -339,7 +354,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Cancellation Charges </td>";
 
-        $result .= "<td width='50%'>".$currency ." ". $cancel_fee."</td>";
+        $result .= "<td width='50%'>" . $currency . " " . $cancel_fee . "</td>";
 
         $result .= "</tr>";
 
@@ -351,7 +366,7 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='".asset('images/ride_time.png')."' width='20' height='20'/>  Ride Time Charges : ";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Ride Time Charges : ";
 
         $result .= "</td></tr>";
 
@@ -359,7 +374,7 @@ class CommonController extends Controller
 
         $result .= "<td width='50%'>Price Per Ride Minute</td>";
 
-        $result .= "<td width='50%'>".$currency ." ".$price_per_ride_minute." </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $price_per_ride_minute . " </td>";
 
         $result .= "</tr>";
 
@@ -371,43 +386,39 @@ class CommonController extends Controller
     {
         $user_type = $request->user_type;
         $opt_content = '<option value="0">Default</option>';
-        if($user_type == 1)
-        {
+        if ($user_type == 1) {
             $users = User::where('status', 1)->get();
-            if($users)
-            {
-                foreach($users as $user)
-                {
-                    $opt_content .= '<option value="'. $user->id .'">' . $user->name . '</option>';
+            if ($users) {
+                foreach ($users as $user) {
+                    $opt_content .= '<option value="' . $user->id . '">' . $user->name . '</option>';
                 }
             }
         }
-        if($user_type == 2)
-        {
+        if ($user_type == 2) {
             $drivers = Driver::where('is_approved', 1)->get();
-            if($drivers)
-            {
-                foreach($drivers as $driver)
-                {
-                    $opt_content .= '<option value="'. $driver->id .'">' . $driver->name . '</option>';
+            if ($drivers) {
+                foreach ($drivers as $driver) {
+                    $opt_content .= '<option value="' . $driver->id . '">' . $driver->name . '</option>';
                 }
             }
         }
         return $opt_content;
     }
-    public function getDetailsByPhone(Request $request){
+    public function getDetailsByPhone(Request $request)
+    {
         $status = 0;
         $result = array();
-        $phone = '+'.$request->get('phone');
+        $phone = '+' . $request->get('phone');
         $user = User::where('mobile', ltrim($phone, ' '))->first();
-        if($user != null){
+        if ($user != null) {
             $status = 1;
         }
         $result['status'] = $status;
         $result['userInfo'] = $user;
         return $result;
     }
-    public function getDriverByLocation(Request $request){
+    public function getDriverByLocation(Request $request)
+    {
 
         $vehicleType = $request->get('vehicleType');
         // $lat = $request->get('orig_latitude');
@@ -429,21 +440,23 @@ class CommonController extends Controller
         //     ->get();
         $driverVehicles = DriverVehicle::all();
         $drivers = [];
-        foreach($driverVehicles as $driver){
-            if(Str::contains($driver->servicetype_id, (string)$vehicleType))
+        foreach ($driverVehicles as $driver) {
+            if (Str::contains($driver->servicetype_id, (string)$vehicleType))
                 array_push($drivers, Driver::find($driver->driver_id));
         }
 
         return $drivers;
     }
-    public function getEstimate(Request $request){
+    public function getEstimate(Request $request)
+    {
         $fare_cards = Fare::where('servicetype_id', $request->get('servicetype_id'))->first();
         return $fare_cards;
     }
 
-    public function getOTP(Request $request){
+    public function getOTP(Request $request)
+    {
         $phone_number = $request->phone_number;
-        if(User::where('mobile', $phone_number)->count() > 0){
+        if (User::where('mobile', $phone_number)->count() > 0) {
             //return response()->json(['status' => 1, 'message' => '']);
             /* Get credentials from .env */
             $token = config("services.twilio.authtoken");
@@ -458,14 +471,15 @@ class CommonController extends Controller
             } catch (Exception $e) {
                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'This is a phone number not registered in our website.']);
         }
     }
 
-    public function getDriverOTP(Request $request){
+    public function getDriverOTP(Request $request)
+    {
         $phone_number = $request->phone_number;
-        if(Driver::where('mobile', $phone_number)->count() > 0){
+        if (Driver::where('mobile', $phone_number)->count() > 0) {
             //return response()->json(['status' => 1, 'message' => '']);
             /* Get credentials from .env */
             $token = config("services.twilio.authtoken");
@@ -480,14 +494,15 @@ class CommonController extends Controller
             } catch (Exception $e) {
                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'This is a phone number not registered in our website.']);
         }
     }
 
-    public function getPartnerOTP(Request $request){
+    public function getPartnerOTP(Request $request)
+    {
         $phone_number = $request->phone_number;
-        if(Partner::where('mobile', $phone_number)->count() > 0){
+        if (Partner::where('mobile', $phone_number)->count() > 0) {
             //return response()->json(['status' => 1, 'message' => '']);
             /* Get credentials from .env */
             $token = config("services.twilio.authtoken");
@@ -502,14 +517,15 @@ class CommonController extends Controller
             } catch (Exception $e) {
                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'This is a phone number not registered in our website.']);
         }
     }
 
-    public function getRiderRegisterOTP(Request $request){
+    public function getRiderRegisterOTP(Request $request)
+    {
         $phone_number = $request->phone_number;
-        if(User::where('mobile', $phone_number)->count() == 0){
+        if (User::where('mobile', $phone_number)->count() == 0) {
             //return response()->json(['status' => 1, 'message' => '']);
             /* Get credentials from .env */
             $token = config("services.twilio.authtoken");
@@ -524,14 +540,15 @@ class CommonController extends Controller
             } catch (Exception $e) {
                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'Already this phone number exists.']);
         }
     }
 
-    public function getDriverRegisterOTP(Request $request){
+    public function getDriverRegisterOTP(Request $request)
+    {
         $phone_number = $request->phone_number;
-        if(Driver::where('mobile', $phone_number)->count() == 0){
+        if (Driver::where('mobile', $phone_number)->count() == 0) {
             //return response()->json(['status' => 1, 'message' => '']);
             /* Get credentials from .env */
             $token = config("services.twilio.authtoken");
@@ -546,12 +563,13 @@ class CommonController extends Controller
             } catch (Exception $e) {
                 return response()->json(['status' => 0, 'message' => $e->getMessage()]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'Already this phone number exists.']);
         }
     }
 
-    public function checkOTP(Request $request){
+    public function checkOTP(Request $request)
+    {
         $data = $request->validate([
             'code' => ['required', 'numeric'],
             'phone_number' => ['required', 'string'],
@@ -563,16 +581,15 @@ class CommonController extends Controller
         $twilio_verify_sid = config("services.twilio.verifysid");
         $twilio = new Client($twilio_sid, $token);
         try {
-            $verification=$twilio->verify->v2->services($twilio_verify_sid)
+            $verification = $twilio->verify->v2->services($twilio_verify_sid)
                 ->verificationChecks
                 ->create($data['code'], array('to' => $data['phone_number']));
-         	if($data['phone_number']=="+61770101111" || $verification->status == 'approved'){
+            if ($data['phone_number'] == "+61770101111" || $verification->status == 'approved') {
                 Cache::put('sec_key', Hash::make('world'));
                 return response()->json(['status' => 1, 'message' => $verification->status]);
-            }else{
+            } else {
                 return response()->json(['status' => 0, 'message' => 'Please check phone code again']);
             }
-
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }

@@ -61,6 +61,8 @@ class BookingController extends Controller
             $appointment->coupon_id = $coupon->id;
         }
         $appointment->payment_id = $request->payment_option_id;
+        if ($request->has('surge_charge'))
+            $appointment->surge_charge = $request->surge_charge;
         $appointment->is_manual = 1;
         $appointment->status = 0;
         $appointment->save();

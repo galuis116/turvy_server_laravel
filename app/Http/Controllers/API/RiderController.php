@@ -260,8 +260,8 @@ class RiderController extends Controller
             $requestPayment->total = $request->amount;
             if ($book->is_current == 0 && $book->is_manual == 1) {
                 // Get driver commission
-                $driver = Driver::find($book->driver_id);
-                $requestPayment->surge = $request->amount * $driver->commission / 100;
+                if (!is_null($book->surge_charge))
+                    $requestPayment->surge = $request->amount * $book->surge_charge / 100;
             } else {
                 $requestPayment->surge = 0;
             }

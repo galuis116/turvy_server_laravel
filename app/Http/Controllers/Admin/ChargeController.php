@@ -71,6 +71,10 @@ class ChargeController extends Controller
         $fare->cancel_charge = $request->cancel_charge;
         $fare->free_ride_minute = $request->free_ride_minute;
         $fare->price_per_ride_minute = $request->price_per_ride_minute;
+        if($request->has('pet_charge'))
+            $fare->pet_charge = $request->pet_charge;
+        if($request->has('baby_seat_charge'))
+            $fare->baby_seat_charge = $request->baby_seat_charge;
         $fare->save();
 
         return redirect()->back()->with('message', 'It has been saved successfully.');
@@ -107,6 +111,10 @@ class ChargeController extends Controller
         $fare->cancel_charge = $request->cancel_charge;
         $fare->free_ride_minute = $request->free_ride_minute;
         $fare->price_per_ride_minute = $request->price_per_ride_minute;
+        if($request->has('pet_charge'))
+            $fare->pet_charge = $request->pet_charge;
+        if($request->has('baby_seat_charge'))
+            $fare->baby_seat_charge = $request->baby_seat_charge;
         $fare->save();
 
         return redirect()->back()->with('message', 'It has been updated successfully.');

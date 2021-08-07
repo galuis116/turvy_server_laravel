@@ -256,7 +256,7 @@
                                                                     <div class="form-group">
                                                                         <div class="form-line">
                                                                             <input type="text" class="form-control"
-                                                                                id="coupon" name="coupon" />
+                                                                                id="coupon" name="coupon" placeholder="Input coupon code if you have."/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -275,6 +275,16 @@
                                                                                         {{ $payment->name }}</option>
                                                                                 @endforeach
                                                                             </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row clearfix">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="form-group">
+                                                                        <div class="form-line">
+                                                                            <input type="text" class="form-control"
+                                                                                id="surge_charge" name="surge_charge" placeholder="Surge Charge as percentage. EX. 10" disabled/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -437,11 +447,13 @@
         function myFunction() {
             document.getElementById("datepicker").disabled = true;
             document.getElementById("timepicker").disabled = true;
+            document.getElementById("surge_charge").disabled = true;
         }
 
         function unclickFunction() {
             document.getElementById("datepicker").disabled = false;
             document.getElementById("timepicker").disabled = false;
+            document.getElementById("surge_charge").disabled = false;
         }
 
         function getOnlyNumberFromString(str) {

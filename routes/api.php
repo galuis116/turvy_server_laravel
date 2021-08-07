@@ -23,6 +23,8 @@ Route::get('/partners', 'API\CommonController@partners');
 Route::get('/makes', 'API\CommonController@makes');
 Route::get('/models/{make_id}', 'API\CommonController@models');
 Route::get('/servicetypes', 'API\CommonController@servicetypes');
+Route::get('/farecard/{state_id}/{vehicletype_id}', 'API\CommonController@farecard');
+Route::get('/tips', 'API\CommonController@tips');
 
 // Development version
 Route::get('/settings/info', 'API\CommonController@settings');
@@ -73,6 +75,7 @@ Route::group(['prefix' => 'driver'], function(){
         Route::post('/online', 'API\DriverController@onlineDriver');
         Route::get('/offline', 'API\DriverController@offlineDriver');
         Route::get('/profile', 'API\DriverController@getDriverInfo');
+        Route::post('/profile', 'API\DriverController@putProfileInfo');
 
         # booking
         Route::get('/book/{id}/accept', 'API\DriverController@acceptBook');

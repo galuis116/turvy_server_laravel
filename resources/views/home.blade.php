@@ -233,7 +233,7 @@
     </section>
     <!-- testimonial /end -->
 
-    <section class="abd-apps-store abd-pt">
+    {{-- <section class="abd-apps-store abd-pt">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center abd-pb2">
@@ -272,7 +272,7 @@
                 <div id="dvMap" class="col-lg-6" style="width: 100%; height: 500px; position: relative; overflow: hidden; display: none"></div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection
 
 @section('scripts')

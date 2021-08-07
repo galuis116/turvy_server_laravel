@@ -7,6 +7,7 @@ use App\Driver;
 use App\DriverLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 
 class DriverController extends Controller
@@ -56,6 +57,34 @@ class DriverController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'Driver personal info.',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $driver
+        ]);
+    }
+
+    public function putProfileInfo(Request $request){
+        $id = Auth::guard('apidriver')->user()->id;
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'mobile' => 'required|string|max:14',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 0,
+                'message' => $validator->errors(),
+                'datetime' => date('Y-m-d H:i'),
+                'data' => null
+            ]);
+        }
+
+        $driver = Driver::find($id);
+        $driver->update($request->all());
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Driver profile updated.',
             'datetime' => date('Y-m-d H:i'),
             'data' => $driver
         ]);

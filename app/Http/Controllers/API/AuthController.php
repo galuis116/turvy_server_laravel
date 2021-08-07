@@ -215,6 +215,24 @@ class AuthController extends Controller
                 ->create($request->otp, array('to' => $request->phone));
 
             if ($verification->valid) {
+                $driver = User::where('mobile', $request->phone)->first();
+
+                Auth::guard('driver')->login($driver);
+                $tokenResult = $driver->createToken('turvy');
+                $token = $tokenResult->token;
+
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+
+                $token->save();
+
+                return response()->json([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
                 return response()->json(['status' => 1, 'message' => 'Phone number verified.']);
             }
         } catch (Exception $e) {

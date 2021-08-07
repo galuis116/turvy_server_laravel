@@ -47,6 +47,24 @@ class SettingController extends Controller
             $setting->value = $request->search_radius;
             $setting->save();
         }
+        if($request->has('is_tips'))
+        {
+            $setting = Setting::where('key', 'is_tips')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'is_tips';
+            $setting->value = $request->is_tips;
+            $setting->save();
+        }
+        if($request->has('tip_amount'))
+        {
+            $setting = Setting::where('key', 'tip_amount')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'tip_amount';
+            $setting->value = $request->tip_amount;
+            $setting->save();
+        }
         if($request->has('paypal_client_id'))
         {
             $setting = Setting::where('key', 'paypal_client_id')->first();

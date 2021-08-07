@@ -39,6 +39,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('set null');
             $table->integer('payment_id')->unsigned()->nullable();
             $table->foreign('payment_id')->references('id')->on('payments')->onDelete('set null');
+            $table->integer('surge_charge')->nullable();
             $table->boolean('is_manual')->default(1);
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();

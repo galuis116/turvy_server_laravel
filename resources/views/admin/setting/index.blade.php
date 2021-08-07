@@ -178,6 +178,29 @@
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                                <label for="chk_tips">Tips Feature</label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                                                <div class="form-group">
+                                                    <input type="radio" id="rdo_tips_on" name="is_tips" class="radio-col-light-blue" value="1" @if(isset($settings['is_tips']) && $settings['is_tips'] == 1) checked @endif /> <label for="rdo_tips_on">Turn on</label>
+                                                    <input type="radio" id="rdo_tips_off" name="is_tips" class="radio-col-light-blue" value="0" value="1" @if(isset($settings['is_tips']) && $settings['is_tips'] == 0) checked @endif /> <label for="rdo_tips_off">Turn off</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                                <label for="tip_amount">Tips Amount</label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" id="tip_amount" name="tip_amount" class="form-control" value="{{isset($settings['tip_amount']) ? $settings['tip_amount'] : ''}}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                                 <label for="paypal_client_id">Paypal client id</label>
                                             </div>
                                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">

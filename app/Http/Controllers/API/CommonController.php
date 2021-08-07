@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Country;
 use App\Coupon;
+use App\Fare;
 use App\Homepage;
 use App\Partner;
 use App\Setting;
@@ -114,6 +115,34 @@ class CommonController extends Controller
             'status' => 1,
             'datetime' => date('Y-m-d H:i'),
             'data' => $servicetypes
+        ]);
+    }
+
+    public function farecard($state_id, $vehicletype_id){
+        $farecard = Fare::where('state_id', $state_id)->where('servicetype_id', $vehicletype_id)->first();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $farecard
+        ]);
+    }
+
+    public function tips(){
+        $is_tips = Setting::where('key', 'is_tips')->first();
+        $amount = Setting::where('key', 'tip_amount')->first();
+        if ($is_tips && $amount) {
+            if ($is_tips->value == 1 && !is_null($amount->value)) {
+                return response()->json([
+                    'status' => 1,
+                    'datetime' => date('Y-m-d H:i'),
+                    'data' => explode(",", $amount->value)
+                ]);
+            }
+        }
+        return response()->json([
+            'status' => 0,
+            'datetime' => date('Y-m-d H:i'),
+            'message' => "The tips feature was disabled."
         ]);
     }
 }

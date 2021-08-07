@@ -33,6 +33,8 @@ class CreateFaresTable extends Migration
             $table->string('cancel_charge');
             $table->string('free_ride_minute');
             $table->string('price_per_ride_minute');
+            $table->string('baby_seat_charge')->nullable();
+            $table->string('pet_charge')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

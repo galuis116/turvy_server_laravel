@@ -26,6 +26,7 @@ class Appointment extends Model
         'driver_id',
         'coupon_id',
         'payment_id',
+        'surge_charge',
         'is_manual',
         'status',
         'cancel_reason',
