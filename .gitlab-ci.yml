@@ -1,0 +1,28 @@
+before_script:
+  - echo "Before script"
+  - cd /home/turvy/public_html
+building:
+  stage: build
+  script:
+    - git reset --hard
+    - git pull origin develop
+    - composer install
+    - cp .env.prod .env
+    - php artisan key:generate
+    - php artisan migrate --seed
+    - php artisan cache:clear
+    - php artisan config:clear
+    - php artisan storage:link
+    - sudo chown -R root:www-data /home/turvy/public_html
+    - find /home/turvy/public_html -type f -exec chmod 664 {} \;
+    - find /home/turvy/public_html -type d -exec chmod 775 {} \;
+    - chgrp -R www-data storage bootstrap/cache
+    - chmod -R ug+rwx storage bootstrap/cache
+testing:
+  stage: test
+  script:
+    - php ./vendor/bin/phpunit
+deploying:
+  stage: deploy
+  script:
+    - echo "Deployed"
