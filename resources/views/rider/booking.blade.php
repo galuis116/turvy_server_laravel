@@ -821,8 +821,6 @@
 
                 for(i=0;i<service_types.length;i++){
 
-
-
                     //console.log("sevice type is:");
 
 
@@ -843,7 +841,7 @@
 
 
 
-                    fare = ((distance_val*parseFloat(service_types[i].base_price_per_unit))+parseFloat(service_types[i].base_distance_price+service_types[i].govt_charge+service_types[i].gst_charge));
+                    fare = ((distance_val*parseFloat(service_types[i].price_per_unit))+parseFloat(service_types[i].base_ride_distance_charge+service_types[i].nsw_gtl_charge+service_types[i].gst_charge));
 
 
 
@@ -914,35 +912,99 @@
 
                             '<div class="row">'+
 
-                                '<div class="col-md-6">'+
+                                '<div class="col-md-6 text-left">Number of riders</div>'+
 
-                                    '<div class="row">'+
+                                '<div class="col-md-6 text-right">'+str_seat+'</div>'+
 
-                                        '<div class="col-md-12 text-left text-bold">Pickup</div>'+
+                            '</div>'+
 
-                                    '</div>'+
+                            '<hr/>'+
 
-                                    '<hr/>'+
+                            '<div class="row">'+
+
+                                '<div class="col-md-8">'+
 
                                     '<div class="row">'+
 
                                         '<div class="col-md-6 text-left">Base fare</div>'+
 
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].base_distance_price).toFixed(2)+'</div>'+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].base_ride_distance_charge).toFixed(2)+'</div>'+
 
                                     '</div>'+
-
-                                '</div>'+
-
-                                '<div class="col-md-6">'+
 
                                     '<div class="row">'+
 
-                                        '<div class="col-md-12 text-left text-bold">During your trip</div>'+
+                                        '<div class="col-md-6 text-left">Minimum fare</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].base_ride_distance_charge * service_types[i].base_ride_distance).toFixed(2)+'</div>'+
 
                                     '</div>'+
 
-                                    '<hr/>'+
+                                    '<div class="row">'+
+
+                                        '<div class="col-md-6 text-left">Per-km</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].price_per_unit).toFixed(2)+'</div>'+
+
+                                    '</div>'+
+
+                                    '<div class="row">'+
+
+                                        '<div class="col-md-6 text-left">Per-minute</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].price_per_minute).toFixed(2)+'</div>'+
+
+                                    '</div>'+
+
+                                    '<div class="row">'+
+
+                                        '<div class="col-md-6 text-left">NSW Gov. Trans. Levy</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].gst_charge).toFixed(2)+'</div>'+
+
+                                    '</div>'+
+
+                                    '<div class="row">'+
+
+                                        '<div class="col-md-6 text-left">NSW CTP Charge Per km</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].nsw_gtl_charge).toFixed(2)+'</div>'+
+
+                                    '</div>'+
+
+                                    '<div class="row">'+
+
+                                        '<div class="col-md-6 text-left">Fuel Surge Charge Per km</div>'+
+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].fuel_surge_charge).toFixed(2)+'</div>'+
+
+                                    '</div>';
+
+                                    if(!isNaN(parseFloat(service_types[i].baby_seat_charge).toFixed(2))) {
+                                        str +=
+
+                                        '<div class="row">'+
+
+                                            '<div class="col-md-6 text-left">Baby Seat Charge</div>'+
+
+                                            '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].baby_seat_charge).toFixed(2)+'</div>'+
+
+                                        '</div>';
+                                    }
+
+                                    if(!isNaN(parseFloat(service_types[i].pet_charge).toFixed(2))) {
+                                        str +=
+
+                                        '<div class="row">'+
+
+                                            '<div class="col-md-6 text-left">Pet Charge</div>'+
+
+                                            '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].pet_charge).toFixed(2)+'</div>'+
+
+                                        '</div>';
+                                    }
+
+                                    str +=
 
                                     '<div class="row">'+
 
@@ -954,17 +1016,9 @@
 
                                     '<div class="row">'+
 
-                                        '<div class="col-md-6 text-left">Minimum fare</div>'+
+                                        '<div class="col-md-6 text-left">Cancellation fee</div>'+
 
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].min_fare).toFixed(2)+'</div>'+
-
-                                    '</div>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">Per-minute</div>'+
-
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].price_per_unit_distance).toFixed(2)+'</div>'+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].cancel_charge).toFixed(2)+'</div>'+
 
                                     '</div>'+
 
@@ -973,50 +1027,6 @@
                             '</div>'+
 
                             '<hr/>'+
-
-                            '<div class="row">'+
-
-                                '<div class="col-md-6">'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-12 text-left text-bold">Cancellations</div>'+
-
-                                    '</div>'+
-
-                                    '<hr/>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">Cancellation fee</div>'+
-
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].cancel_fee).toFixed(2)+'</div>'+
-
-                                    '</div>'+
-
-                                '</div>'+
-
-                                '<div class="col-md-6">'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-12 text-left text-bold">Ride info</div>'+
-
-                                    '</div>'+
-
-                                    '<hr/>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">Number of riders</div>'+
-
-                                        '<div class="col-md-6 text-right">'+str_seat+'</div>'+
-
-                                    '</div>'+
-
-                                '</div>'+
-
-                            '</div>'+
 
                             '<div class="row">'+
 

@@ -9,6 +9,7 @@ $company_commission = isset($fare) ? $fare->company_commission : '';
 $base_ride_distance = isset($fare) ? $fare->base_ride_distance : '';
 $base_ride_distance_charge = isset($fare) ? $fare->base_ride_distance_charge : '';
 $price_per_unit = isset($fare) ? $fare->price_per_unit : '';
+$price_per_minute = isset($fare) ? $fare->price_per_minute : '';
 $fee_waiting_time = isset($fare) ? $fare->fee_waiting_time : '';
 $waiting_price_per_minute = isset($fare) ? $fare->waiting_price_per_minute : '';
 $gst_charge = isset($fare) ? $fare->gst_charge : '';
@@ -182,6 +183,20 @@ $btnName = isset($fare) ? 'Update' : 'Save';
                                                 <input type="text" id="price_per_unit" name="price_per_unit"
                                                     class="form-control" placeholder="Price Per Unit"
                                                     value="{{ $price_per_unit }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="price_per_minute">Price Per Minute</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" id="price_per_minute" name="price_per_minute"
+                                                    class="form-control" placeholder="Price Per Minute"
+                                                    value="{{ $price_per_minute }}" />
                                             </div>
                                         </div>
                                     </div>

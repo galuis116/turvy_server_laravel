@@ -26,6 +26,7 @@
                                     <tr>
                                         <th>State</th>
                                         <th>ServiceType</th>
+                                        <th>Base Fare</th>
                                         <th>Minimum Bill</th>
                                         <th>After Minimum Bill</th>
                                         <th>Waiting Charge</th>
@@ -52,7 +53,9 @@
                                                     ( Pet charge: {{ currency_format($fare->pet_charge) }} )
                                                     @endif
                                                 </td>
-                                                <td>{{ $fare->currency . ' ' . $fare->base_ride_distance_charge . ' for first ' . $fare->base_ride_distance . ' ' . $fare->distance }}
+                                                <td>{{ $fare->currency . ' ' . $fare->base_ride_distance_charge}}</td>
+                                                <td>{{ $fare->currency . ' ' . (($fare->price_per_unit * $fare->base_ride_distance) + $fare->price_per_minute)}}
+                                                {{-- <td>{{ $fare->currency . ' ' . $fare->base_ride_distance_charge . ' for first ' . $fare->base_ride_distance . ' ' . $fare->distance }} --}}
                                                 </td>
                                                 <td>{{ $fare->currency . ' ' . $fare->price_per_unit . ' per ' . $fare->distance }}
                                                 </td>

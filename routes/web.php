@@ -525,6 +525,7 @@ Route::prefix('rider')->group(function () {
         Route::post('/book', 'Rider\AppointmentController@store')->name('rider.book');
         Route::get('/trips', 'Rider\TripController@index')->name('rider.trips');
         Route::get('/wallet', 'Rider\WalletController@index')->name('rider.wallet');
+        Route::get('/charity', 'Rider\CharityController@index')->name('rider.charity');
         Route::get('/payments/{id}', 'Rider\EarnController@index')->name('rider.payments');
         Route::get('/ratecard', 'Rider\RateCardController@index')->name('rider.ratecard');
         Route::post('/profile', 'Rider\ProfileController@update')->name('rider.profile');

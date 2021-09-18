@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class SupportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:driver');
+    }
     public function index()
     {
         return view('driver.support');

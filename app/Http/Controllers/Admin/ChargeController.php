@@ -61,6 +61,7 @@ class ChargeController extends Controller
         $fare->base_ride_distance = $request->base_ride_distance;
         $fare->base_ride_distance_charge = $request->base_ride_distance_charge;
         $fare->price_per_unit = $request->price_per_unit;
+        $fare->price_per_minute = $request->price_per_minute;
         $fare->fee_waiting_time = $request->fee_waiting_time;
         $fare->waiting_price_per_minute = $request->waiting_price_per_minute;
         $fare->gst_charge = $request->gst_charge;
@@ -101,6 +102,7 @@ class ChargeController extends Controller
         $fare->base_ride_distance = $request->base_ride_distance;
         $fare->base_ride_distance_charge = $request->base_ride_distance_charge;
         $fare->price_per_unit = $request->price_per_unit;
+        $fare->price_per_minute = $request->price_per_minute;
         $fare->fee_waiting_time = $request->fee_waiting_time;
         $fare->waiting_price_per_minute = $request->waiting_price_per_minute;
         $fare->gst_charge = $request->gst_charge;

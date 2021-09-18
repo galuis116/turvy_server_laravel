@@ -166,6 +166,8 @@
 
                                         <li @if($route=='rider.payments' ) class="active" @endif><a href="{{route('rider.payments', 'today')}}">My payments</a></li>
 
+                                        <li @if($route=='rider.charity' ) class="active" @endif><a href="{{route('rider.charity')}}">My Charity</a></li>
+
                                         <li @if($route=='rider.ratecard' ) class="active" @endif><a href="{{route('rider.ratecard')}}">Rate Card</a></li>
 
                                         <li @if($route=='rider.wallet' ) class="active" @endif><a href="{{route('rider.wallet')}}">Wallet</a></li>

@@ -115,15 +115,34 @@ class CommonController extends Controller
             $tmp['number_seat'] = $service_type->number_seat;
             $fare = Fare::where('servicetype_id', $service_type->id)->first();
             if ($fare) {
-                $tmp['base_price_per_unit'] = $fare->price_per_unit;
-                $tmp['base_distance_price'] = $fare->base_ride_distance_charge;
-                $tmp['govt_charge'] = $fare->new_ctp_charge;
+                $tmp['id'] = $service_type->id;
+                $tmp['base_ride_distance'] = $fare->base_ride_distance;
+                $tmp['base_ride_distance_charge'] = $fare->base_ride_distance_charge;
+                $tmp['price_per_unit'] = $fare->price_per_unit;
+                $tmp['price_per_minute'] = $fare->price_per_minute;
+                $tmp['fee_waiting_time'] = $fare->fee_waiting_time;
+                $tmp['waiting_price_per_minute'] = $fare->waiting_price_per_minute;
                 $tmp['gst_charge'] = $fare->gst_charge;
+                $tmp['fuel_surge_charge'] = $fare->fuel_surge_charge;
+                $tmp['nsw_gtl_charge'] = $fare->nsw_gtl_charge;
+                $tmp['booking_charge'] = $fare->booking_charge;
+                $tmp['cancel_charge'] = $fare->cancel_charge;
+                $tmp['baby_seat_charge'] = $fare->baby_seat_charge;
+                $tmp['pet_charge'] = $fare->pet_charge;
             } else {
-                $tmp['base_price_per_unit'] = 0;
-                $tmp['base_distance_price'] = 0;
-                $tmp['govt_charge'] = 0;
+                $tmp['base_ride_distance'] = 0;
+                $tmp['base_ride_distance_charge'] = 0;
+                $tmp['price_per_unit'] = 0;
+                $tmp['price_per_minute'] = 0;
+                $tmp['fee_waiting_time'] = 0;
+                $tmp['waiting_price_per_minute'] = 0;
                 $tmp['gst_charge'] = 0;
+                $tmp['fuel_surge_charge'] = 0;
+                $tmp['nsw_gtl_charge'] = 0;
+                $tmp['booking_charge'] = 0;
+                $tmp['cancel_charge'] = 0;
+                $tmp['baby_seat_charge'] = 0;
+                $tmp['pet_charge'] = 0;
             }
 
             array_push($result, $tmp);
@@ -221,15 +240,15 @@ class CommonController extends Controller
 
             $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   GST Charges : ";
+            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   Special Charges : ";
 
             $result .= "</td></tr>";
 
             $result .= "<tr>";
 
-            $result .= "<td width='50%'>Baby Seat:</td>";
+            $result .= "<td width='50%'>Baby Seat Charge:</td>";
 
-            $result .= "<td width='50%'>" . $currency . " " .  $data->baby_seat_charge . " %</td>";
+            $result .= "<td width='50%'>" . $currency . " " .  $data->baby_seat_charge . "</td>";
 
             $result .= "</tr>";
 
@@ -241,15 +260,15 @@ class CommonController extends Controller
 
             $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   GST Charges : ";
+            $result .= "<img src='" . asset('images/speedometer.png') . "' width='20' height='20'/>   Special Charges : ";
 
             $result .= "</td></tr>";
 
             $result .= "<tr>";
 
-            $result .= "<td width='50%'>Baby Seat:</td>";
+            $result .= "<td width='50%'>Pet Charge:</td>";
 
-            $result .= "<td width='50%'>" . $currency . " " .  $data->pet_charge . " %</td>";
+            $result .= "<td width='50%'>" . $currency . " " .  $data->pet_charge . "</td>";
 
             $result .= "</tr>";
 
@@ -372,7 +391,7 @@ class CommonController extends Controller
 
         $result .= "<tr>";
 
-        $result .= "<td width='50%'>Price Per Ride Minute</td>";
+        $result .= "<td width='50%'>Price Per Minute</td>";
 
         $result .= "<td width='50%'>" . $currency . " " . $price_per_ride_minute . " </td>";
 

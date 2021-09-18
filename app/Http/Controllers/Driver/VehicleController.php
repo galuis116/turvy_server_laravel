@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('auth:driver');
+    }
     public function index()
     {
         $makes = VehicleMake::where('status', 1)->get();
