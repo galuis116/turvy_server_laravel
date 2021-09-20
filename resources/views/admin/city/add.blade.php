@@ -4,7 +4,7 @@
     $title = isset($city) ? 'Edit city' : 'Add city';
     $action = isset($city) ? route('admin.region.city.update', $city->id) : route('admin.region.city.store');
     $name = isset($city) ? $city->name : '';
-    $country_id = isset($city) ? $state->country_id : 0;
+    $country_id = isset($city) ? $city->country_id : 0;
     $state_id = isset($city) ? $city->state_id : 0;
     $btnName = isset($city) ? 'Update' : 'Save';
 @endphp
@@ -74,9 +74,11 @@
                                             <div class="form-line">
                                                 <select id="state" name="state_id" class="form-control">
                                                     <option value="0">Default</option>
+                                                   @if(isset($states) && count($states) > 0)
                                                     @foreach($states as $state)
                                                         <option value="{{$state->id}}" @if($state_id != 0) @if($state_id == $state->id) selected @endif @endif>{{$state->name}}</option>
                                                     @endforeach
+                                                   @endif 
                                                 </select>
                                             </div>
                                         </div>
