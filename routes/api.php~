@@ -107,5 +107,23 @@ Route::group(['prefix' => 'driver'], function(){
       	Route::post('/book/feedback/{book_id}', 'API\DriverController@feedbackTrip');
       	Route::get('/book/{id}/checkstatus', 'API\DriverController@checkTripStatus');
         Route::get('/book/{id}/details', 'API\DriverController@getAppointmentData');
+        
+        //Driver static pages
+        Route::get('/earning', 'API\DriverController@getDriverEarning');
+        Route::get('/vehicle/{id}/service', 'API\DriverController@getDriverServices');
+        Route::post('/service/{id}/update', 'API\DriverController@updateDriverServices');
+        Route::get('/riderRating/{id}', 'API\DriverController@getRiderRating');
+        Route::get('/completed-trip', 'API\DriverController@completedTrip');
+        Route::get('/canceled-trip', 'API\DriverController@canceledTrip');
+        Route::get('/upcoming-trip', 'API\DriverController@upcomingTrip');
+        Route::get('/vehicle-details', 'API\DriverController@vehicleDetails');
+        Route::post('/vehicle/{vehicle_id}/update', 'API\DriverController@updateVehicleDetails');
+        Route::post('/driver-Comments', 'API\DriverController@driverComments');
+        Route::post('/abn', 'API\DriverController@driverAbn');
+        Route::post('/bank', 'API\DriverController@driverBank');
+        Route::get('/bank', 'API\DriverController@getDriverBank');
+        Route::get('/documents', 'API\DriverController@getDocuments');
+        Route::post('/documents/{document_id}', 'API\DriverController@updateDocuments');
+        Route::post('/support', 'API\DriverController@putSupport');
     });
 });
