@@ -21,17 +21,13 @@ class DriverVehicle extends Model
     }
 
     public function getServicetypeAttribute()
-    {
-        if($this->servicetype_id){
-            $servicetypeIDs = explode(",", $this->servicetype_id);
-            $servicetype = [];
-            foreach($servicetypeIDs as $servicetypeID){
-                $vehicletype = VehicleType::find($servicetypeID);
-                array_push($servicetype, $vehicletype->name);
-            }
-            return implode(",", $servicetype);
-        }else{
-            return false;
+    {        
+        $servicetypeIDs = explode(",", $this->servicetype_id);
+        $servicetype = [];
+        foreach($servicetypeIDs as $servicetypeID){
+            $vehicletype = VehicleType::find($servicetypeID);
+            array_push($servicetype, $vehicletype->name);
         }
+        return implode(",", $servicetype);
     }
 }
