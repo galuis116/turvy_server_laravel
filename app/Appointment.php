@@ -152,5 +152,8 @@ class Appointment extends Model
 
         return $ridesFormat;
     }  
+    
+    
+    
   
 }
