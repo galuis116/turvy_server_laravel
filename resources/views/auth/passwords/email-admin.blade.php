@@ -11,10 +11,10 @@
                     <h2 class="main-color">Forgot Password</h2>
                 </div>
                 <div class="abd-tab-content">
-                    <form id="frm_riger_login" method="post" action="{{ route('rider.password.email') }}">
-                        @if (session('status'))
+                    <form id="frm_riger_login" method="post" action="{{ url('admin/password/email') }}">
+                        @if (Session::has('status'))
                             <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+                                {{ Session('status') }}
                             </div>
                         @endif
                         @csrf
@@ -29,7 +29,7 @@
                         <div class="abd-single-inpt signin-signup">
                             <button type="submit">Send Password Reset Link</button>
                         </div>
-                        <p><a href="{{route('rider.login')}}">Back to sign in<i class="fas fa-angle-double-right"></i></a></p>
+                        <p><a href="{{url('admin/login')}}">Back to sign in<i class="fas fa-angle-double-right"></i></a></p>
                     </form>
                 </div>
             </div>
