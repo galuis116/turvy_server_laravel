@@ -24,6 +24,8 @@ Route::get('/makes', 'API\CommonController@makes');
 Route::get('/models/{make_id}', 'API\CommonController@models');
 Route::get('/servicetypes', 'API\CommonController@servicetypes');
 Route::get('/farecard/{state_id}/{vehicletype_id}', 'API\CommonController@farecard');
+Route::get('/farecardall/{state_id}', 'API\CommonController@farecardall');
+
 Route::get('/tips', 'API\CommonController@tips');
 
 // Development version
@@ -41,7 +43,9 @@ Route::group(['prefix' => 'rider'], function(){
     Route::post('/login/phone', 'API\AuthController@riderPostPhone');
     Route::post('/login/otp', 'API\AuthController@riderVerifyOTP');
     Route::post('/login', 'API\AuthController@riderLogin');
-
+	Route::post('/gettoken', 'API\AuthController@gettoken');
+	Route::post('/uploadimage','API\RiderController@uploadimage'); 
+	
     Route::group(['middleware' => 'auth:api'], function(){
         // Profile
         Route::get('/profile', 'API\RiderController@getProfileInfo');
@@ -56,9 +60,21 @@ Route::group(['prefix' => 'rider'], function(){
         Route::get('/book/cancel/{book_id}', 'API\RiderController@cancelRide');
         Route::post('/book/feedback/{book_id}', 'API\RiderController@feedbackRide');
         Route::post('/book/payment/{book_id}', 'API\RiderController@requestPayment');
-        Route::get('/myrides/{type}', 'API\RiderController@myrides');
+        Route::get('/myrides/{type}/{page}', 'API\RiderController@myrides');
 
         Route::get('/promocodes', 'API\CommonController@promocodes');
+        
+        Route::get('/requestbookstatus/{book_id}', 'API\RiderController@requestBookStatus');
+        //added by preety
+        Route::get('/mypayments/{page_id}', 'API\RiderController@mypayments');
+        Route::post('/Comments', 'API\RiderController@comments');
+        Route::post('/assigndriver/{driver_id}', 'API\RiderController@assigndriver');
+        Route::post('/driverrequestPayment/{book_id}', 'API\RiderController@driverrequestPayment');
+        Route::post('/getdeclinedriverreq/{book_id}', 'API\RiderController@getDeclinedriverReq');
+        Route::get('/riderrewardpoints', 'API\RiderController@riderRewardpoints');
+        Route::post('/deductrewards', 'API\RiderController@deductRewardpoints');
+        Route::post('/supportSave', 'API\RiderController@supportSave');
+        
     });
 });
 
