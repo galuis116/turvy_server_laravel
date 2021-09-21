@@ -15,3 +15,5 @@ class City extends Model
         return $this->hasOne(State::class, 'id', 'state_id');
     }
 }
+
+
