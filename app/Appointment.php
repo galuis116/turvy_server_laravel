@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Appointment extends Model
 {
@@ -76,4 +77,81 @@ class Appointment extends Model
         else
             return 0;
     }
+    
+    public function getRides($type, $rider_id,$page=1) {
+  	   $items_per_page = 10; 
+  		$offset = ($page - 1) * $items_per_page;
+  		if($type == 1){
+  			$rides = DB::table('appointments')
+	                    ->select('appointments.*', 
+	                    'payment_requests.total', 
+	                    'drivers.first_name', 
+	                    'drivers.last_name', 
+	                    'rider_ratings.rating',
+	                    'appointments.booking_date',
+	                    'appointments.booking_time',
+	                    'drivers.avatar',
+	                    )
+	            ->where('appointments.rider_id', $rider_id)->where('appointments.is_current', 0)
+	            ->leftJoin('payment_requests', 'payment_requests.appointment_id', '=', 'appointments.id')
+	            ->leftJoin('rider_ratings', 'rider_ratings.book_id', '=', 'appointments.id')
+	            ->leftJoin('drivers', 'drivers.id', '=', 'appointments.driver_id')
+	            ->groupBy('appointments.id')
+	            ->offset($offset)
+	        	   ->limit($items_per_page)
+	            ->get(); 
+	            
+  		}else{
+			$rides = DB::table('appointments')
+	                    ->select('appointments.*', 
+	                    'payment_requests.total', 
+	                    'drivers.first_name', 
+	                    'drivers.last_name', 
+	                    'rider_ratings.rating',
+	                    'appointments.booking_date',
+	                    'appointments.booking_time',
+	                     'drivers.avatar',
+	                    )
+	            ->where('appointments.rider_id', $rider_id)->where('appointments.status', $type)
+	            ->leftJoin('payment_requests', 'payment_requests.appointment_id', '=', 'appointments.id')
+	            ->leftJoin('rider_ratings', 'rider_ratings.book_id', '=', 'appointments.id')
+	            ->leftJoin('drivers', 'drivers.id', '=', 'appointments.driver_id')
+	            ->groupBy('appointments.id')
+	             ->offset($offset)
+	        	   ->limit($items_per_page)
+	            ->get(); 
+	      }
+
+       $ridesFormat = array();
+        foreach($rides as $k => $ride){
+
+            if ($ride->booking_date == date("Y-m-d")) {
+                
+               $ridesFormat[$k]['booking_date'] = 'Today, '; 
+              
+           } else {
+              
+                $ridesFormat[$k]['booking_date'] = date('d/m/Y', strtotime($ride->booking_date));
+
+           }
+          
+            $ridesFormat[$k]['booking_time'] = date('h:i A',strtotime($ride->booking_time));
+            $ridesFormat[$k]['end_time'] = date('h:i A',strtotime($ride->end_time));
+            $ridesFormat[$k]['start_time'] = date('h:i A',strtotime($ride->start_time));
+
+            $ridesFormat[$k]['total'] = $ride->total;
+            $ridesFormat[$k]['first_name'] = $ride->first_name;
+            $ridesFormat[$k]['last_name'] = $ride->last_name;
+            $ridesFormat[$k]['rating'] =  $ride->rating;
+            $ridesFormat[$k]['origin'] = $ride->origin;
+            $ridesFormat[$k]['destination'] = $ride->destination;
+            $ridesFormat[$k]['arrival_time'] = date('h:i A',strtotime($ride->arrival_time));
+            $ridesFormat[$k]['avatar'] = $ride->avatar;
+
+        }
+
+        return $ridesFormat;
+    }  
+   
+  
 }

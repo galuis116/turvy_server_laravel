@@ -102,7 +102,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('login');
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('logout');
-    Route::get('/password/reset', 'Auth\AdminForgotPaswordController@showLinkRequestForm')->name('password.request');
+     Route::get('/password/reset', 'Auth\AdminForgotPaswordController@showLinkRequestForm')->name('password.request');
+    Route::post('/password/email', 'Auth\AdminForgotPaswordController@sendresetEmail')->name('admin.passemail');
+    Route::get('password/reset/{token}', 'Auth\AdminForgotPaswordController@showResetForm')->name('password.reset.admin');
+    Route::post('password/reset/{token}', 'Auth\AdminForgotPaswordController@showResetForm')->name('password.reset.admin');
 
     Route::resource('roles', 'Admin\RoleController')->middleware(['auth:admin']);
 

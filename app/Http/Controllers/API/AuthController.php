@@ -133,9 +133,11 @@ class AuthController extends Controller
         $rider = User::where('mobile', $request->phone)->get();
         if($rider->count() == 0){
             return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
+        }else{
+           return response()->json(['status' => 1, 'message' => 'Registered']);
         }
 
-        $token = config("services.twilio.authtoken");
+       /* $token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
 
@@ -149,10 +151,40 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
+        */
     }
 
     public function riderVerifyOTP(Request $request){
         $validator = Validator::make($request->all(), [
+            'phone' => ['required', 'string'],
+        ]);
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+      
+        try{
+                $rider = User::where('mobile', $request->phone)->first();
+
+                Auth::guard('rider')->login($rider);
+                $tokenResult = $rider->createToken('turvy');
+                $token = $tokenResult->token;
+
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+
+                $token->save();
+                return response()->json([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+        /*$validator = Validator::make($request->all(), [
             'otp' => ['required', 'numeric'],
             'phone' => ['required', 'string'],
         ]);
@@ -161,7 +193,7 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
         /* Get credentials from .env */
-        $token = config("services.twilio.authtoken");
+        /*$token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
         try {
@@ -192,10 +224,10 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
+        */
     }
-
-
-    public function verifyOTP(Request $request){
+  
+  public function verifyOTP(Request $request){
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'numeric'],
             'phone' => ['required', 'string'],
@@ -206,6 +238,35 @@ class AuthController extends Controller
         }
         /* Get credentials from .env */
         $token = config("services.twilio.authtoken");
+        $twilio_sid = config("services.twilio.sid");
+        $twilio_verify_sid = config("services.twilio.verifysid");
+        try {
+            $twilio = new Client($twilio_sid, $token);
+            $verification = $twilio->verify->v2->services($twilio_verify_sid)
+                ->verificationChecks
+                ->create($request->otp, array('to' => $request->phone));
+
+            if ($verification->valid) {
+                return response()->json(['status' => 1, 'message' => 'Phone number verified.']);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+    }
+  
+
+/*
+    public function verifyOTP(Request $request){
+        $validator = Validator::make($request->all(), [
+            'otp' => ['required', 'numeric'],
+            'phone' => ['required', 'string'],
+        ]);
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+        /* Get credentials from .env */
+      /*  $token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
         try {
@@ -239,6 +300,7 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
     }
+  */
 
     public function riderRegister(Request $request){
         //Validates data
@@ -297,9 +359,11 @@ class AuthController extends Controller
         $driver = Driver::where('mobile', $request->phone)->get();
         if($driver->count() == 0){
             return response()->json(['status' => 0, 'message' => "Wrong phone number or not registered yet."]);
+        }else{
+            return response()->json(['status' => 1, 'message' => "registered"]);
         }
 
-        $token = config("services.twilio.authtoken");
+        /*$token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
 
@@ -313,6 +377,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
+        */
     }
 
     public function verifyPhoneDriver(Request $request) {
@@ -385,4 +450,91 @@ class AuthController extends Controller
 
         return response()->json(['status' => 1, 'message' => 'Driver created.']);
     }
+  
+  	//new fun 4-8-21
+  	//get access token if phone is register.
+  	public function loginOTP(Request $request){
+       $validator = Validator::make($request->all(), [
+            'phone' => ['required', 'string'],
+        ]);
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+        }
+    
+    	$driver = Driver::where('mobile', $request->phone)->get();
+        if($driver->count() == 0){
+            return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
+        }
+         
+        try{
+          
+           $driver = Driver::where('mobile', $request->phone)->first();
+
+                Auth::guard('driver')->login($driver);
+                $tokenResult = $driver->createToken('turvy');
+                $token = $tokenResult->token;
+
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+
+                $token->save();
+                return response()->json([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+        }catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+
+        /* Get credentials from .env */
+        /*$token = config("services.twilio.authtoken");
+        $twilio_sid = config("services.twilio.sid");
+        $twilio_verify_sid = config("services.twilio.verifysid");
+        try {
+            $twilio = new Client($twilio_sid, $token);
+            $verification = $twilio->verify->v2->services($twilio_verify_sid)
+                ->verificationChecks
+                ->create($request->otp, array('to' => $request->phone));
+
+            if ($verification->valid) {
+               $driver = Driver::where('mobile', $request->phone)->first();
+
+                Auth::guard('driver')->login($driver);
+                $tokenResult = $driver->createToken('turvy');
+                $token = $tokenResult->token;
+
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
+
+                $token->save();
+                return response()->json([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ]);
+               // return response()->json(['status' => 1, 'message' => 'Phone number verified.']);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+        */
+    }//end of fun
+  
+   	public function gettoken(Request $request){
+     
+     $rider = User::where('mobile', $request->phone)->first();
+
+                Auth::guard('rider')->login($rider);
+                $tokenResult = $rider->createToken('turvy');
+                $token = $tokenResult->accessToken;
+       return response()->json(['status' => 1, 'message' => $token]);
+
+   }
+  	
 }

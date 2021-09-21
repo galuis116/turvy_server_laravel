@@ -127,6 +127,15 @@ class CommonController extends Controller
         ]);
     }
 
+     public function farecardall($state_id){
+        $farecards = Fare::where('state_id', $state_id)->get();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $farecards
+        ]);
+    }
+  
     public function tips(){
         $is_tips = Setting::where('key', 'is_tips')->first();
         $amount = Setting::where('key', 'tip_amount')->first();
