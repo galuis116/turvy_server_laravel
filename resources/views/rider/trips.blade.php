@@ -1,5 +1,6 @@
 @extends('rider.layouts.app')
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 @section('style')
 
     <style>
@@ -20,7 +21,65 @@
 
             .sidenav a {font-size: 18px;}
 
+
+
         }
+
+        .nav-tabs {
+         background: #fff;
+         color: #000; 
+        }
+
+
+
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border-bottom: 3px solid #000!important;
+    border-bottom-color: #135aa8!important;
+}
+.nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
+    background-color: transparent!important;
+    color: #000!important;
+    font-weight: 500;
+}
+.nav-tabs>li>a {
+    color: #000;
+    border: 0;
+    margin: 0;
+}
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+.left_tab li a {
+    padding: 18px 20px!important;
+    color: #333;
+}
+.tab-content a {
+    color: #222;
+    font-style: normal;
+}
+a, a:hover, a:focus {
+    color: #009688;
+}
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+a {
+    background-color: transparent;
+}
+
 
     </style>
 
@@ -30,198 +89,226 @@
 
 @section('content')
 
-    <div class="car_type_full_dlts">
 
-        <div class="">
+ <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#UPCOMMING">UPCOMMING</a></li>
+    <li><a data-toggle="tab" href="#COMPLETED">COMPLETED</a></li>
+    <li><a data-toggle="tab" href="#CANCELLED">CANCELLED</a></li>
+  </ul>
 
-            @forelse($rides as $ride)
+  <div class="tab-content" >
+    <div id="UPCOMMING" class="tab-pane fade in active">
+      <h3>UPCOMMING</h3>
+      <p>
 
-                <a class="bnr_a" href="#">
 
 
+    <div class="panel-group" id="accordionUP">
 
-                    <div class="car_type_dtls">
+     @foreach($upcommingRides as $key => $ride)
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
 
+        <a data-toggle="collapse" data-parent="#accordionUP" href="#collapse{{$key}}">
+        <table  > <tr> 
+            <td style="text-align: left;" class="col-md-5">{{$ride['booking_date']}} , {{$ride['booking_time']}} <br /> <br />
 
-                        <div class="car_type_img">
+<span style="text-align: left; font-weight: bold;"> A{{$ride['total']}}</span>
+</td> <td  class="col-md-6">{{trim($ride['origin'])}} <br /><br />
+<span style="text-align: left; font-weight: bold; ">{{trim($ride['paymenthod'])}}</span>
+</td></tr>
 
-                            <img src="{{asset($ride->servicetype->image)}}" width="40px" height="40px" alt="">
+        </table>
 
-                        </div>
 
-                        <div class="car_nm_desc1">
+</a>
+      
+</div>
+     
 
-                            <h3 class="ride_date_time">{{$ride->booking_date}} , {{$ride->booking_time}}</h3>
 
-                            <p class="crn_number">{{$ride->servicetype->name}} CRN {{$ride->id}} </p>
+      <div id="collapse{{$key}}" class="panel-collapse collapse">
+        <div class="panel-body" style="text-align: left; font-weight: bold;">Your {{trim($ride['servicename'])}} Trip </div>
+        <div  style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-circle" aria-hidden="true" style="color:135aa8;"></i>
+             {{trim($ride['origin'])}}</div>
 
-                            <p class="pick_drop_location">
+             <div style="margin-left: 40px; padding: 10px;">{{trim($ride['start_time'])}}</div> 
+        
 
-                                <img src="http://www.thepointless.com/images/greendot.jpg" style="margin:0px 4px 0px 0px" alt="" width="10px" height="10px">
 
-                                {{$ride->origin}}
+        <div style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-square" aria-hidden="true" style="color:135aa8;"></i> 
+            {{trim($ride['destination'])}}  </div>
 
-                            </p>
+        <div style="margin-left: 40px; padding: 10px;"> {{trim($ride['end_time'])}}  </div>
+       
 
+      </div>
 
 
-                            <p class="pick_drop_location">
-
-                                <img src="http://www.thepointless.com/images/reddot.jpg" style="margin:0px 4px 0px 0px" width="10px" height="10px" alt="">
-
-                                {{$ride->destination}}
-
-                            </p>
-
-
-
-                        </div>
-
-
-
-                        <div class="car_type_rgt1">
-
-                            <?php
-
-                            switch ($ride->status){
-
-                                case "0":
-
-                                    echo nl2br("<font color='green'>New_Booking</font>");
-
-                                    break;
-
-                                case "1":
-
-                                    echo nl2br("<font color='red'>Cancelled_By_User</font>");
-
-                                    break;
-
-                                case "2":
-
-                                    echo nl2br("<font color='green'>Accepted_by_Driver</font>  \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "3":
-
-                                    echo nl2br("<font color='red'>Cancelled_by_driver</font> \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "4":
-
-                                    echo nl2br("<font color='green'>Driver_Arrived</font> \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "5":
-
-                                    echo nl2br("<font color='green'>Trip_Started</font> \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "6":
-
-                                    echo nl2br("<font color='green'>Trip_Book_By_Admin<font>  \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "7":
-
-                                    echo nl2br("<font color='red'>Cancelled_by_driver</font> \n ".$ride->updated_at);
-
-                                    break;
-
-                                case "8":
-
-                                    echo nl2br("<font color='red'>Trip_Cancel_By_Admin</font> \n ".$ride->updated_at);
-
-                                    break;
-
-                                default:
-
-                                    echo "----";
-
-                            }
-
-                            ?>
-
-
-
-                            <div class="clear"></div>
-
-
-
-                            @if($ride->driver_id != 0)
-
-
-
-                                @if($ride->driver->picture != "")
-
-                                    <img class="drvr_img" src="{{asset($ride->driver->picture)}}" width="40" height="40"/>
-
-                                @else
-
-                                    <img class="drvr_img" src="http://soul-fi.ipn.pt/wp-content/uploads/2014/09/user-icon-silhouette-ae9ddcaf4a156a47931d5719ecee17b9.png" width="40" height="40"/>
-
-                                @endif
-
-
-
-                            @else
-
-
-
-                                <p style="color: red; font-size: 9px;">Driver Not Assign</p>
-
-
-
-                            @endif
-
-                        </div>
-
-
-
-                        <div class="clear"></div>
-
-
-
-                    </div>
-
-                </a>
-
-            @empty
-
-                <div class="list-group-item">
-
-                    <hr>
-
-                    <center>
-
-                        <i style="padding:0px 0px 0px 0px;">
-
-                            <font color="#6495ed" size="3">
-
-                                <a href="{{route('rider.booking')}}">No rides til now , Please Do a Ride now..</a>
-
-                            </font>
-
-                        </i>
-
-                    </center>
-
-                    <hr>
-
-                </div>
-
-            @endforelse
-
-
-
-        </div>
 
     </div>
+
+
+ @endforeach
+
+
+
+
+   
+  
+</div>
+
+
+
+
+</p>
+
+
+
+
+
+
+    </div>
+
+
+    <!--  DIV END UPCOMMING -->
+    <!--  DIV END UPCOMMING -->
+    <!--  DIV END UPCOMMING -->
+
+
+
+    <div id="COMPLETED" class="tab-pane fade">
+      <h3>COMPLETED</h3>
+      <p>
+          
+
+<div class="panel-group" id="accordionCOMP">
+   
+@foreach($completedRides as $key => $ride)
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordionCOMP" href="#collapsetCOMP{{$key}}"><table  > <tr> 
+            <td style="text-align: left;" class="col-md-5">{{$ride['booking_date']}} , {{$ride['booking_time']}} <br /> <br />
+
+<span style="text-align: left; font-weight: bold;"> A{{$ride['total']}}</span>
+</td> <td  class="col-md-6">{{trim($ride['origin'])}} <br /><br />
+<span style="text-align: left; font-weight: bold; ">{{trim($ride['paymenthod'])}}</span>
+</td></tr>
+
+        </table></a>
+        </h4>
+      </div>
+
+
+      <div id="collapsetCOMP{{$key}}" class="panel-collapse collapse">
+             <div class="panel-body" style="text-align: left; font-weight: bold;">Your {{trim($ride['servicename'])}} Trip </div>
+        <div  style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-circle" aria-hidden="true" style="color:135aa8;"></i>
+             {{trim($ride['origin'])}}</div>
+
+             <div style="margin-left: 40px; padding: 10px;">{{trim($ride['start_time'])}}</div> 
+        
+
+
+        <div style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-square" aria-hidden="true" style="color:135aa8;"></i> 
+            {{trim($ride['destination'])}}  </div>
+
+        <div style="margin-left: 40px; padding: 10px;"> {{trim($ride['end_time'])}}  </div>
+       
+
+      </div>
+
+
+
+    </div>
+
+
+ @endforeach
+
+
+  
+</div>
+
+
+
+
+      </p>
+    </div>
+
+    <!--  DIV END COMPLETED -->
+    <!--  DIV END COMPLETED -->
+    <!--  DIV END COMPLETED -->
+
+    <div id="CANCELLED" class="tab-pane fade">
+      <h3>CANCELLED</h3>
+      <p>
+
+
+<div class="panel-group" id="accordionCAN">
+
+    @foreach($completedRides as $key => $ride)
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordionCAN" href="#collapseCAN{{$key}}"><table  > <tr> 
+            <td style="text-align: left;" class="col-md-5">{{$ride['booking_date']}} , {{$ride['booking_time']}} <br /> <br />
+
+<span style="text-align: left; font-weight: bold;"> A{{$ride['total']}}</span>
+</td> <td  class="col-md-6">{{trim($ride['origin'])}} <br /><br />
+<span style="text-align: left; font-weight: bold; ">{{trim($ride['paymenthod'])}}</span>
+</td></tr>
+
+        </table></a>
+
+        </h4>
+      </div>
+      <div id="collapseCAN{{$key}}" class="panel-collapse collapse">
+             <div class="panel-body" style="text-align: left; font-weight: bold;">Your {{trim($ride['servicename'])}} Trip </div>
+        <div  style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-circle" aria-hidden="true" style="color:135aa8;"></i>
+             {{trim($ride['origin'])}}</div>
+
+             <div style="margin-left: 40px; padding: 10px;">{{trim($ride['start_time'])}}</div> 
+        
+
+
+        <div style="margin-left: 30px; padding: 5px;">
+            <i class="fa fa-square" aria-hidden="true" style="color:135aa8;"></i> 
+            {{trim($ride['destination'])}}  </div>
+
+        <div style="margin-left: 40px; padding: 10px;"> {{trim($ride['end_time'])}}  </div>
+       
+
+      </div>
+
+
+
+    </div>
+
+
+ @endforeach
+</div>
+
+      </p>
+    </div>
+ 
+
+    <!--  DIV END CANCELLED -->
+    <!--  DIV END CANCELLED -->
+    <!--  DIV END CANCELLED -->
+
+
+  </div>
+
+
+
+
 
 @endsection

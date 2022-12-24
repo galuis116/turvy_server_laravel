@@ -59,8 +59,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phonecode' => ['required', 'string', 'max:10'],
-            'user_phone' => ['required', 'string', 'max:14', 'regex:/^([1-9][0-9]+)$/'],
+            'phonecode' => ['required', 'string', 'max:8'],
+            'user_phone' => ['required', 'string', 'max:10', 'regex:/^([1-9][0-9]+)$/'],
             'partnerID' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
@@ -75,19 +75,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $mobile = $data['phonecode'].$data['user_phone'];
-        return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-        	'gender' => 1,
-            'email' => $data['email'],
-            'verification_code' => $data['verification_code'],
-            'ip_address' => $data['ip_address'],
-            'mobile' => $mobile,
-            'mobile_verified_at' => date('Y-m-d H:i:s'),
-            'partner_id' => $data['partnerID'],
-            'password' => Hash::make($data['password']),
-        ]);
+        
+        $validator = $this->validator($data);
+
+        if($validator->fails() )
+        {
+            return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
+
+        } else {
+
+
+            $mobile = $data['phonecode'].$data['user_phone'];
+            return User::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+            	'gender' => 1,
+                'email' => $data['email'],
+                'verification_code' => $data['verification_code'],
+                'ip_address' => $data['ip_address'],
+                'mobile' => $mobile,
+                'mobile_verified_at' => date('Y-m-d H:i:s'),
+                'partner_id' => $data['partnerID'],
+                'password' => Hash::make($data['password']),
+            ]);
+
+        }
+
+
     }
 
     public function showRegistrationForm()
@@ -107,11 +121,12 @@ class RegisterController extends Controller
     {
         //Validates data
         $validator = $this->validator($request->all());
-        
+        /*
         $hask_key=Cache::get('sec_key');
         if(!$hask_key || !Hash::check('world', $hask_key)){
             return response()->json(['status' => 0, 'message' => 'You are hacker!']);
         }
+        */
 
         if($validator->fails())
         {

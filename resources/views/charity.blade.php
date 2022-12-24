@@ -8,23 +8,15 @@
 
 @section('content')
 
-    <section class="abd-inner-page-head">
+    <section class="inner-page-head-bg">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="abd-breadcrumb">
-                        <ul>
-                            <li><a href="{{route('index')}}">Home</a><i class="fas fa-chevron-right"></i></li>
-                            <li>Our Charity</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <div class="title-head"><h1>Our Charity</h1></div>
         </div>
     </section>
+    
 
     <!-- our charity -->
-    <section class="abd-about-wrapper white-bg abd-bg abd-pt abd-pb">
+    <section class="abd-about-wrapper white-bg abd-bg abd-pt abd-pb custom-pages">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">

@@ -6,6 +6,7 @@
     $title = isset($content->about_title) ? $content->about_title : '';
     $desc = isset($content->about_description) ? $content->about_description : '';
     $image = isset($content->about_image) ? $content->about_image : 'images/no-image.png';
+    $about_cdnimage = isset($content->about_cdnimage) ? $content->about_cdnimage : '';
 @endphp
 
 
@@ -54,6 +55,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">OR</label>
+                                    </div>
+                                 </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">CDN image url</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" id="about_cdnimage" name="about_cdnimage" class="form-control" placeholder="CDN Image url" value="{{$about_cdnimage}}"/>
                                             </div>
                                         </div>
                                     </div>

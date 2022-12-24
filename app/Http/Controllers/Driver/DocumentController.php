@@ -44,23 +44,25 @@ class DocumentController extends Controller
         $documentstates = DocumentState::where('state_id', $driver->state_id)->first();
         $documentIds = explode(',', $documentstates->document_ids);
         foreach($documentIds as $documentId){
-            if(DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->count() > 0){
-                $driverdocument = DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->first();
-            }else{
-                $driverdocument = new DriverDocument();
-            }
-            if($request->hasFile('document'.$documentId)) {
-                $file = $request->file('document'.$documentId);
-                $driverdocument->document_url = upload_file($file, 'document');;
-            }
-            if($request->has('date'.$documentId)){
-                $time = strtotime($request->get('date'.$documentId));
-                $newformat = date('Y-m-d',$time);
-                $driverdocument->expiredate = $newformat;
-            }
-            $driverdocument->driver_id = $driver->id;
-            $driverdocument->document_id = $documentId;
-            $driverdocument->save();
+        		if(Document::where('id', $documentId)->count() > 0){
+	            if(DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->count() > 0){
+	                $driverdocument = DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->first();
+	            }else{
+	                $driverdocument = new DriverDocument();
+	            }
+	            if($request->hasFile('document'.$documentId)) {
+	                $file = $request->file('document'.$documentId);
+	                $driverdocument->document_url = upload_file($file, 'document');;
+	            }
+	            if($request->has('date'.$documentId)){
+	                $time = strtotime($request->get('date'.$documentId));
+	                $newformat = date('Y-m-d',$time);
+	                $driverdocument->expiredate = $newformat;
+	            }
+	            $driverdocument->driver_id = $driver->id;
+	            $driverdocument->document_id = $documentId;
+	            $driverdocument->save();
+           }
         }
         return redirect()->back()->with('flash_success', 'It has done successfully');
     }

@@ -70,8 +70,8 @@ class ChargeController extends Controller
         $fare->nsw_ctp_charge = $request->nsw_ctp_charge;
         $fare->booking_charge = $request->booking_charge;
         $fare->cancel_charge = $request->cancel_charge;
-        $fare->free_ride_minute = $request->free_ride_minute;
-        $fare->price_per_ride_minute = $request->price_per_ride_minute;
+        $fare->minimum_fare = $request->minimum_fare;
+        $fare->after_minimum_fare = $request->after_minimum_fare;
         if($request->has('pet_charge'))
             $fare->pet_charge = $request->pet_charge;
         if($request->has('baby_seat_charge'))
@@ -111,8 +111,8 @@ class ChargeController extends Controller
         $fare->nsw_ctp_charge = $request->nsw_ctp_charge;
         $fare->booking_charge = $request->booking_charge;
         $fare->cancel_charge = $request->cancel_charge;
-        $fare->free_ride_minute = $request->free_ride_minute;
-        $fare->price_per_ride_minute = $request->price_per_ride_minute;
+        $fare->minimum_fare = $request->minimum_fare;
+        $fare->after_minimum_fare = $request->after_minimum_fare;
         if($request->has('pet_charge'))
             $fare->pet_charge = $request->pet_charge;
         if($request->has('baby_seat_charge'))

@@ -125,9 +125,11 @@
     <script>
         var mapInput = document.getElementById('coordinates');
         var map;
+        var mapPolygon;
+        var coordinate_changed = false;
         function initMap() {
             var initialLocation = new google.maps.LatLng(39,-101);
-            var coordinate_changed = false;
+            
             map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: -33.8688, lng: 151.2195},
                 zoom: 13,
@@ -150,7 +152,7 @@
                 editable: true,
                 draggable: true
             };
-            var mapPolygon = new google.maps.Polygon(path_obj);
+            mapPolygon = new google.maps.Polygon(path_obj);
             var path = mapPolygon.getPath();
             if (mapInput.value) {
                 var pre_path = mapInput.value.split('|');
@@ -189,11 +191,25 @@
             mapInput.value = path_array.join('|');
         }
         $("#update").on("click",function (event) {
+            coordinate_changed = true;
+            mapInput.value = "";
+            mapPolygon.setMap(null)
+            mapPolygon.setMap(map);
+            initMap();
+
+            
             var Lat = $("#Lat").val();
             var Lng = $("#Lng").val();
 
             var initialLocation = new google.maps.LatLng(Lat,Lng);
             map.setCenter(initialLocation);
+            map.setZoom(14)
+            new google.maps.Marker({
+                position: initialLocation,
+                map,
+            });
+
+           
             // var map = new google.maps.Map(document.getElementById('map'), {
             //     center: initialLocation,
             //     zoom: 13

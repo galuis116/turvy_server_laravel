@@ -188,6 +188,76 @@
                 </div>
                 </a>
             </div>
+            <!-- #END# Widgets -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Earnings Statistics</h1>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-pink hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">directions_run</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">RIDERS REWARD POINTS</div>
+                            <div class="number count-to" data-from="0" data-to="{{$ride_total}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-cyan hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">supervisor_account</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">DRIVERS</div>
+                        <div class="number count-to" data-from="0" data-to="{{$ongoing}}" data-speed="1000" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-light-green hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">business</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">GOVERNMENT LEVY/GST</div>
+                            <div class="number count-to" data-from="0" data-to="{{$cancelled}}" data-speed="1000" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                <a @can('completedride-list') href="{{route('admin.ride.completed.list', 'done')}}" @endcan>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-orange hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">monetization_on</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">TURVY</div>
+                            <div class="number count-to" data-from="0" data-to="{{$completed}}" data-speed="1000" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="row clearfix">
+                <a @can('activeride-list') href="{{route('admin.ride.active.list', 'new')}}" @endcan>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-pink hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">create_new_folder</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">CHARITY</div>
+                            <div class="number count-to" data-from="0" data-to="{{$newRides}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
         </div>
     </section>
 @endsection

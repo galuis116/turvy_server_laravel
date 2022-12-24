@@ -1,8 +1,18 @@
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* header */
 
 .abd-top-header {
 
     padding: 10px 0;
+    background-color: #011661;
 
 }
 
@@ -26,7 +36,7 @@
 
 .abd-logo a img {
 
-    max-width: 126px;
+    max-width: 80px;
 
 }
 
@@ -122,7 +132,7 @@
 
     line-height: 18px;
 
-    font-size: 18px;
+    font-size: 16px;
 
 }
 
@@ -914,7 +924,8 @@
 
   /* background-color: #226CA8; */
 
-  color: #000;
+  /*color: #000; */
+  color: #fff; 
 
 }
 
@@ -924,7 +935,8 @@
 
 .abd-top-footer h3 {
 
-  color: #000;
+  /* color: #000; */
+  color: #fff; 
 
 }
 
@@ -944,6 +956,13 @@ a.ftr-logo {
 
     bottom: -15px;
 
+}
+
+
+#footer-ul-nav a {
+  display: block;
+  padding: 8px;
+  font-weight: 700;
 }
 
 .useful-nav {
@@ -1052,7 +1071,7 @@ a.ftr-logo {
 
 .abd-btm-footer {
 
-    background-color: #3b3b3b;
+    background-color: #171717;
 
     color: #fff;
 
@@ -3792,4 +3811,87 @@ button.abd-btn {
 
     color: red;
 
+}
+
+/* donation part */
+.donation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+.donation img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.donation span.donation-name {
+    text-align: center;
+    font-size: 18px;
+}
+
+.donation .donation-partner-name  {
+    display: block;
+}
+
+.donation .donation-price span.donation-caption {
+    padding: 3px 10px;
+    text-align: center;
+    background: #226CA8;
+    color: white;
+}
+
+.donation .donation-price span.price {
+    padding: 3px 10px;
+    margin-left: -4px;
+    background: black;
+    color: white;
+}
+
+.header-sign-link{
+    border: 1px solid #fff;
+    margin: 0px 10px;
+    padding: 6px 10px !important;
+    border-radius: 5px;
+    color: #FFF;
+}
+.header-sign-link:hover{
+    background-color: #FFF;
+    color: #011661;
+}
+.navCenter{
+    justify-content: center;
+}
+
+.inner-page-head-bg{
+    background-image: url('../images/bg/Blue-Image.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 20px;
+}
+.title-head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+.title-head h1{
+    color: #FFF;
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+.custom-pages ul li{
+    display: list-item;
+}
+.custom-pages ul {
+    margin: 0 25px;
+    list-style: disc;
 }

@@ -484,7 +484,8 @@ table, .table {
 
 .img-logo {
 
-	width: 110px;
+	/*width: 110px;*/
+	width: 200px;
 
 }
 

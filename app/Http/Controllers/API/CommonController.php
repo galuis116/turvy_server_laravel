@@ -16,6 +16,9 @@ use App\User;
 use App\VehicleMake;
 use App\VehicleModel;
 use App\VehicleType;
+use App\Airport;
+use Twilio\Rest\Client;
+use Twilio\TwiML\VoiceResponse;
 
 class CommonController extends Controller
 {
@@ -116,6 +119,8 @@ class CommonController extends Controller
             'datetime' => date('Y-m-d H:i'),
             'data' => $servicetypes
         ]);
+        
+        
     }
 
     public function farecard($state_id, $vehicletype_id){
@@ -154,4 +159,118 @@ class CommonController extends Controller
             'message' => "The tips feature was disabled."
         ]);
     }
+    
+    
+    public function airport_polygon(){
+        //$Airports = Airport::first();
+        //$Airports = Airport::where('id', 6)->first();
+        $Airports = Airport::get();
+        //$amount = Setting::where('key', 'tip_amount')->first();
+       
+        $polygon_CoordArr =  array();
+        $polyArr = array();
+        if ($Airports) {
+            foreach($Airports as $index => $item){
+                if ($item->coordinates != '') {
+                    $coordinates_div = explode("|",$item->coordinates);
+                    if(count($coordinates_div) > 0){
+                        $polygon_Coord =  array();
+                        foreach($coordinates_div as $key=>$loc){
+                            if($loc != ''){
+                                $loc_div = explode(",",$loc);
+                                $polygon_Coord[$key]['latitude'] = $loc_div[0];
+                                $polygon_Coord[$key]['longitude'] = $loc_div[1];
+                                
+                            }
+                        }
+                        $polygon_CoordArr[$index]['coords'] = $polygon_Coord;
+                        $polygon_CoordArr[$index]['airport_name'] = $item->name;
+                        $polygon_CoordArr[$index]['airport_id'] = $item->id;
+                    }
+                 
+               }
+               
+            }
+            return response()->json([
+                'status' => 1,
+                'datetime' => date('Y-m-d H:i'),
+                'message' => 'Airports Data',
+                'data' => $polygon_CoordArr,
+                'Airports' => $Airports,
+            ]);
+            /* if ($Airports->coordinates != '') {
+                 $coordinates_div = explode("|",$Airports->coordinates);
+                 if(count($coordinates_div) > 0){
+						foreach($coordinates_div as $key=>$loc){
+							if($loc != ''){
+								$loc_div = explode(",",$loc);
+								$polygon_Coord[$key]['latitude'] = $loc_div[0];
+								$polygon_Coord[$key]['longitude'] = $loc_div[1];
+								//print"<pre>";
+			              // print_r($loc_div);
+			               //exit;	
+							}
+						}
+						
+						 return response()->json([
+			            'status' => 1,
+			            'datetime' => date('Y-m-d H:i'),
+			            'message' => $Airports->name,
+			             'data' => $polygon_Coord,
+                         'Airports' => $Airports,
+			        ]);
+        
+						                 
+                 }
+              
+            } */
+        }
+        return response()->json([
+            'status' => 0,
+            'datetime' => date('Y-m-d H:i'),
+            'message' => "Airport data not found."
+        ]);
+    }
+
+    public function twilioMakeCall(){
+
+        $token = config("services.twilio.authtoken");
+        $twilio_sid = config("services.twilio.sid");
+        
+
+        try {
+            $twilio = new Client($twilio_sid, $token);
+            $call = $twilio->calls
+               ->create("+919588421767", // to
+                        "+61253008384", // from                        
+                        [
+                            "twiml" => "<Response><Dial>+919766901626</Dial></Response>"
+                        ]
+                );
+               
+            return response()->json(['status' => 1, 'message' => 'SMS has be sent to your phone number.']);
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+
+    }//end of fun
+
+    public function twilioResponseCall(){
+        $response = new VoiceResponse();
+        $response->dial('+919588421767');
+        //$response->say('Goodbye');
+        echo $response;
+    }
+
+    public function pusherinfo(){
+        $apikey['APP_KEY'] = '389d667a3d4a50dc91a6';
+        $apikey['APP_CLUSTER'] = 'ap2';
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $apikey
+        ]);
+    }
+  
+    
 }

@@ -125,8 +125,11 @@ class CommonController extends Controller
                 $tmp['gst_charge'] = $fare->gst_charge;
                 $tmp['fuel_surge_charge'] = $fare->fuel_surge_charge;
                 $tmp['nsw_gtl_charge'] = $fare->nsw_gtl_charge;
+                $tmp['nsw_ctp_charge'] = $fare->nsw_ctp_charge;
                 $tmp['booking_charge'] = $fare->booking_charge;
                 $tmp['cancel_charge'] = $fare->cancel_charge;
+                $tmp['minimum_fare'] = $fare->minimum_fare;
+                $tmp['after_minimum_fare'] = $fare->after_minimum_fare;
                 $tmp['baby_seat_charge'] = $fare->baby_seat_charge;
                 $tmp['pet_charge'] = $fare->pet_charge;
             } else {
@@ -139,8 +142,11 @@ class CommonController extends Controller
                 $tmp['gst_charge'] = 0;
                 $tmp['fuel_surge_charge'] = 0;
                 $tmp['nsw_gtl_charge'] = 0;
+                $tmp['nsw_ctp_charge'] = 0;
                 $tmp['booking_charge'] = 0;
                 $tmp['cancel_charge'] = 0;
+                $tmp['minimum_fare'] = 0;
+                $tmp['after_minimum_fare'] = 0;
                 $tmp['baby_seat_charge'] = 0;
                 $tmp['pet_charge'] = 0;
             }
@@ -175,8 +181,8 @@ class CommonController extends Controller
         $base_distance_price = number_format(floatval($data->base_ride_distance_charge), 2);
         $base_distance = $data->base_distance;
         $base_price_per_unit = number_format(floatval($data->price_per_unit), 2);
-        $free_ride_minutes = number_format(floatval($data->free_ride_minutes), 2);
-        $price_per_ride_minute = number_format(floatval($data->price_per_ride_minute), 2);
+        $minimum_fare = number_format(floatval($data->minimum_fare), 2);
+        $after_minimum_fare = number_format(floatval($data->after_minimum_fare), 2);
         $free_waiting_time = $data->fee_waiting_time;
         $waiting_price_minute = number_format(floatval($data->waiting_price_per_minute), 2);
         $gst_charge = $data->gst_charge;
@@ -385,15 +391,23 @@ class CommonController extends Controller
 
         $result .= "<tr><td class='rt_cd_tb' colspan='2'>";
 
-        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Ride Time Charges : ";
+        $result .= "<img src='" . asset('images/ride_time.png') . "' width='20' height='20'/>  Ride Charges : ";
 
         $result .= "</td></tr>";
 
         $result .= "<tr>";
 
-        $result .= "<td width='50%'>Price Per Minute</td>";
+        $result .= "<td width='50%'>Minimum Fare</td>";
 
-        $result .= "<td width='50%'>" . $currency . " " . $price_per_ride_minute . " </td>";
+        $result .= "<td width='50%'>" . $currency . " " . $minimum_fare . " </td>";
+
+        $result .= "</tr>";
+
+        $result .= "<tr>";
+
+        $result .= "<td width='50%'>After Minimum Fare</td>";
+
+        $result .= "<td width='50%'>" . $currency . " " . $after_minimum_fare . " </td>";
 
         $result .= "</tr>";
 
@@ -590,22 +604,25 @@ class CommonController extends Controller
     public function checkOTP(Request $request)
     {
         $data = $request->validate([
-            'code' => ['required', 'numeric'],
             'phone_number' => ['required', 'string'],
         ]);
+        
+        $mobile_verified_at = $request->mobile_verified_at; 
         //return response()->json(['status' => 1, 'message' => '']);
         /* Get credentials from .env */
-        $token = config("services.twilio.authtoken");
+        /*$token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
         $twilio = new Client($twilio_sid, $token);
+        */
         try {
-            $verification = $twilio->verify->v2->services($twilio_verify_sid)
+            /* $verification = $twilio->verify->v2->services($twilio_verify_sid)
                 ->verificationChecks
                 ->create($data['code'], array('to' => $data['phone_number']));
-            if ($data['phone_number'] == "+61770101111" || $verification->status == 'approved') {
+                */
+            if (isset($mobile_verified_at) && trim($mobile_verified_at) != '') {
                 Cache::put('sec_key', Hash::make('world'));
-                return response()->json(['status' => 1, 'message' => $verification->status]);
+                return response()->json(['status' => 1, 'message' => $mobile_verified_at]);
             } else {
                 return response()->json(['status' => 0, 'message' => 'Please check phone code again']);
             }

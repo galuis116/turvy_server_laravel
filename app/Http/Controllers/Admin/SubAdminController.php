@@ -49,7 +49,7 @@ class SubAdminController extends Controller
         $admin->last_name = $request->last_name;
         $admin->email = $request->email;
         $admin->mobile = $request->mobile;
-        $admin->password = bcrypt('admin123');
+        $admin->password = bcrypt($request->password);
         if($request->hasFile('avatar'))
             $admin->avatar = upload_file($request->file('avatar'), 'user/admin');
         $admin->save();
@@ -74,7 +74,8 @@ class SubAdminController extends Controller
         $admin->last_name = $request->last_name;
         $admin->email = $request->email;
         $admin->mobile = $request->mobile;
-        $admin->password = bcrypt('admin123');
+        if($request->has('password') && $request->password != "")
+            $admin->password = bcrypt($request->password);
         if($request->hasFile('avatar'))
             $admin->avatar = upload_file($request->file('avatar'), 'user/admin');
         $admin->save();

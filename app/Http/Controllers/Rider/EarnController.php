@@ -13,9 +13,20 @@ class EarnController extends Controller
     {
         $this->middleware('auth:rider');
     }
-    public function index()
+
+    public function index($page_search)
     {
-        $payments = PaymentRequest::where('rider_id', Auth::guard('rider')->user()->id)->get();
-        return view('rider.payments')->with('payments', $payments);
+
+
+        $rider_id = Auth::guard('rider')->user()->id;
+        $rider_id = Auth::guard('rider')->user()->id;
+
+        $PaymentRequest = new PaymentRequest;
+        $riderPaymentHistory =   $PaymentRequest->getRiderPaymentHistory($rider_id, $page_search);
+
+
+        return view('rider.payments')->with('payments', $riderPaymentHistory)
+                                     ->with('page_search', $page_search);
+
     }
 }

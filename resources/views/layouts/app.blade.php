@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="{{asset('css/global.css')}}">
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{{asset('css/style.css')}}">
+        <link rel="stylesheet" href="{{asset('css/style.css?v=1.0')}}">
 
         <!-- responsive -->
         <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
@@ -62,6 +62,30 @@
             });
         </script>
 
+        <script type="text/javascript">
+            $(document).bind("contextmenu",function(e){
+                return false;
+            });
+            
+            document.onkeydown = function(e) {
+                if (e.ctrlKey && 
+                    (e.keyCode === 67 || 
+                    e.keyCode === 86 || 
+                    e.keyCode === 85 || 
+                    e.keyCode === 117)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+            $(document).keypress("u",function(e) {
+                if(e.ctrlKey){
+                    return false;
+                }else{
+                    return true;
+                }
+            });
+        </script>
     </body>
 </html>
 

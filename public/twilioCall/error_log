@@ -1,0 +1,162 @@
+[21-Jan-2022 11:05:26 UTC] PHP Warning:  require(/home/turvy/public_html/public/twilioCall/../vendor/autoload.php): failed to open stream: No such file or directory in /home/turvy/public_html/public/twilioCall/call.php on line 2
+[21-Jan-2022 11:05:26 UTC] PHP Warning:  require(/home/turvy/public_html/public/twilioCall/../vendor/autoload.php): failed to open stream: No such file or directory in /home/turvy/public_html/public/twilioCall/call.php on line 2
+[21-Jan-2022 11:05:26 UTC] PHP Fatal error:  require(): Failed opening required '/home/turvy/public_html/public/twilioCall/../vendor/autoload.php' (include_path='.:/opt/remi/php73/root/usr/share/pear:/opt/remi/php73/root/usr/share/php:/usr/share/pear:/usr/share/php') in /home/turvy/public_html/public/twilioCall/call.php on line 2
+[22-Jan-2022 06:24:04 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: 'Sid' is invalid. <SID is invalid> in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/PhoneNumberList.php(56): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_phn.php(18): Twilio\Rest\Proxy\V1\Service\PhoneNumberList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:24:32 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: 'Sid' is invalid. <SID is invalid> in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/PhoneNumberList.php(56): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_phn.php(18): Twilio\Rest\Proxy\V1\Service\PhoneNumberList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:30:11 UTC] PHP Notice:  Undefined variable: twilio in /home/turvy/public_html/public/twilioCall/create_session.php on line 17
+[22-Jan-2022 06:30:11 UTC] PHP Notice:  Trying to get property 'proxy' of non-object in /home/turvy/public_html/public/twilioCall/create_session.php on line 17
+[22-Jan-2022 06:30:11 UTC] PHP Notice:  Trying to get property 'v1' of non-object in /home/turvy/public_html/public/twilioCall/create_session.php on line 17
+[22-Jan-2022 06:30:11 UTC] PHP Fatal error:  Uncaught Error: Call to a member function services() on null in /home/turvy/public_html/public/twilioCall/create_session.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/turvy/public_html/public/twilioCall/create_session.php on line 17
+[22-Jan-2022 06:34:25 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: PhoneNumber has already been added to Service in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/PhoneNumberList.php(56): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_phn.php(18): Twilio\Rest\Proxy\V1\Service\PhoneNumberList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:34:29 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: PhoneNumber has already been added to Service in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/PhoneNumberList.php(56): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_phn.php(18): Twilio\Rest\Proxy\V1\Service\PhoneNumberList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:34:48 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: PhoneNumber has already been added to Service in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/PhoneNumberList.php(56): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_phn.php(18): Twilio\Rest\Proxy\V1\Service\PhoneNumberList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:40:27 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(21): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919766901626', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:40:44 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(21): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919766901626', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:43:03 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919588421767', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:43:26 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919588421767', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:52:56 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919588421767', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:53:29 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: Participant identifier +958842XXXX provided does not appear to be a valid, reachable identity. in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+9588421767', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:53:31 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: Participant identifier +958842XXXX provided does not appear to be a valid, reachable identity. in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+9588421767', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:54:02 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(18): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919766901626', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 06:56:59 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: This Service has no compatible Proxy numbers for this Participant. This Service has no available Proxy numbers for country code IN in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(21): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919766901626', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 07:36:37 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: Invalid Session Sid in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(21): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+919766901626', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 08:04:19 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: Invalid Session Sid in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantList.php(137): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_participate.php(21): Twilio\Rest\Proxy\V1\Service\Session\ParticipantList->create('+61417691066', Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 08:09:21 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: Invalid Service Sid in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception(Object(Twilio\Http\Response), 'Unable to creat...')
+#1 /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/Participant/MessageInteractionList.php(60): Twilio\Version->create('POST', '/Services/KSdd3...', Array, Array)
+#2 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(19): Twilio\Rest\Proxy\V1\Service\Session\Participant\MessageInteractionList->create(Object(Twilio\Values))
+#3 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[22-Jan-2022 10:01:33 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php on line 25
+[22-Jan-2022 10:01:56 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php on line 25
+[22-Jan-2022 10:02:13 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php on line 28
+[22-Jan-2022 10:02:15 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php on line 28
+[22-Jan-2022 10:23:14 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\TwilioException: Unknown subresource calls in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php:104
+Stack trace:
+#0 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(20): Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext->__get('calls')
+#1 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php on line 104
+[22-Jan-2022 10:23:32 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\TwilioException: Unknown subresource Interactions in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php:104
+Stack trace:
+#0 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(20): Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext->__get('Interactions')
+#1 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php on line 104
+[22-Jan-2022 10:23:46 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\TwilioException: Unknown subresource voiceInteractions in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php:104
+Stack trace:
+#0 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(20): Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext->__get('voiceInteractio...')
+#1 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php on line 104
+[22-Jan-2022 10:26:39 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\TwilioException: Unknown subresource callInteractions in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php:104
+Stack trace:
+#0 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(20): Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext->__get('callInteraction...')
+#1 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php on line 104
+[22-Jan-2022 10:46:50 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\TwilioException: Unknown subresource callInteractions in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php:104
+Stack trace:
+#0 /home/turvy/public_html/public/twilioCall/add_twilio_textmsg.php(20): Twilio\Rest\Proxy\V1\Service\Session\ParticipantContext->__get('callInteraction...')
+#1 {main}
+  thrown in /home/turvy/public_html/vendor/twilio/sdk/src/Twilio/Rest/Proxy/V1/Service/Session/ParticipantContext.php on line 104
+[25-Jan-2022 06:18:39 UTC] PHP Fatal error:  Uncaught Error: Call to a member function services() on null in /home/turvy/public_html/public/twilioCall/fetch_session.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/turvy/public_html/public/twilioCall/fetch_session.php on line 18

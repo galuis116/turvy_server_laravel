@@ -1,4 +1,4 @@
-@extends('driver.layouts.app')
+@extends('driver.layouts.app_fullwidth')
 
 
 
@@ -50,17 +50,17 @@
 
                     <tr>
 
-                        <td></td>
+                        <td>{{$payment['origin']}}</td>
 
-                        <td></td>
+                        <td>{{$payment['destination']}}</td>
 
-                        <td></td>
+                        <td>{{$payment['start_time']}}</td>
 
-                        <td></td>
+                        <td>{{$payment['end_time']}}</td>
 
-                        <td>{{ $payment->total_time * $payment->time_price }}</td>
+                        <td>{{$payment['amount']}}</td>
 
-                        <td>{{ date("Y-m-d" , strtotime($payment->updated_at)) }}</td>
+                        <td>{{$payment['paid_time']}}</td>
 
                     </tr>
 

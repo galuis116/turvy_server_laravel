@@ -64,6 +64,8 @@ class PartnerController extends Controller
         $partner->city_id = $request->city_id;
         if($request->hasFile('avatar'))
             $partner->avatar = upload_file($request->file('avatar'), 'user/partner');
+       if($request->has('cdnimage'))
+         $type->cdnimage = $request->cdnimage;
         $partner->save();
 
         return redirect()->back()->with('message', 'It has been saved successfully.');
@@ -116,6 +118,8 @@ class PartnerController extends Controller
         $partner->city_id = $request->city_id;
         if($request->hasFile('avatar'))
             $partner->avatar = upload_file($request->file('avatar'), 'user/partner');
+        if($request->has('cdnimage'))
+         $partner->cdnimage = $request->cdnimage;
         $partner->save();
 
         return redirect()->back()->with('message', 'It has been updated successfully.');

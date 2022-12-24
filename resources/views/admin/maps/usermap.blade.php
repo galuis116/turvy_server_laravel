@@ -169,13 +169,16 @@
 
         {
 
-            user_id: "{{ $user->user_id }}",
+            user_id: "{{ $user->rider_id }}",
 
-            name: "{{ $user->user->name }}",
+            name: "{{ $user->rider_name }}",
 
-            lat: {{ $user->lat }},
+            lat: {{ $user->origin_lat }},
 
-            lng: {{ $user->lng }},
+            lng: {{ $user->origin_lng }},
+            
+            source: "{{ $user->origin }}",
+            destination: "{{ $user->destination }}",
 
         },
 
@@ -204,8 +207,17 @@
 
             var url = "/admin/user/rider/" + element.user_id + "/show"
 
+				const contentString =
+				    '<div id="content">' +
+				    '<div id="siteNotice">' +
+				    "</div>" +
+				    '<h4 id="firstHeading" class="firstHeading">'+element.name+'</h4>' +
+				    '<div id="bodyContent"><p>From <b>' +element.source+
+				    "</b> </p><p>To <b> " +element.destination+
+				    "</b></p></div>" +
+				    "</div>";
 
-
+           
             marker = new google.maps.Marker({
 
                 position: {lat: element.lat, lng: element.lng},
@@ -213,20 +225,38 @@
                 map: map,
 
                 title: element.name,
-
+                 content:contentString
             });
+            
+              
+           
 
-
+            /*marker.addListener("click", () => {
+			    infowindow.open({
+			       anchor: marker,
+				    map,
+				   shouldFocus: true,
+			    });
+			   
+			  });
+				*/
+				  var infowindow = new google.maps.InfoWindow();
+				google.maps.event.addListener(marker, 'click', function(map,marker) {
+					//alert("here"+contentString);
+					    infowindow.setContent(this.content);
+					 infowindow.open(map, this);
+				});
 
             mapMarkers.push(marker);
 
 
 
-            google.maps.event.addListener(marker, 'click', function() {
+            /*google.maps.event.addListener(marker, 'click', function() {
 
                 window.location.href = url + element.user_id;
 
             });
+            */
 
 
 

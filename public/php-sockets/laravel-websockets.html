@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width"><title>http://45.132.158.85/public/laravel-websockets</title><link rel="stylesheet" type="text/css" href="resource://content-accessible/viewsource.css"></head><body id="viewsource" class="highlight" style="tab-size: 4"><pre id="line1"><span></span><span class="error" title="Start tag seen without seeing a doctype first. Expected “&lt;!DOCTYPE html&gt;”.">&lt;<span class="start-tag">html</span>&gt;</span><span>
+<span id="line2"></span></span><span>&lt;<span class="start-tag">head</span>&gt;</span><span>
+<span id="line3"></span>    </span><span>&lt;<span class="start-tag">meta</span> <span class="attribute-name">http-equiv</span>="<a class="attribute-value">Content-Type</a>" <span class="attribute-name">content</span>="<a class="attribute-value">text/html; charset=ISO-8859-1</a>"&gt;</span><span>
+<span id="line4"></span>    </span><span>&lt;<span class="start-tag">title</span>&gt;</span><span>WebSockets Dashboard</span><span>&lt;/<span class="end-tag">title</span>&gt;</span><span>
+<span id="line5"></span>    </span><span>&lt;<span class="start-tag">link</span> <span class="attribute-name">href</span>="<a class="attribute-value" href="view-source:https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css</a>" <span class="attribute-name">rel</span>="<a class="attribute-value">stylesheet</a>"
+<span id="line6"></span>          <span class="attribute-name">integrity</span>="<a class="attribute-value">sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO</a>" <span class="attribute-name">crossorigin</span>="<a class="attribute-value">anonymous</a>"&gt;</span><span>
+<span id="line7"></span>    </span><span>&lt;<span class="start-tag">script</span>
+<span id="line8"></span>            <span class="attribute-name">src</span>="<a class="attribute-value" href="view-source:https://code.jquery.com/jquery-3.3.1.min.js">https://code.jquery.com/jquery-3.3.1.min.js</a>"
+<span id="line9"></span>            <span class="attribute-name">integrity</span>="<a class="attribute-value">sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=</a>"
+<span id="line10"></span>            <span class="attribute-name">crossorigin</span>="<a class="attribute-value">anonymous</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">script</span>&gt;</span><span>
+<span id="line11"></span>    </span><span>&lt;<span class="start-tag">script</span> <span class="attribute-name">src</span>="<a class="attribute-value" href="view-source:https://js.pusher.com/4.3/pusher.min.js">https://js.pusher.com/4.3/pusher.min.js</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">script</span>&gt;</span><span>
+<span id="line12"></span>    </span><span>&lt;<span class="start-tag">script</span> <span class="attribute-name">src</span>="<a class="attribute-value" href="view-source:https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js">https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">script</span>&gt;</span><span>
+<span id="line13"></span>    </span><span>&lt;<span class="start-tag">script</span> <span class="attribute-name">src</span>="<a class="attribute-value" href="view-source:https://cdn.plot.ly/plotly-latest.min.js">https://cdn.plot.ly/plotly-latest.min.js</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">script</span>&gt;</span><span>
+<span id="line14"></span></span><span>&lt;/<span class="end-tag">head</span>&gt;</span><span>
+<span id="line15"></span>
+<span id="line16"></span></span><span>&lt;<span class="start-tag">body</span>&gt;</span><span>
+<span id="line17"></span></span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">container</a>" <span class="attribute-name">id</span>="<a class="attribute-value">app</a>"&gt;</span><span>
+<span id="line18"></span>    </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">card col-xs-12 mt-4</a>"&gt;</span><span>
+<span id="line19"></span>        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">card-header</a>"&gt;</span><span>
+<span id="line20"></span>            </span><span>&lt;<span class="start-tag">form</span> <span class="attribute-name">id</span>="<a class="attribute-value">connect</a>" <span class="attribute-name">class</span>="<a class="attribute-value">form-inline</a>" <span class="attribute-name">role</span>="<a class="attribute-value">form</a>"&gt;</span><span>
+<span id="line21"></span>                </span><span>&lt;<span class="start-tag">label</span> <span class="attribute-name">class</span>="<a class="attribute-value">my-1 mr-2</a>" <span class="attribute-name">for</span>="<a class="attribute-value">app</a>"&gt;</span><span>App:</span><span>&lt;/<span class="end-tag">label</span>&gt;</span><span>
+<span id="line22"></span>                </span><span>&lt;<span class="start-tag">select</span> <span class="attribute-name">class</span>="<a class="attribute-value">form-control form-control-sm mr-2</a>" <span class="attribute-name">name</span>="<a class="attribute-value">app</a>" <span class="attribute-name">id</span>="<a class="attribute-value">app</a>" <span class="attribute-name">v-model</span>="<a class="attribute-value">app</a>"&gt;</span><span>
+<span id="line23"></span>                    </span><span>&lt;<span class="start-tag">option</span> <span class="attribute-name">v-for</span>="<a class="attribute-value">app in apps</a>" <span class="attribute-name">:value</span>="<a class="attribute-value">app</a>"&gt;</span><span>{{ app.name }}</span><span>&lt;/<span class="end-tag">option</span>&gt;</span><span>
+<span id="line24"></span>                </span><span>&lt;/<span class="end-tag">select</span>&gt;</span><span>
+<span id="line25"></span>                </span><span>&lt;<span class="start-tag">label</span> <span class="attribute-name">class</span>="<a class="attribute-value">my-1 mr-2</a>" <span class="attribute-name">for</span>="<a class="attribute-value">app</a>"&gt;</span><span>Port:</span><span>&lt;/<span class="end-tag">label</span>&gt;</span><span>
+<span id="line26"></span>                </span><span>&lt;<span class="start-tag">input</span> <span class="attribute-name">class</span>="<a class="attribute-value">form-control form-control-sm mr-2</a>" <span class="attribute-name">v-model</span>="<a class="attribute-value">port</a>" <span class="attribute-name">placeholder</span>="<a class="attribute-value">Port</a>"&gt;</span><span>
+<span id="line27"></span>                </span><span>&lt;<span class="start-tag">button</span> <span class="attribute-name">v-if</span>="<a class="attribute-value">! connected</a>" <span class="attribute-name">type</span>="<a class="attribute-value">submit</a>" <span class="attribute-name">@click.prevent</span>="<a class="attribute-value">connect</a>" <span class="attribute-name">class</span>="<a class="attribute-value">mr-2 btn btn-sm btn-primary</a>"&gt;</span><span>
+<span id="line28"></span>                    Connect
+<span id="line29"></span>                </span><span>&lt;/<span class="end-tag">button</span>&gt;</span><span>
+<span id="line30"></span>                </span><span>&lt;<span class="start-tag">button</span> <span class="attribute-name">v-if</span>="<a class="attribute-value">connected</a>" <span class="attribute-name">type</span>="<a class="attribute-value">submit</a>" <span class="attribute-name">@click.prevent</span>="<a class="attribute-value">disconnect</a>" <span class="attribute-name">class</span>="<a class="attribute-value">btn btn-sm btn-danger</a>"&gt;</span><span>
+<span id="line31"></span>                    Disconnect
+<span id="line32"></span>                </span><span>&lt;/<span class="end-tag">button</span>&gt;</span><span>
+<span id="line33"></span>            </span><span>&lt;/<span class="end-tag">form</span>&gt;</span><span>
+<span id="line34"></span>            </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">id</span>="<a class="attribute-value">status</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line35"></span>        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line36"></span>        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">card-body</a>"&gt;</span><span>
+<span id="line37"></span>            </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">v-if</span>="<a class="attribute-value">connected <span><span>&amp;</span></span><span><span>&amp;</span></span> app.statisticsEnabled</a>"&gt;</span><span>
+<span id="line38"></span>                </span><span>&lt;<span class="start-tag">h4</span>&gt;</span><span>Realtime Statistics</span><span>&lt;/<span class="end-tag">h4</span>&gt;</span><span>
+<span id="line39"></span>                </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">id</span>="<a class="attribute-value">statisticsChart</a>" <span class="attribute-name">style</span>="<a class="attribute-value">width: 100%; height: 250px;</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line40"></span>            </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line41"></span>            </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">v-if</span>="<a class="attribute-value">connected</a>"&gt;</span><span>
+<span id="line42"></span>                </span><span>&lt;<span class="start-tag">h4</span>&gt;</span><span>Event Creator</span><span>&lt;/<span class="end-tag">h4</span>&gt;</span><span>
+<span id="line43"></span>                </span><span>&lt;<span class="start-tag">form</span>&gt;</span><span>
+<span id="line44"></span>                    </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">row</a>"&gt;</span><span>
+<span id="line45"></span>                        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">col</a>"&gt;</span><span>
+<span id="line46"></span>                            </span><span>&lt;<span class="start-tag">input</span> <span class="attribute-name">type</span>="<a class="attribute-value">text</a>" <span class="attribute-name">class</span>="<a class="attribute-value">form-control</a>" <span class="attribute-name">v-model</span>="<a class="attribute-value">form.channel</a>" <span class="attribute-name">placeholder</span>="<a class="attribute-value">Channel</a>"&gt;</span><span>
+<span id="line47"></span>                        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line48"></span>                        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">col</a>"&gt;</span><span>
+<span id="line49"></span>                            </span><span>&lt;<span class="start-tag">input</span> <span class="attribute-name">type</span>="<a class="attribute-value">text</a>" <span class="attribute-name">class</span>="<a class="attribute-value">form-control</a>" <span class="attribute-name">v-model</span>="<a class="attribute-value">form.event</a>" <span class="attribute-name">placeholder</span>="<a class="attribute-value">Event</a>"&gt;</span><span>
+<span id="line50"></span>                        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line51"></span>                    </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line52"></span>                    </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">row mt-3</a>"&gt;</span><span>
+<span id="line53"></span>                        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">col</a>"&gt;</span><span>
+<span id="line54"></span>                            </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">form-group</a>"&gt;</span><span>
+<span id="line55"></span>                                </span><span>&lt;<span class="start-tag">textarea</span> <span class="attribute-name">placeholder</span>="<a class="attribute-value">Data</a>" <span class="attribute-name">v-model</span>="<a class="attribute-value">form.data</a>" <span class="attribute-name">class</span>="<a class="attribute-value">form-control</a>" <span class="attribute-name">id</span>="<a class="attribute-value">data</a>"
+<span id="line56"></span>                                          <span class="attribute-name">rows</span>="<a class="attribute-value">3</a>"&gt;</span><span></span><span>&lt;/<span class="end-tag">textarea</span>&gt;</span><span>
+<span id="line57"></span>                            </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line58"></span>                        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line59"></span>                    </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line60"></span>                    </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">row text-right</a>"&gt;</span><span>
+<span id="line61"></span>                        </span><span>&lt;<span class="start-tag">div</span> <span class="attribute-name">class</span>="<a class="attribute-value">col</a>"&gt;</span><span>
+<span id="line62"></span>                            </span><span>&lt;<span class="start-tag">button</span> <span class="attribute-name">type</span>="<a class="attribute-value">submit</a>" <span class="attribute-name">@click.prevent</span>="<a class="attribute-value">sendEvent</a>" <span class="attribute-name">class</span>="<a class="attribute-value">btn btn-sm btn-primary</a>"&gt;</span><span>Send event
+<span id="line63"></span>                            </span><span>&lt;/<span class="end-tag">button</span>&gt;</span><span>
+<span id="line64"></span>                        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line65"></span>                    </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line66"></span>                </span><span>&lt;/<span class="end-tag">form</span>&gt;</span><span>
+<span id="line67"></span>            </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line68"></span>            </span><span>&lt;<span class="start-tag">h4</span>&gt;</span><span>Events</span><span>&lt;/<span class="end-tag">h4</span>&gt;</span><span>
+<span id="line69"></span>            </span><span>&lt;<span class="start-tag">table</span> <span class="attribute-name">id</span>="<a class="attribute-value">events</a>" <span class="attribute-name">class</span>="<a class="attribute-value">table table-striped table-hover</a>"&gt;</span><span>
+<span id="line70"></span>                </span><span>&lt;<span class="start-tag">thead</span>&gt;</span><span>
+<span id="line71"></span>                </span><span>&lt;<span class="start-tag">tr</span>&gt;</span><span>
+<span id="line72"></span>                    </span><span>&lt;<span class="start-tag">th</span>&gt;</span><span>Type</span><span>&lt;/<span class="end-tag">th</span>&gt;</span><span>
+<span id="line73"></span>                    </span><span>&lt;<span class="start-tag">th</span>&gt;</span><span>Socket</span><span>&lt;/<span class="end-tag">th</span>&gt;</span><span>
+<span id="line74"></span>                    </span><span>&lt;<span class="start-tag">th</span>&gt;</span><span>Details</span><span>&lt;/<span class="end-tag">th</span>&gt;</span><span>
+<span id="line75"></span>                    </span><span>&lt;<span class="start-tag">th</span>&gt;</span><span>Time</span><span>&lt;/<span class="end-tag">th</span>&gt;</span><span>
+<span id="line76"></span>                </span><span>&lt;/<span class="end-tag">tr</span>&gt;</span><span>
+<span id="line77"></span>                </span><span>&lt;/<span class="end-tag">thead</span>&gt;</span><span>
+<span id="line78"></span>                </span><span>&lt;<span class="start-tag">tbody</span>&gt;</span><span>
+<span id="line79"></span>                </span><span>&lt;<span class="start-tag">tr</span> <span class="attribute-name">v-for</span>="<a class="attribute-value">log in logs.slice().reverse()</a>"&gt;</span><span>
+<span id="line80"></span>                    </span><span>&lt;<span class="start-tag">td</span>&gt;</span><span></span><span>&lt;<span class="start-tag">span</span> <span class="attribute-name">class</span>="<a class="attribute-value">badge</a>" <span class="attribute-name">:class</span>="<a class="attribute-value">getBadgeClass(log)</a>"&gt;</span><span>{{ log.type }}</span><span>&lt;/<span class="end-tag">span</span>&gt;</span><span></span><span>&lt;/<span class="end-tag">td</span>&gt;</span><span>
+<span id="line81"></span>                    </span><span>&lt;<span class="start-tag">td</span>&gt;</span><span>{{ log.socketId }}</span><span>&lt;/<span class="end-tag">td</span>&gt;</span><span>
+<span id="line82"></span>                    </span><span>&lt;<span class="start-tag">td</span>&gt;</span><span>{{ log.details }}</span><span>&lt;/<span class="end-tag">td</span>&gt;</span><span>
+<span id="line83"></span>                    </span><span>&lt;<span class="start-tag">td</span>&gt;</span><span>{{ log.time }}</span><span>&lt;/<span class="end-tag">td</span>&gt;</span><span>
+<span id="line84"></span>                </span><span>&lt;/<span class="end-tag">tr</span>&gt;</span><span>
+<span id="line85"></span>                </span><span>&lt;/<span class="end-tag">tbody</span>&gt;</span><span>
+<span id="line86"></span>            </span><span>&lt;/<span class="end-tag">table</span>&gt;</span><span>
+<span id="line87"></span>        </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line88"></span>    </span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line89"></span></span><span>&lt;/<span class="end-tag">div</span>&gt;</span><span>
+<span id="line90"></span></span><span>&lt;<span class="start-tag">script</span>&gt;</span><span>
+<span id="line91"></span>    new Vue({
+<span id="line92"></span>        el: '#app',
+<span id="line93"></span>
+<span id="line94"></span>        data: {
+<span id="line95"></span>            connected: false,
+<span id="line96"></span>            chart: null,
+<span id="line97"></span>            pusher: null,
+<span id="line98"></span>            app: null,
+<span id="line99"></span>            port: 6001,
+<span id="line100"></span>            apps: [{"id":"abcd","key":"abcdef","secret":"abcdeeee","name":"Turvy","host":null,"path":null,"capacity":null,"clientMessagesEnabled":false,"statisticsEnabled":false}],
+<span id="line101"></span>            form: {
+<span id="line102"></span>                channel: null,
+<span id="line103"></span>                event: null,
+<span id="line104"></span>                data: null
+<span id="line105"></span>            },
+<span id="line106"></span>            logs: [],
+<span id="line107"></span>        },
+<span id="line108"></span>
+<span id="line109"></span>        mounted() {
+<span id="line110"></span>            this.app = this.apps[0] || null;
+<span id="line111"></span>        },
+<span id="line112"></span>
+<span id="line113"></span>        methods: {
+<span id="line114"></span>            connect() {
+<span id="line115"></span>                this.pusher = new Pusher(this.app.key, {
+<span id="line116"></span>                    wsHost: this.app.host === null ? window.location.hostname : this.app.host,
+<span id="line117"></span>                    wsPort: this.port === null ? 6001 : this.port,
+<span id="line118"></span>                    wssPort: this.port === null ? 6001 : this.port,
+<span id="line119"></span>                    wsPath: this.app.path === null ? '' : this.app.path,
+<span id="line120"></span>                    disableStats: true,
+<span id="line121"></span>                    authEndpoint: 'http://45.132.158.85/public/laravel-websockets/auth',
+<span id="line122"></span>                    auth: {
+<span id="line123"></span>                        headers: {
+<span id="line124"></span>                            'X-CSRF-Token': "nhxOx97r4dtAFCwhHODoERjuUiGpk2PEjfGK7Z0n",
+<span id="line125"></span>                            'X-App-ID': this.app.id
+<span id="line126"></span>                        }
+<span id="line127"></span>                    },
+<span id="line128"></span>                    enabledTransports: ['ws', 'flash']
+<span id="line129"></span>                });
+<span id="line130"></span>
+<span id="line131"></span>                this.pusher.connection.bind('state_change', states =&gt; {
+<span id="line132"></span>                    $('div#status').text("Channels current state is " + states.current);
+<span id="line133"></span>                });
+<span id="line134"></span>
+<span id="line135"></span>                this.pusher.connection.bind('connected', () =&gt; {
+<span id="line136"></span>                    this.connected = true;
+<span id="line137"></span>
+<span id="line138"></span>                    this.loadChart();
+<span id="line139"></span>                });
+<span id="line140"></span>
+<span id="line141"></span>                this.pusher.connection.bind('disconnected', () =&gt; {
+<span id="line142"></span>                    this.connected = false;
+<span id="line143"></span>                    this.logs = [];
+<span id="line144"></span>                });
+<span id="line145"></span>
+<span id="line146"></span>                this.pusher.connection.bind('error', event =&gt; {
+<span id="line147"></span>                    if (event.error.data.code === 4100) {
+<span id="line148"></span>                        $('div#status').text("Maximum connection limit exceeded!");
+<span id="line149"></span>                        this.connected = false;
+<span id="line150"></span>                        this.logs = [];
+<span id="line151"></span>                        throw new Error("Over capacity");
+<span id="line152"></span>                    }
+<span id="line153"></span>                });
+<span id="line154"></span>
+<span id="line155"></span>                this.subscribeToAllChannels();
+<span id="line156"></span>
+<span id="line157"></span>                this.subscribeToStatistics();
+<span id="line158"></span>            },
+<span id="line159"></span>
+<span id="line160"></span>            disconnect() {
+<span id="line161"></span>                this.pusher.disconnect();
+<span id="line162"></span>            },
+<span id="line163"></span>
+<span id="line164"></span>            loadChart() {
+<span id="line165"></span>                $.getJSON('http://45.132.158.85/public/laravel-websockets/api/' + this.app.id + '/statistics', (data) =&gt; {
+<span id="line166"></span>
+<span id="line167"></span>                    let chartData = [
+<span id="line168"></span>                        {
+<span id="line169"></span>                            x: data.peak_connections.x,
+<span id="line170"></span>                            y: data.peak_connections.y,
+<span id="line171"></span>                            type: 'lines',
+<span id="line172"></span>                            name: '# Peak Connections'
+<span id="line173"></span>                        },
+<span id="line174"></span>                        {
+<span id="line175"></span>                            x: data.websocket_message_count.x,
+<span id="line176"></span>                            y: data.websocket_message_count.y,
+<span id="line177"></span>                            type: 'bar',
+<span id="line178"></span>                            name: '# Websocket Messages'
+<span id="line179"></span>                        },
+<span id="line180"></span>                        {
+<span id="line181"></span>                            x: data.api_message_count.x,
+<span id="line182"></span>                            y: data.api_message_count.y,
+<span id="line183"></span>                            type: 'bar',
+<span id="line184"></span>                            name: '# API Messages'
+<span id="line185"></span>                        }
+<span id="line186"></span>                    ];
+<span id="line187"></span>                    let layout = {
+<span id="line188"></span>                        margin: {
+<span id="line189"></span>                            l: 50,
+<span id="line190"></span>                            r: 0,
+<span id="line191"></span>                            b: 50,
+<span id="line192"></span>                            t: 50,
+<span id="line193"></span>                            pad: 4
+<span id="line194"></span>                        }
+<span id="line195"></span>                    };
+<span id="line196"></span>
+<span id="line197"></span>                    this.chart = Plotly.newPlot('statisticsChart', chartData, layout);
+<span id="line198"></span>                });
+<span id="line199"></span>            },
+<span id="line200"></span>
+<span id="line201"></span>            subscribeToAllChannels() {
+<span id="line202"></span>                [
+<span id="line203"></span>                    'disconnection',
+<span id="line204"></span>                    'connection',
+<span id="line205"></span>                    'vacated',
+<span id="line206"></span>                    'occupied',
+<span id="line207"></span>                    'subscribed',
+<span id="line208"></span>                    'client-message',
+<span id="line209"></span>                    'api-message',
+<span id="line210"></span>                ].forEach(channelName =&gt; this.subscribeToChannel(channelName))
+<span id="line211"></span>            },
+<span id="line212"></span>
+<span id="line213"></span>            subscribeToChannel(channel) {
+<span id="line214"></span>                this.pusher.subscribe('private-websockets-dashboard-' + channel)
+<span id="line215"></span>                    .bind('log-message', (data) =&gt; {
+<span id="line216"></span>                        this.logs.push(data);
+<span id="line217"></span>                    });
+<span id="line218"></span>            },
+<span id="line219"></span>
+<span id="line220"></span>            subscribeToStatistics() {
+<span id="line221"></span>                this.pusher.subscribe('private-websockets-dashboard-statistics')
+<span id="line222"></span>                    .bind('statistics-updated', (data) =&gt; {
+<span id="line223"></span>                            var update = {
+<span id="line224"></span>                                x:  [[data.time], [data.time], [data.time]],
+<span id="line225"></span>                                y: [[data.peak_connection_count], [data.websocket_message_count], [data.api_message_count]]
+<span id="line226"></span>                            };
+<span id="line227"></span>
+<span id="line228"></span>                            Plotly.extendTraces('statisticsChart', update, [0, 1, 2]);
+<span id="line229"></span>                    });
+<span id="line230"></span>            },
+<span id="line231"></span>
+<span id="line232"></span>            getBadgeClass(log) {
+<span id="line233"></span>                if (log.type === 'occupied' || log.type === 'connection') {
+<span id="line234"></span>                    return 'badge-primary';
+<span id="line235"></span>                }
+<span id="line236"></span>                if (log.type === 'vacated') {
+<span id="line237"></span>                    return 'badge-warning';
+<span id="line238"></span>                }
+<span id="line239"></span>                if (log.type === 'disconnection') {
+<span id="line240"></span>                    return 'badge-error';
+<span id="line241"></span>                }
+<span id="line242"></span>                if (log.type === 'api_message') {
+<span id="line243"></span>                    return 'badge-info';
+<span id="line244"></span>                }
+<span id="line245"></span>                return 'badge-secondary';
+<span id="line246"></span>            },
+<span id="line247"></span>
+<span id="line248"></span>            sendEvent() {
+<span id="line249"></span>                $.post('http://45.132.158.85/public/laravel-websockets/event', {
+<span id="line250"></span>                    _token: 'nhxOx97r4dtAFCwhHODoERjuUiGpk2PEjfGK7Z0n',
+<span id="line251"></span>                    key: this.app.key,
+<span id="line252"></span>                    secret: this.app.secret,
+<span id="line253"></span>                    appId: this.app.id,
+<span id="line254"></span>                    channel: this.form.channel,
+<span id="line255"></span>                    event: this.form.event,
+<span id="line256"></span>                    data: this.form.data,
+<span id="line257"></span>                }).fail(() =&gt; {
+<span id="line258"></span>                    alert('Error sending event.');
+<span id="line259"></span>                });
+<span id="line260"></span>            }
+<span id="line261"></span>        }
+<span id="line262"></span>    });
+<span id="line263"></span></span><span>&lt;/<span class="end-tag">script</span>&gt;</span><span>
+<span id="line264"></span></span><span>&lt;/<span class="end-tag">body</span>&gt;</span><span>
+<span id="line265"></span></span><span>&lt;/<span class="end-tag">html</span>&gt;</span><span>
+<span id="line266"></span></span></pre></body></html>

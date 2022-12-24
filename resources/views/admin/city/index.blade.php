@@ -1,14 +1,14 @@
 @extends('admin.layouts.app')
 
-@section('title', 'City List')
+@section('title', 'Region List')
 
 @section('content')
 
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>City List</h2>
-                <a href="{{route('admin.region.city.add')}}" class="btn bg-blue waves-effect pull-right"><i class="material-icons">add</i><span>New city</span></a>
+                <h2>Region List</h2>
+                <a href="{{route('admin.region.city.add')}}" class="btn bg-blue waves-effect pull-right"><i class="material-icons">add</i><span>New region</span></a>
             </div>
             <!-- Basic Examples -->
             <div class="row clearfix">
@@ -16,7 +16,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                City List
+                                Region List
                             </h2>
                         </div>
                         <div class="body">
@@ -26,7 +26,7 @@
                                     <th>No</th>
                                     <th>Country</th>
                                     <th>State</th>
-                                    <th>City</th>
+                                    <th>Region</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>

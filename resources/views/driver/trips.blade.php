@@ -1,4 +1,4 @@
-@extends('driver.layouts.app')
+@extends('driver.layouts.app_fullwidth')
 
 
 

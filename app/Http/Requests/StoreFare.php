@@ -30,6 +30,7 @@ class StoreFare extends FormRequest
             'base_ride_distance' => 'required',
             'base_ride_distance_charge' => 'required',
             'price_per_unit' => 'required',
+            'price_per_minute' => 'required',
             'fee_waiting_time' => 'required',
             'waiting_price_per_minute' => 'required',
             'gst_charge' => 'required',
@@ -38,8 +39,8 @@ class StoreFare extends FormRequest
             'nsw_ctp_charge' => 'required',
             'booking_charge' => 'required',
             'cancel_charge' => 'required',
-            'free_ride_minute' => 'required',
-            'price_per_ride_minute' => 'required'
+            'minimum_fare' => 'required',
+            'after_minimum_fare' => 'required'
         ];
     }
 }

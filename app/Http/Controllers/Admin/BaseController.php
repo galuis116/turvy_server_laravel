@@ -184,7 +184,11 @@ class BaseController extends Controller
         $request->validated();
         $payment = Payment::find($id);
         $payment->name = $request->name;
-        $payment->icon = upload_file($request->file('icon'), 'payment');
+        
+        if($request->hasFile('icon')){
+            $payment->icon = upload_file($request->file('icon'), 'payment');
+        }
+        
         $payment->save();
 
         return redirect()->back()->with('message', 'It has been updated successfully.');

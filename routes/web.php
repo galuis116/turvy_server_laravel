@@ -60,6 +60,7 @@ Route::get('test', function () {
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/charity', 'HomeController@charity')->name('charity');
+
 // Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/about', 'HomeController@about')->name('about');
 Route::get('/terms', 'HomeController@terms')->name('terms');
@@ -67,6 +68,9 @@ Route::get('/policy', 'HomeController@policy')->name('policy');
 Route::post('/feedback', 'HomeController@feedback')->name('feedback');
 Route::get('/login-guide', 'HomeController@loginGuide')->name('login.guide');
 Route::get('/register-guide', 'HomeController@registerGuide')->name('register.guide');
+
+
+
 
 //- Common API -//
 Route::get('/getModelByMake', 'CommonController@getModelByMake')->name('getModelByMake');
@@ -102,7 +106,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('login');
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('logout');
-     Route::get('/password/reset', 'Auth\AdminForgotPaswordController@showLinkRequestForm')->name('password.request');
+    Route::get('/password/reset', 'Auth\AdminForgotPaswordController@showLinkRequestForm')->name('password.request');
     Route::post('/password/email', 'Auth\AdminForgotPaswordController@sendresetEmail')->name('admin.passemail');
     Route::get('password/reset/{token}', 'Auth\AdminForgotPaswordController@showResetForm')->name('password.reset.admin');
     Route::post('password/reset/{token}', 'Auth\AdminForgotPaswordController@showResetForm')->name('password.reset.admin');
@@ -130,12 +134,31 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::get('/footer', 'Admin\CMSController@footer')->name('footer');
         Route::post('/footer', 'Admin\CMSController@storeFooter')->name('footer');
+        Route::post('/footersection1', 'Admin\CMSController@storeFooter1')->name('footer.section1');
+        Route::post('/footersection2', 'Admin\CMSController@storeFooter2')->name('footer.section2');
+        Route::post('/footerapplink', 'Admin\CMSController@storeApplink')->name('footer.applink');
+        Route::get('/{id}/delete', 'Admin\CMSController@deletefooterLink')->name('foooter2.delete');
 
         Route::get('/social', 'Admin\CMSController@social')->name('social');
         Route::post('/social', 'Admin\CMSController@storeSocial')->name('social');
 
         Route::get('/terms', 'Admin\CMSController@terms')->name('terms');
         Route::post('/terms', 'Admin\CMSController@storeTerms')->name('terms');
+        
+        Route::get('/page', 'Admin\CMSController@page')->name('page');
+        Route::post('/savepage', 'Admin\CMSController@storepage')->name('page.save');
+        
+        Route::get('/pagelist', 'Admin\CMSController@pageList')->name('page.list');
+        Route::get('/{id}/delete-page', 'Admin\CMSController@pageDelete')->name('page.delete');
+        Route::get('/{id}/edit', 'Admin\CMSController@editPage')->name('page.edit');
+        Route::post('/{id}/update', 'Admin\CMSController@updatePage')->name('page.update');
+
+        Route::get('/header', 'Admin\CMSController@getHeader')->name('header');
+        Route::post('/headertop', 'Admin\CMSController@storeHeaderTop')->name('header.headerTop');
+        Route::post('/headerleft', 'Admin\CMSController@storeHeaderLeft')->name('header.headerLeft');
+        Route::post('/headerright', 'Admin\CMSController@storeHeaderRight')->name('header.headerRight');
+
+        Route::get('header/{id}/delete', 'Admin\CMSController@deleteHeaderLink')->name('header.delete');
     });
 
     Route::group(['prefix' => 'fleet', 'as' => 'fleet.'], function () {
@@ -358,6 +381,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/approve', 'Admin\DriverController@approveDriver')->name('approve');
             Route::post('/{id}/update', 'Admin\DriverController@updateDriver')->name('update');
             Route::get('/{id}/delete', 'Admin\DriverController@deleteDriver')->name('delete');
+            Route::get('/{id}/transactions', 'Admin\DriverController@TransactionDriver')->name('transactionsdriver');
+            Route::get('/{id}/paytodriver', 'Admin\DriverController@paytoDriver')->name('paytodriver');
+            Route::post('/paytodriver', 'Admin\DriverController@savePaytoDriver')->name('savepaytodriver');
+
         });
         Route::group(['prefix' => 'partner', 'as' => 'partner.'], function () {
             Route::get('/list', 'Admin\PartnerController@partnerList')->name('list');
@@ -374,6 +401,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'maps', 'as' => 'maps.'], function () {
         Route::get('/usermap', 'Admin\StatsMapController@usermap')->name('usermap');
         Route::get('/drivermap', 'Admin\StatsMapController@drivermap')->name('drivermap');
+        Route::get('/drveraval_data', 'Admin\StatsMapController@drveraval_data')->name('drveraval_data');
         Route::get('/driverairport', 'Admin\StatsMapController@driverairport')->name('driverairport');
         Route::get('/heatmap', 'Admin\StatsMapController@heatmap')->name('heatmap');
     });
@@ -515,7 +543,8 @@ Route::prefix('rider')->group(function () {
     Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('rider.password.request');
     Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('rider.password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-
+    Route::post('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset.admin');
+    
     Route::get('/email/verify', 'Auth\VerificationController@show')->name('rider.verification.notice');
     Route::get('/email/verify/{id}/{type}', 'Auth\LoginController@verifyMail')->name('rider.verification.verify');
     Route::get('/email/resend', 'Auth\VerificationController@resend')->name('rider.verification.resend');
@@ -536,6 +565,11 @@ Route::prefix('rider')->group(function () {
         Route::post('/support', 'Rider\SupportController@store')->name('rider.support');
         Route::get('/comment', 'Rider\CommentController@index')->name('rider.comment');
         Route::post('/comment', 'Rider\CommentController@store')->name('rider.comment');
+        Route::get('/messages', 'Rider\MessagesController@index')->name('rider.messages');
+        Route::get('/myrecepits/{page_id}', 'Rider\TripController@myrecepits')->name('rider.myrecepits');
+        Route::get('/receipt/{book_id}', 'Rider\TripController@receipt')->name('rider.receipt');
+        Route::get('/emialReceipt/{book_id}', 'Rider\TripController@emailtripreceipt')->name('rider.emialReceipt');
+
     });
 });
 
@@ -560,7 +594,11 @@ Route::prefix('driver')->group(function () {
     Route::get('/verify', 'Auth\DriverRegisterController@verify')->name('driver.verify');
     Route::post('/verify', 'Auth\DriverRegisterController@verifyProcess')->name('driver.verify');
     Route::get('/password/reset', 'Auth\DriverForgotPaswordController@showLinkRequestForm')->name('driver.password.request');
-
+	 Route::post('/password/email', 'Auth\DriverForgotPaswordController@sendresetEmail')->name('driver.password.email');
+	  //Route::post('/password/email', 'Auth\AdminForgotPaswordController@sendresetEmail')->name('admin.passemail');
+    Route::get('password/reset/{token}', 'Auth\DriverForgotPaswordController@showResetForm')->name('password.reset.driver');
+    Route::post('password/reset/{token}', 'Auth\DriverForgotPaswordController@showResetForm')->name('password.reset.driver');
+	 
     Route::middleware(['verified'])->group(function () {
         Route::get('/dashboard', 'Driver\DashboardController@index')->name('driver.dashboard');
         Route::get('/profile', 'Driver\ProfileController@index')->name('driver.profile');
@@ -611,6 +649,7 @@ Route::prefix('partner')->group(function () {
     Route::post('/comment', 'Partner\CommentController@store')->name('partner.comment');
 });
 
+Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 //Auth::routes();
 
 if (Schema::hasTable('settings')) {

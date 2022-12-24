@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <style>
+            input, button { padding: 10px; }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="message" />
+        <button onclick="transmitMessage()">Send</button>
+        <script>
+        
+        openWebsocket("wss://turvy.net:5200");
+        
+        function openWebsocket(url){
+		    try {
+		        socket = new WebSocket(url);
+		        socket.onopen = function(){
+		            console.log('Socket is now open.');
+		        };
+		        socket.onerror = function (evt) {
+		            console.error('There was an un-identified Web Socket error',evt);
+		        };
+		        socket.onmessage = function (message) {
+		            console.info("Message: %o", message.data);
+		        };
+		    } catch (e) {
+		        console.error('Sorry, the web socket at "%s" is un-available', url);
+		    }
+		}
+
+
+            // Create a new WebSocket.
+            var socket  = new WebSocket('wss://209.142.65.183:5200');
+
+            // Define the 
+            var message = document.getElementById('message');
+
+            function transmitMessage() {
+                socket.send( message.value+"NEW MESSAGE");
+            }
+
+            socket.onmessage = function(e) {
+                alert( e.data );
+            }
+        </script>
+    </body>
+</html>

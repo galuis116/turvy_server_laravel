@@ -31,8 +31,8 @@ class CreateFaresTable extends Migration
             $table->string('nsw_ctp_charge');
             $table->string('booking_charge');
             $table->string('cancel_charge');
-            $table->string('free_ride_minute');
-            $table->string('price_per_ride_minute');
+            $table->string('minimum_fare');
+            $table->string('after_minimum_fare');
             $table->string('baby_seat_charge')->nullable();
             $table->string('pet_charge')->nullable();
             $table->boolean('status')->default(0);

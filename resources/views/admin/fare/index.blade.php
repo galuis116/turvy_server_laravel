@@ -54,10 +54,10 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $fare->currency . ' ' . $fare->base_ride_distance_charge}}</td>
-                                                <td>{{ $fare->currency . ' ' . (($fare->price_per_unit * $fare->base_ride_distance) + $fare->price_per_minute)}}
+                                                <td>{{ $fare->currency . ' ' . $fare->minimum_fare}}
                                                 {{-- <td>{{ $fare->currency . ' ' . $fare->base_ride_distance_charge . ' for first ' . $fare->base_ride_distance . ' ' . $fare->distance }} --}}
                                                 </td>
-                                                <td>{{ $fare->currency . ' ' . $fare->price_per_unit . ' per ' . $fare->distance }}
+                                                <td>{{ $fare->currency . ' ' . $fare->after_minimum_fare }}
                                                 </td>
                                                 <td>{{ $fare->currency . ' ' . $fare->waiting_price_per_minute . ' Per Min after First ' . $fare->fee_waiting_time . ' Free Min' }}
                                                 </td>
@@ -71,7 +71,7 @@
                                                 </td>
                                                 <td>{{ $fare->currency . ' ' . number_format($fare->booking_charge, 2) }}</td>
                                                 <td>{{ $fare->currency . ' ' . number_format($fare->cancel_charge, 2) }}</td>
-                                                <td>{{ $fare->currency . ' ' . number_format($fare->price_per_ride_minute, 2) }}
+                                                <td>{{ $fare->currency . ' ' . number_format($fare->price_per_minute, 2) }}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('admin.charge.fare.edit', $fare->id) }}"

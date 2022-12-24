@@ -9,7 +9,7 @@ function upload_file($file, $dir)
     $file_name = time();
     $file_name .= rand();
     $file_name = sha1($file_name);
-    $file->move(base_path() . "/uploads/" . $dir, $file_name . "." . $file->getClientOriginalExtension());
+    $file->move(public_path() . "/uploads/" . $dir, $file_name . "." . $file->getClientOriginalExtension());
     $local_url = $file_name . "." . $file->getClientOriginalExtension();
     return 'uploads/' . $dir . '/' . $local_url;
 }

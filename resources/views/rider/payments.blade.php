@@ -1,4 +1,4 @@
-@extends('rider.layouts.app')
+@extends('rider.layouts.app_fullwidth')
 
 
 
@@ -42,18 +42,16 @@
 
             <select id="select_driver_earning" name="select_rider_payment" onchange="select_payment(this.value)" class="form-control">
 
-                <option value="today">Today</option>
-
-                <option value="this_week">This Week</option>
-
-                <option value="this_month">This Month</option>
+                <option value="today" @if ($page_search == 'today') selected @endif>Today</option>
+                <option value="this_week" @if ($page_search == 'this_week') selected @endif >This Week</option>
+                <option value="last_week" @if ($page_search == 'last_week') selected @endif>Last Week</option>
+                <option value="this_month"@if ($page_search == 'this_month') selected @endif>This Month</option>
+                <option value="this_year" @if ($page_search == 'this_year') selected @endif>This year</option>
+                <option value="last_year" @if ($page_search == 'last_year') selected @endif>Last Year</option>
 
             </select>
 
         </div>
-
-
-
 
 
 
@@ -68,23 +66,23 @@
 
                 <tr>
 
-                    <th>Ride begin location</th>
+                    <th>Pick location</th>
 
-                    <th>Ride End Location</th>
+                    <th>Drop Location</th>
 
-                    <th>Ride Begin Time</th>
+                    <th>Ride Begin </th>
 
-                    <th>Ride End Time</th>
+                    <th>Ride End </th>
 
                     <th>Driver</th>
 
-                    <th>Partner Contribution</th>
+                    <th>Partner Contri.</th>
 
                     <th>Paid Amount</th>
 
-                    <th>Paid Date</th>
+                    <th>Paid Time</th>
 
-                    <th>Rewards</th>
+                    <th>Reward Points</th>
 
                 </tr>
 
@@ -96,21 +94,22 @@
 
                 <tr>
 
-                    <td></td>
+                    <td>{{$payment['origin']}}</td>
+
+                    <td>{{$payment['destination']}}</td>
+
+                    <td>{{$payment['start_time']}}</td>
+
+                    <td>{{$payment['end_time']}}</td>
+
+                    <td>{{$payment['first_name']}} {{$payment['last_name']}}</td>
+
 
                     <td></td>
 
-                    <td></td>
+                    <td style="text-align: right;" >AU${{$payment['total']}}</td>
 
-                    <td></td>
-
-                    <td></td>
-
-                    <td></td>
-
-                    <td>{{ $payment->total_time * $payment->time_price }}</td>
-
-                    <td>{{ date("Y-m-d" , strtotime($payment->updated_at)) }}</td>
+                    <td>{{$payment['paid_time']}}</td>
 
                     <td></td>
                 </tr>

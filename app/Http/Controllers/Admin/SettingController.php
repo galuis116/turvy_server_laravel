@@ -209,6 +209,67 @@ class SettingController extends Controller
             $setting->value = upload_file($request->file('site_footer_logo'), 'logo');
             $setting->save();
         }
+        
+         if($request->has('android_app_link'))
+        {
+            $setting = Setting::where('key', 'android_app_link')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'android_app_link';
+            $setting->value = $request->android_app_link;
+            $setting->save();
+        }
+         if($request->has('ios_app_link'))
+        {
+            $setting = Setting::where('key', 'ios_app_link')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'ios_app_link';
+            $setting->value = $request->ios_app_link;
+            $setting->save();
+        }
+        
+         if($request->has('cdnlogoimage'))
+        {
+            $setting = Setting::where('key', 'cdnlogoimage')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'cdnlogoimage';
+            $setting->value = $request->cdnlogoimage;
+            $setting->save();
+        }
+        
+         if($request->has('cdnfaviconimage'))
+        {
+            $setting = Setting::where('key', 'cdnfaviconimage')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'cdnfaviconimage';
+            $setting->value = $request->cdnfaviconimage;
+            $setting->save();
+        }
+        
+         if($request->has('cdnfooterlogoimage'))
+        {
+            $setting = Setting::where('key', 'cdnfooterlogoimage')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'cdnfooterlogoimage';
+            $setting->value = $request->cdnfooterlogoimage;
+            $setting->save();
+        }
+        
+         if($request->has('cdnemaillogoimage'))
+        {
+            $setting = Setting::where('key', 'cdnemaillogoimage')->first();
+            if(!$setting)
+                $setting = new Setting();
+            $setting->key = 'cdnemaillogoimage';
+            $setting->value = $request->cdnemaillogoimage;
+            $setting->save();
+        }
+        
+        
         return redirect()->back()->with('message', 'It has been saved successfully.');
     }
 }

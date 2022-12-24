@@ -21,6 +21,7 @@ class AuthController extends Controller
 {
     protected function riderValidator($data)
     {
+    		//'device_token' => ['required']
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -29,7 +30,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'device_type' => ['required'],
-            'device_token' => ['required']
+            
         ]);
     }
 
@@ -47,8 +48,8 @@ class AuthController extends Controller
             'make_id' => ['required', 'numeric'],
             'model_id' => ['required', 'numeric'],
             'plate' => ['required', 'string', 'max:15'],
-            'device_type' => ['required'],
-            'device_token' => ['required']
+            'device_type' => ['required']
+            
         ]);
     }
 
@@ -177,6 +178,7 @@ class AuthController extends Controller
                 return response()->json([
                     'access_token' => $tokenResult->accessToken,
                     'token_type' => 'Bearer',
+                    'rider' =>$rider,
                     'expires_at' => Carbon::parse(
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
@@ -312,12 +314,25 @@ class AuthController extends Controller
 
         $rider = $this->createRider($request->all());
 
-        try {
+        /*try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
-
+        */
+	          $Email_data = new RiderEmailVerification($rider);
+	       	 $html = $Email_data->render();
+    		
+    		    $from = "admin@turvy.net";
+			    $to = $request->email;
+			    $subject = "Rider Email Verification";
+			    $message = $html;
+			    $headers = "From:Admin<" . $from.">	\r\n";
+			    $headers .= "Reply-To: " . strip_tags($from) . "\r\n";
+			    $headers .= "MIME-Version: 1.0\r\n";
+				 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+			    mail($to,$subject,$message, $headers);
+		
         return response()->json(['status' => 1, 'message' => 'Rider created.']);
     }
 
@@ -442,11 +457,25 @@ class AuthController extends Controller
         $driver = $this->createDriver($request->all());
 
         // Email integration
-        try {
+        /* try {
             Mail::to($request->email)->send(new DriverEmailVerification($driver));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
-        }
+        } */
+        
+        $Email_data = new DriverEmailVerification($driver);
+    	  $html = $Email_data->render();
+ 		
+	 		 $from = "admin@turvy.net";
+		    $to = $request->email;
+		    $subject = "Driver Email Verification";
+		    $message = $html;
+		    $headers = "From:Admin<" . $from.">	\r\n";
+		    $headers .= "Reply-To: " . strip_tags($from) . "\r\n";
+		    $headers .= "MIME-Version: 1.0\r\n";
+			 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+		    mail($to,$subject,$message, $headers);
+			    
 
         return response()->json(['status' => 1, 'message' => 'Driver created.']);
     }

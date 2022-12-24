@@ -40,10 +40,15 @@ class DriverRegisterController extends Controller
         //Create driver
         $verification_code = substr(md5(rand()),0,29);
 
-        $hask_key=Cache::get('sec_key');
+        /*$hask_key=Cache::get('sec_key');
+        
+      	print"<pre>";
+      	print_r($hask_key);
+      	exit;  
         if(!$hask_key || !Hash::check('world', $hask_key)){
             return redirect()->back()->with(['error' => 'You are hacker!']);
         }
+        */
         
 
         $request->merge([

@@ -125,10 +125,38 @@
     </div>
 </section>
 <!-- sign-reg info /end -->
+<div id="recaptcha-container"></div>
 @endsection
 
 @section('scripts')
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>    
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDxfJG2fkdNLuMKaBPQTliNQwdUy0wwmEs",
+        authDomain: "turvy-1501496198977.firebaseapp.com",
+        databaseURL: "https://turvy-1501496198977.firebaseio.com",
+        projectId: "turvy-1501496198977",
+        storageBucket: "turvy-1501496198977.appspot.com",
+        messagingSenderId: "645200450479",
+        appId: "1:645200450479:web:287077ad854c7bd1d9155a"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Create a Recaptcha verifier instance globally
+    // Calls submitPhoneNumberAuth() when the captcha is verified
+    //normal
+    //Go to Firebase Console -> Authentication -> sign-in-method -> Authorized Domains and add your domain.
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    "recaptcha-container",
+    {
+      size: "invisible",
+      callback: function(response) {
+        submitPhoneNumberAuth();
+      }
+    }
+    );
     $(document).ready(function(){
         $('.user-phone').on('keyup', function(){
             $('#register-error-message').hide();
@@ -136,11 +164,18 @@
             if(str.length>1) {
                 var patt = new RegExp("^[1-9][0-9]");
                 var res = patt.test(str);
+                
+                //remove starting zero from phone no field
+                    str = str.replace(/^0+/, '')
+                    $(this).val(str);
+                    
+
                 if(!res) {
                     $('.form-validation-error').show();
                     $(this).css('border', '1px solid red');
                 }
                 else{
+                  
                     $('.form-validation-error').hide();
                     $(this).css('border', '1px solid #e1e1e1');
                 }
@@ -171,23 +206,21 @@
             }
             var number = phone_code + phone_number;
             
-            $.ajax({
-                url: "{{route('getRiderRegisterOTP')}}",
-                type: "GET",
-                data: {
-                    "phone_number": number
-                },
-                success: function(result){
-                    if(result.status == 1){
-                        $('#span-phone-number').text(number);
-                        $('#register-step-1').hide();
-                        $('#register-step-2').show();
-                    }else{
-                        $('#register-error-message').show();
-                        $('#register-error-message p').text(result.message);
-                    }
-                }
-            });
+            var appVerifier = window.recaptchaVerifier;
+            firebase
+            .auth()
+            .signInWithPhoneNumber(number, appVerifier)
+            .then(function(confirmationResult) {
+                window.confirmationResult = confirmationResult;                    
+                $('#span-phone-number').text(number);
+                $('#register-step-1').hide();
+                $('#register-step-2').show();
+            })
+            .catch(function(error) {
+                //console.log('Error1:',error);                    
+                $('#register-error-message').show();
+                $('#register-error-message p').text(error);
+            });            
         });
         $('#btn-next-step-2').click(function(){
             var otp_code = $('#otp').val();
@@ -201,7 +234,23 @@
                 return false;
             }
 
-            $.ajax({
+            confirmationResult
+            .confirm(otp_code)
+            .then(function(result) {
+                var user = result.user;
+                //console.log(user);
+                
+                $('#register-step-1').hide();
+                $('#register-step-2').hide();
+                $('#register-step-3').show();
+            })
+            .catch(function(error) {
+                //console.log(error);                
+                $('#register-error-message').show();
+                $('#register-error-message p').text(error);
+            });
+
+            /*$.ajax({
                 url: "{{route('checkOTP')}}",
                 type: "GET",
                 data: {
@@ -219,7 +268,7 @@
                         $('#register-error-message p').text(result.message);
                     }
                 }
-            });
+            });*/
         });
         $('#btn-next-step-3').click(function(){
             var first_name = $('#first_name').val();

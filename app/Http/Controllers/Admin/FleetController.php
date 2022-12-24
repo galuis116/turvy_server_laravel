@@ -176,6 +176,8 @@ class FleetController extends Controller
             $type->description = $request->description;
         if($request->hasFile('image'))
             $type->image = upload_file($request->file('image'), 'vehicle/types');
+          if($request->has('cdnimage'))
+            $type->cdnimage = $request->cdnimage;
         $type->number_seat = $request->number_seat;
         $type->save();
 
@@ -198,6 +200,9 @@ class FleetController extends Controller
             $type->description = $request->description;
         if($request->hasFile('image'))
             $type->image = upload_file($request->file('image'), 'vehicle/types');
+            
+        if($request->has('cdnimage'))
+            $type->cdnimage = $request->cdnimage;
         $type->number_seat = $request->number_seat;
         $type->save();
 

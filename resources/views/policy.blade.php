@@ -3,17 +3,15 @@
 @section('title', 'Privacy policy')
 
 @section('content')
-    <div class="inner-banner">
-        <img src="{{asset('images/about.jpg')}}" alt="">
-        <div class="inner-banner-holder">
-            <div class="container">
-                <h2>Privacy Policy </h2>
-            </div>
+   
+    <section class="inner-page-head-bg">
+        <div class="container">
+            <div class="title-head"><h1>Privacy Policy</h1></div>
         </div>
-    </div>
+    </section>
 
     <div id="main-content">
-        <section class="pt-50 pb-100">
+        <section class="pt-50 pb-100 custom-pages">
             <div class="container">
                 @if(isset($content->policy))
                 {!! $content->policy !!}

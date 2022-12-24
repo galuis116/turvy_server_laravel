@@ -7,6 +7,11 @@
     $site_favicon = isset($settings['site_favicon']) ? $settings['site_favicon'] : 'images/no-image.png';
     $email_logo = isset($settings['email_logo']) ? $settings['email_logo'] : 'images/no-image.png';
     $site_footer_logo = isset($settings['site_footer_logo']) ? $settings['site_footer_logo'] : 'images/no-image.png';
+    
+    $cdnlogoimage = isset($settings['cdnlogoimage']) ? $settings['cdnlogoimage'] : '';
+    $cdnfaviconimage = isset($settings['cdnfaviconimage']) ? $settings['cdnfaviconimage'] : '';
+    $cdnfooterlogoimage = isset($settings['cdnfooterlogoimage']) ? $settings['cdnfooterlogoimage'] : '';
+    $cdnemaillogoimage = isset($settings['cdnemaillogoimage']) ? $settings['cdnemaillogoimage'] : '';
 @endphp
 
 @section('content')
@@ -56,6 +61,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                              
+                                             <div class="col-lg-12 col-md-12 col-sm-10 col-xs-10">
+			                                        <div class="form-group">
+			                                            <label for="title">OR CDN logo image url</label>
+			                                            <div class="form-line">
+			                                                <input type="text" id="cdnlogoimage" name="cdnlogoimage" class="form-control" placeholder="CDN Logo Image url" value="{{$cdnlogoimage}}"/>
+			                                            </div>
+			                                        </div>
+			                                    </div>
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
@@ -83,6 +97,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-10 col-xs-10">
+			                                        <div class="form-group">
+			                                            <label for="title">OR CDN Favicon image url</label>
+			                                            <div class="form-line">
+			                                                 <input type="text" id="cdnfaviconimage" name="cdnfaviconimage" class="form-control" placeholder="CDN Favicon Image url" value="{{$cdnfaviconimage}}"/>
+			                                            </div>
+			                                        </div>
+			                                    </div>
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
@@ -110,6 +132,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-10 col-xs-10">
+			                                        <div class="form-group">
+			                                            <label for="title">OR CDN Footer logo image url</label>
+			                                            <div class="form-line">
+			                                                  <input type="text" id="cdnfooterlogoimage" name="cdnfooterlogoimage" class="form-control" placeholder="CDN footer Logo Image url" value="{{$cdnfooterlogoimage}}"/>
+			                                            </div>
+			                                        </div>
+			                                    </div>
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
@@ -137,6 +167,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-10 col-xs-10">
+			                                        <div class="form-group">
+			                                            <label for="title">OR CDN Email logo image url</label>
+			                                            <div class="form-line">
+			                                                  <input type="text" id="cdnemaillogoimage" name="cdnemaillogoimage" class="form-control" placeholder="CDN Email Logo Image url" value="{{$cdnemaillogoimage}}"/>
+			                                            </div>
+			                                        </div>
+			                                    </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -339,6 +377,30 @@
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         <input type="text" id="support_email_address" name="support_email_address" class="form-control" placeholder="Enter support email address" value="{{isset($settings['support_email_address']) ? $settings['support_email_address'] : ''}}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                                <label for="support_email_address">Android App Link</label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" id="android_app_link" name="android_app_link" class="form-control" placeholder="Android App Link" value="{{isset($settings['android_app_link']) ? $settings['android_app_link'] : ''}}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <div class="col-lg-4 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                                <label for="support_email_address">IOS App Link</label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" id="ios_app_link" name="ios_app_link" class="form-control" placeholder="IOS App Link" value="{{isset($settings['ios_app_link']) ? $settings['ios_app_link'] : ''}}"/>
                                                     </div>
                                                 </div>
                                             </div>

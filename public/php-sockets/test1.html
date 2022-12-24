@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <style>
+            input, button { padding: 10px; }
+        </style>
+    </head>
+    <body>
+    		<div><p>IN TEST page</p>
+    			<div id="responseId"></div>
+    		</div>
+    		
+        <input type="text" id="message" />
+        <button onclick="transmitMessage()">Send</button>
+        <script>
+            // Create a new WebSocket.
+            var socket  = new WebSocket('ws://localhost:8080');
+
+            // Define the 
+            var message = document.getElementById('message');
+
+            function transmitMessage() {
+            	let obj = {
+            		name: 'Test',
+            		email:'jkjkjk@ghj.com'
+            	}
+                //socket.send( message.value+"NEW MESSAGE" );
+                socket.send(JSON.stringify(obj));
+            }
+
+            socket.onmessage = function(e) {
+                alert( e.data );
+               console.log(e);
+              // document.getElementById('responseId');
+            }
+        </script>
+    </body>
+</html>

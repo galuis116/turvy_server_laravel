@@ -30,12 +30,46 @@ class QueueController extends Controller
      */
     public function index(Request $request)
     {
-        $queues = $this->getQueue($request);
-
+        $queues = $this->getQueueList($request);
+			
         return view('admin.queue.index')
             ->with('queues', $queues)
             ->with('page', 'queue');
     }
+    
+    // added by ashwini on 10 Nov 2021 
+    public function getQueueList(Request $request)
+    {
+        //Get the list of drivers that exists in the queue
+        $provider_queue = Queue::where('is_alive', 1)
+            ->orderBy('priority_time', 'asc')
+            ->get();
+            /*	print"<pre>";
+			print_r($provider_queue);
+			exit;
+			*/
+			 $Position = 1;
+        foreach ($provider_queue as $queue) {
+            //Define the position of the driver in the queue
+            $queue->position = $Position++;
+
+            try {
+                $queue->save();
+            } catch (\Exception $e) {
+                
+              $Msg['success'] = false;
+              $Msg['error'] = $e->getMessage();
+              $Msg['error_code'] = 101;
+              $Msg['error_messages'] = 'Operation failed. Please try again (Error on section 2)';
+              
+                return $Msg;
+            }
+        }
+
+        return $provider_queue;
+    }
+
+
 
     /**
      * @copyright   2019/09/05
@@ -76,7 +110,7 @@ class QueueController extends Controller
         $provider_queue = Queue::where('is_alive', 1)
             ->orderBy('priority_time', 'asc')
             ->get();
-
+		
         foreach ($provider_queue as $queue) {
             //Define the position of the driver in the queue
             $queue->position = $Position++;

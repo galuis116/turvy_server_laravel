@@ -839,22 +839,19 @@
 
                     fare2 = parseInt((fare*1.1<service_types[i].min_fare)?service_types[i].min_fare:fare*1.1);*/
 
+                    estimated_surchages = calcEstimatedSurchages(service_types[i], distance_val, duration);
 
-
-                    fare = ((distance_val*parseFloat(service_types[i].price_per_unit))+parseFloat(service_types[i].base_ride_distance_charge+service_types[i].nsw_gtl_charge+service_types[i].gst_charge));
-
-
-
-                    fare1 = parseInt(fare*0.9);
+                    fare = totalEstimate(service_types[i], distance_val, duration);
 
 
 
-                    fare2 = parseInt(fare*1.1);
+                    fare1 = parseInt(fare) + 15;
+
 
                     if(fare == 0)
                         display_fare = 0;
                     else
-                        display_fare = fare1 + '-' + fare2;
+                        display_fare = fare + '-' + fare1;
 
 
 
@@ -936,7 +933,7 @@
 
                                         '<div class="col-md-6 text-left">Minimum fare</div>'+
 
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].base_ride_distance_charge * service_types[i].base_ride_distance).toFixed(2)+'</div>'+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].minimum_fare).toFixed(2)+'</div>'+
 
                                     '</div>'+
 
@@ -958,51 +955,11 @@
 
                                     '<div class="row">'+
 
-                                        '<div class="col-md-6 text-left">NSW Gov. Trans. Levy</div>'+
+                                        '<div class="col-md-6 text-left">Estimated Surcharges</div>'+
 
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].gst_charge).toFixed(2)+'</div>'+
-
-                                    '</div>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">NSW CTP Charge Per km</div>'+
-
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].nsw_gtl_charge).toFixed(2)+'</div>'+
-
-                                    '</div>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">Fuel Surge Charge Per km</div>'+
-
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].fuel_surge_charge).toFixed(2)+'</div>'+
+                                        '<div class="col-md-6 text-right">A$'+parseFloat(estimated_surchages).toFixed(2)+'</div>'+
 
                                     '</div>';
-
-                                    if(!isNaN(parseFloat(service_types[i].baby_seat_charge).toFixed(2))) {
-                                        str +=
-
-                                        '<div class="row">'+
-
-                                            '<div class="col-md-6 text-left">Baby Seat Charge</div>'+
-
-                                            '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].baby_seat_charge).toFixed(2)+'</div>'+
-
-                                        '</div>';
-                                    }
-
-                                    if(!isNaN(parseFloat(service_types[i].pet_charge).toFixed(2))) {
-                                        str +=
-
-                                        '<div class="row">'+
-
-                                            '<div class="col-md-6 text-left">Pet Charge</div>'+
-
-                                            '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].pet_charge).toFixed(2)+'</div>'+
-
-                                        '</div>';
-                                    }
 
                                     str +=
 
@@ -1011,14 +968,6 @@
                                         '<div class="col-md-6 text-left">Booking fee</div>'+
 
                                         '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].booking_charge).toFixed(2)+'</div>'+
-
-                                    '</div>'+
-
-                                    '<div class="row">'+
-
-                                        '<div class="col-md-6 text-left">Cancellation fee</div>'+
-
-                                        '<div class="col-md-6 text-right">A$'+parseFloat(service_types[i].cancel_charge).toFixed(2)+'</div>'+
 
                                     '</div>'+
 
@@ -1122,6 +1071,35 @@
 
     }
 
+    function calcEstimatedSurchages(fare, km, minute)
+    {
+        var nsw_gtl_charge = parseFloat(fare.nsw_gtl_charge);
+        var nsw_ctp_charge = parseFloat(fare.nsw_ctp_charge) * km;
+        var fuel_charge = parseFloat(fare.fuel_surge_charge) * km;
+        var baby_seat_charge = fare.baby_seat_charge === null ? 0 : parseFloat(fare.baby_seat_charge);
+        var pet_charge = fare.pet_charge === null ? 0 : parseFloat(fare.pet_charge);
+        var total = nsw_gtl_charge + nsw_ctp_charge + fuel_charge + baby_seat_charge + pet_charge;
+        return parseInt(total);
+    }
+
+    function totalEstimate(fare, km, minute)
+    {
+        var base_km = parseFloat(km) - parseFloat(fare.base_ride_distance);
+        var base_cost_km = base_km * parseFloat(fare.price_per_unit);
+        var base_cost_minute = fare.price_per_minute === null ? 0 : minute * parseFloat(fare.price_per_minute);
+        var base_cost = parseFloat(fare.base_ride_distance_charge);
+        var minimum_fare = parseFloat(fare.minimum_fare);
+        var nsw_gtl_charge = parseFloat(fare.nsw_gtl_charge);
+        var nsw_ctp_charge = parseFloat(fare.nsw_ctp_charge) * km;
+        var fuel_charge = parseFloat(fare.fuel_surge_charge) * km;
+        var booking_charge = parseFloat(fare.booking_charge);
+        var baby_seat_charge = fare.baby_seat_charge === null ? 0 : parseFloat(fare.baby_seat_charge);
+        var pet_charge = fare.pet_charge === null ? 0 : parseFloat(fare.pet_charge);
+        var subtotal = base_cost_km + base_cost_minute + base_cost + minimum_fare + nsw_gtl_charge + nsw_ctp_charge + fuel_charge + booking_charge + baby_seat_charge + pet_charge;
+        var gst = parseFloat(fare.gst_charge);
+        var total = subtotal * (1 + gst / 100);
+        return parseInt(total);
+    }
 
 
 </script>

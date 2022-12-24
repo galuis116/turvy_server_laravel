@@ -52,12 +52,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $total_partner_income = 0;
         foreach($transactions as $transaction){
             // Get driver's commission
-            $commission = Driver::find($transaction->receiver)->commission;
-            // Calculate admin income.
-            $admin_income = $transaction->amount * $commission / 100;
-            // Calculate partner income
-            $partner_income = $admin_income * 0.05;
-            $total_partner_income += $partner_income;
+            if($transaction->receiver && $transaction->receiver > 0 ){
+            	 $commission1 = Driver::find($transaction->receiver);
+            	 if(isset($commission1->commission) && is_object($commission1->commission)){
+            	 	$commission  = $commission1->commission;
+            	 	 // Calculate admin income.
+		            $admin_income = $transaction->amount * $commission / 100;
+		            // Calculate partner income
+		            $partner_income = $admin_income * 0.05;
+		            $total_partner_income += $partner_income;
+            	 }
+              
+            }
+           
         }
         return $total_partner_income;
     }

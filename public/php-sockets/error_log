@@ -1,0 +1,81 @@
+[16-Nov-2021 07:03:10 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:8181": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(17): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8181, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:04:19 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:8181": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(17): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8181, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:05:42 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:5200": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://0.0.0.0:5...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('0.0.0.0:5200', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 5200)
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:10:48 UTC] PHP Parse error:  syntax error, unexpected '.65' (T_DNUMBER), expecting ')' in /home/turvy/public_html/public/php-sockets/app.php on line 19
+[16-Nov-2021 07:11:42 UTC] PHP Parse error:  syntax error, unexpected '.65' (T_DNUMBER), expecting ')' in /home/turvy/public_html/public/php-sockets/app.php on line 19
+[16-Nov-2021 07:11:47 UTC] PHP Parse error:  syntax error, unexpected '.65' (T_DNUMBER), expecting ')' in /home/turvy/public_html/public/php-sockets/app.php on line 19
+[16-Nov-2021 07:12:53 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:8080": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://0.0.0.0:8...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('0.0.0.0:8080', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(18): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080)
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:14:34 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:5200": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 5200, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:16:49 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:8080": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:20:16 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:5200": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 5200, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:25:09 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:8019": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8019, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[16-Nov-2021 07:56:17 UTC] PHP Fatal error:  Uncaught Error: Class 'swoole_websocket_server' not found in /home/turvy/public_html/public/php-sockets/serv.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/serv.php on line 3
+[16-Nov-2021 07:56:56 UTC] PHP Fatal error:  Uncaught Error: Class 'swoole_websocket_server' not found in /home/turvy/public_html/public/php-sockets/serv.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/serv.php on line 3
+[19-Nov-2021 11:47:53 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:12345": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 12345, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172
+[19-Nov-2021 12:04:29 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://209.142.65.183:12345": Address already in use in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php:172
+Stack trace:
+#0 /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct('tcp://209.142.6...', Object(React\EventLoop\StreamSelectLoop), Array)
+#1 /home/turvy/public_html/public/php-sockets/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct('209.142.65.183:...', Object(React\EventLoop\StreamSelectLoop))
+#2 /home/turvy/public_html/public/php-sockets/app.php(19): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 12345, '209.142.65.183')
+#3 {main}
+  thrown in /home/turvy/public_html/public/php-sockets/vendor/react/socket/src/TcpServer.php on line 172

@@ -67,14 +67,20 @@ class LoginController extends Controller
      
 
       if($type == 'driver'){
-         Driver::find($user_id)->update([
-            'email_verified_at'=>date('Y-m-d h:i:s')
-         ]);
+      	$driver = Driver::find($user_id);
+      	if($driver){
+	        	$driver->update([
+	            'email_verified_at'=>date('Y-m-d h:i:s')
+	         ]);
+	      }
          return redirect()->route('driver.login');
       }else{
-         User::find($user_id)->update([
-            'email_verified_at'=>date('Y-m-d h:i:s')
-         ]);
+      	$user = User::find($user_id);
+      	if($user){
+	         $user->update([
+	            'email_verified_at'=>date('Y-m-d h:i:s')
+	         ]);
+	      }
          return redirect()->route('rider.login');
       };
    }

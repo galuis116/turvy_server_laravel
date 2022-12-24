@@ -6,6 +6,7 @@
     $name = isset($vehicleType) ? $vehicleType->name : '';
     $description = isset($vehicleType) ? $vehicleType->description : '';
     $image = isset($vehicleType->image) ? $vehicleType->image : 'images/no-image.png';
+    $cdnimage = isset($vehicleType->cdnimage) ? $vehicleType->cdnimage : '';
     $number_seat = isset($vehicleType) ? $vehicleType->number_seat : 0;
     $btnName = isset($vehicleType) ? 'Update' : 'Save';
 @endphp
@@ -84,6 +85,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">OR</label>
+                                    </div>
+                                 </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">CDN image url</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" id="cdnimage" name="cdnimage" class="form-control" placeholder="CDN Image url" value="{{$cdnimage}}"/>
                                             </div>
                                         </div>
                                     </div>

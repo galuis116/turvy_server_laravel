@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @php
-    $title = isset($city) ? 'Edit city' : 'Add city';
+    $title = isset($city) ? 'Edit region' : 'Add region';
     $action = isset($city) ? route('admin.region.city.update', $city->id) : route('admin.region.city.store');
     $name = isset($city) ? $city->name : '';
     $country_id = isset($city) ? $city->country_id : 0;
@@ -43,7 +43,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter city name" value="{{$name}}"/>
+                                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter region name" value="{{$name}}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                                     @foreach($states as $state)
                                                         <option value="{{$state->id}}" @if($state_id != 0) @if($state_id == $state->id) selected @endif @endif>{{$state->name}}</option>
                                                     @endforeach
-                                                   @endif 
+                                                   @endif
                                                 </select>
                                             </div>
                                         </div>

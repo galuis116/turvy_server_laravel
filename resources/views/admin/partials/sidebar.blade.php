@@ -112,7 +112,7 @@
                         @can('city-list')
                         <li @if($page == 'region' && $subpage == 'city')class="active" @endif>
                             <a href="{{route('admin.region.city.list')}}">
-                                <span>City</span>
+                                <span>Region</span>
                             </a>
                         </li>
                         @endcan
@@ -312,7 +312,7 @@
                         <span>Ride request management</span>
                     </a>
                 </li>
-                
+
                 @can('heatmap')
                 <li @if($page == 'heatmap') class="active" @endif>
                     <a href="{{route('admin.maps.heatmap')}}">
@@ -476,7 +476,7 @@
                         @can('invoice')
                         <li @if($page == 'email' && $subpage == 'invoice')class="active" @endif>
                             <a href="{{route('admin.email.invoice')}}">
-                                <span>Invoice Email</span> 
+                                <span>Invoice Email</span>
                             </a>
                         </li>
                         @endcan
@@ -534,6 +534,29 @@
                     </a>
                 </li>
                 @endcan
+                <li @if($page == 'page') class="active" @endif>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                       <i class="material-icons col-red">donut_large</i>
+                        <span>Page Management</span>
+                    </a>
+                    <ul class="ml-menu">
+                       @can('invoice')
+                        <li @if($page == 'page' )class="active" @endif>
+                            <a href="{{route('admin.cms.page')}}">
+                                <span>Add Page</span>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('invoice')
+                        <li @if($page == 'pagelist' )class="active" @endif>
+                            <a href="{{route('admin.cms.page.list')}}">
+                                <span>Pages</span>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+                
                 @can('home')
                 <li @if($page == 'home') class="active" @endif>
                     <a href="{{route('admin.cms.home')}}">
@@ -579,6 +602,14 @@
                     <a href="{{route('admin.cms.footer')}}">
                         <i class="material-icons col-amber">donut_large</i>
                         <span>Footer Information</span>
+                    </a>
+                </li>
+                @endcan
+                @can('cms-management')
+                <li @if($page == 'header') class="active" @endif>
+                    <a href="{{route('admin.cms.header')}}">
+                        <i class="material-icons col-amber">donut_large</i>
+                        <span>Header Information</span>
                     </a>
                 </li>
                 @endcan

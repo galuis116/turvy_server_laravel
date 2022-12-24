@@ -19,8 +19,8 @@
                                 Drivers
                             </h2>
                         </div>
-                        <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <div class="body table-responsive">
+                            <table class="table  table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                 <tr>
                                     <th>No</th>
@@ -29,6 +29,7 @@
                                     <th>Mobile</th>
                                     <th>Location</th>
                                     <th>Avartar</th>
+                                    <th>Total Earning</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -63,6 +64,9 @@
                                         </td>
                                         <td>
                                             <img src = "{{isset($driver->avatar) ? asset($driver->avatar) : asset('admin-panel/images/user.png')}}" width="70px" height="70px"/>
+                                        </td>
+                                        <td>
+                                           <a href="{{route('admin.user.driver.transactionsdriver', $driver->id)}}">{{$driver->grandtotal}}</a>
                                         </td>
                                         <td>
                                             @if($driver->is_approved)

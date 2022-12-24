@@ -15,7 +15,23 @@ class EarnController extends Controller
     }
     public function index()
     {
+        
+        /*
         $payments = PaymentRequest::where('driver_id', '<>', null)->where('driver_id', Auth::guard('driver')->user()->id)->get();
-        return view('driver.payments')->with('payments', $payments);
+        return view('driver.payments')->with('payments', $payments); */
+
+
+
+        $PaymentRequest = new PaymentRequest;
+        $riderPaymentHistory =   $PaymentRequest->getDriverPaymentHistory('');
+
+
+        return view('driver.payments')->with('payments', $riderPaymentHistory);
+                                     //->with('page_search', $page_search);
+
     }
+
+
+
+
 }

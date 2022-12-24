@@ -41,9 +41,8 @@
                                         <td>{{ $queue->airport->name }}</td>
                                         <td>{{ $queue->position }}</td>
                                         <td>{{ $queue->last_sync }}</td>
-                                        <td>{{ $queue->entrance_time }}</td>
+                                        <td>{{ $queue->enterance_time }}</td>
                                         <td>
-                                            <a href="{{route('admin.queue.delete', $queue->id)}}" class="btn bg-red waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><i class="material-icons">delete</i></a>
                                         </td>
                                     </tr>
                                 @endforeach

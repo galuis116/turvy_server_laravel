@@ -6,6 +6,7 @@
     $title = isset($content->banner_title) ? $content->banner_title : '';
     $desc = isset($content->banner_description) ? $content->banner_description : '';
     $image = isset($content->banner_image) ? $content->banner_image : 'images/no-image.png';
+    $banner_cdnimage = isset($content->banner_cdnimage) ? $content->banner_cdnimage : '';
 @endphp
 
 
@@ -54,6 +55,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">OR</label>
+                                    </div>
+                                 </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="title">CDN image url</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" id="banner_cdnimage" name="banner_cdnimage" class="form-control" placeholder="CDN Image url" value="{{$banner_cdnimage}}"/>
                                             </div>
                                         </div>
                                     </div>

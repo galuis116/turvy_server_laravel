@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteRule ^(.*)$ public/$1 [L]
+
+      
+ 
+RewriteCond %{HTTP_HOST} ^www\.turvy\.net$
+RewriteRule ^$ "https\:\/\/turvy\.net" [R=301,L]

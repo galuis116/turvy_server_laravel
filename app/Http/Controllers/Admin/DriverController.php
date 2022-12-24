@@ -15,6 +15,7 @@ use App\State;
 use App\VehicleMake;
 use App\VehicleModel;
 use App\VehicleType;
+use App\DriverTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 
 class DriverController extends Controller
@@ -31,6 +32,21 @@ class DriverController extends Controller
     public function driverList()
     {
         $drivers = Driver::all();
+        foreach($drivers as $k => $item){
+            $grantAmt = 0;
+            $transactionsInfo = DriverTransactions::where('driver_id',$item['id'])
+            ->where('status','active')
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->first();
+            if($transactionsInfo){
+                $grantAmt = number_format($transactionsInfo->total_amount,2);
+                $grantAmt = ($grantAmt > 0) ? '$'.$grantAmt : str_replace('-', '-$', $grantAmt);
+            }
+            
+            $drivers[$k]['grandtotal'] = $grantAmt;
+        }
+
         return view('admin.driver.index')
             ->with('drivers', $drivers)
             ->with('page', 'user')
@@ -74,6 +90,10 @@ class DriverController extends Controller
         $driver->city_id = $request->city_id;
         if($request->hasFile('avatar'))
             $driver->avatar = upload_file($request->file('avatar'), 'user/driver');
+        if($request->has('cdnimageVehicel'))
+         $driver->cdnimageVehicel = $request->cdnimageVehicel;
+        if($request->has('cdnimage'))
+         $driver->cdnimage = $request->cdnimage;
         $driver->save();
 
         $vehicle = new DriverVehicle();
@@ -143,6 +163,61 @@ class DriverController extends Controller
             ->with('page', 'user')
             ->with('subpage', 'driver');
     }
+
+    public function TransactionDriver($id)
+    {
+        $driver = Driver::find($id);
+        
+        $page = 1;
+        $items_per_page = 10;
+        $offset = ($page - 1) * $items_per_page;
+
+        $transactions = DriverTransactions::select('driver_transactions.*',
+            'users.first_name',
+            'users.last_name')->where('driver_id',$id)
+            ->leftJoin('users', 'users.id', '=', 'driver_transactions.rider_id')
+
+        ->where('driver_transactions.status','active')
+        ->orderBy('driver_transactions.id', 'DESC')
+        ->get();
+        $grantAmt = 0;
+        foreach($transactions as $k => $item){
+            $transactions[$k]['isPositive'] = ($item['amount'] > 0) ? 'Yes' : 'No';
+            $transactions[$k]['transactionDate'] = date('d/m/Y h:i A',strtotime($item['created_at']));
+            $transactions[$k]['amount'] = ($item['amount'] + $item['tip_amount']);
+            $transactions[$k]['amount'] = number_format($transactions[$k]['amount'],2);
+            $transactions[$k]['amount'] = ($transactions[$k]['amount'] > 0) ? 'A$'.$transactions[$k]['amount'] : str_replace('-', '-A$', $transactions[$k]['amount']);
+
+           $transactions[$k]['pay_type'] = $this->getTransactionText($item['pay_type']);
+        }
+
+        return view('admin.driver.transactions')
+            ->with('driver', $driver)
+            ->with('page', 'user')
+            ->with('subpage', 'driver')
+            ->with('transactions',$transactions);
+    }
+
+    public function getTransactionText($str){
+        switch ($str) {
+            case 'trip':
+                return 'You completed trip';
+                break;
+            case 'tip':
+                return 'Rider give you tip';
+                break;
+            case 'self_cancel':
+                return 'You cancelled trip';
+                break;
+            case 'rider_cancel':
+                return 'Trip cancelled by rider.';
+                break;
+             case 'withdraw':
+                return 'Amount withdraw';
+                break;
+        }
+    }
+
     public function updateDriver(StoreDriver $request, $id)
     {
         $request->validated();
@@ -196,4 +271,61 @@ class DriverController extends Controller
         $vehicle->delete();
         return redirect()->back()->with('message', 'It has been deleted successfully.');
     }
+
+    public function paytoDriver($id)
+    {
+        $driver = Driver::find($id);
+        $transactionsInfo = DriverTransactions::where('driver_id',$id)
+        ->where('status','active')
+        ->orderBy('id', 'DESC')
+        ->limit(1)
+        ->first();
+
+        //$grantAmt = number_format($grantAmt,2);      
+        $grantAmt = number_format($transactionsInfo->total_amount,2);
+
+        $grantAmt = ($grantAmt > 0) ? '$'.$grantAmt : str_replace('-', '-$', $grantAmt);
+
+        return view('admin.driver.payToDriver')
+            ->with('driver', $driver)
+            ->with('grantAmt', $grantAmt)
+            ->with('page', 'user')
+            ->with('subpage', 'driver');
+    }
+
+   public function savePaytoDriver(Request $request)
+    {
+        $data = $request->all();
+
+        $validated = $request->validate([
+            'amount' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+        ]);
+
+        if($validated){
+            if( isset($data['id']) && $data['id'] > 0){
+            $id = $data['id'];
+            $transactionsInfo = DriverTransactions::where('driver_id',$id)
+            ->where('status','active')
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->first();
+
+            $grantAmt = $transactionsInfo->total_amount;
+            $newamount = (float)$grantAmt - (float)$data['amount'];
+            $DriverTransactions = new DriverTransactions();
+            $DriverTransactions->driver_id = $data['id'];
+            $DriverTransactions->total_amount = $newamount;
+            $DriverTransactions->amount = $data['amount'];
+            $DriverTransactions->pay_type = 'withdraw';
+            $DriverTransactions->status = 'active';
+            $DriverTransactions->created_at = date('Y-m-d H:i:s');
+            $DriverTransactions->updated_at = date('Y-m-d H:i:s');
+            $DriverTransactions->save();
+        }
+        
+
+        return redirect()->back()->with('message', 'Amount been saved successfully.');
+        }
+    } 
+
 }

@@ -43,6 +43,8 @@ class RiderController extends Controller
         $user->password = bcrypt('rider123');
         if($request->hasFile('avatar'))
             $user->avatar = upload_file($request->file('avatar'), 'user/rider');
+      if($request->has('cdnimage'))
+      $user->cdnimage = $request->cdnimage;
         $user->save();
 
         return redirect()->back()->with('message', 'It has been saved successfully.');
@@ -75,6 +77,8 @@ class RiderController extends Controller
         $user->password = bcrypt('rider123');
         if($request->hasFile('avatar'))
             $user->avatar = upload_file($request->file('avatar'), 'user/rider');
+        if($request->has('cdnimage'))
+      $user->cdnimage = $request->cdnimage;
         $user->save();
 
         return redirect()->back()->with('message', 'It has been updated successfully.');

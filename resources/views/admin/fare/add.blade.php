@@ -9,7 +9,7 @@ $company_commission = isset($fare) ? $fare->company_commission : '';
 $base_ride_distance = isset($fare) ? $fare->base_ride_distance : '';
 $base_ride_distance_charge = isset($fare) ? $fare->base_ride_distance_charge : '';
 $price_per_unit = isset($fare) ? $fare->price_per_unit : '';
-$price_per_minute = isset($fare) ? $fare->price_per_minute : '';
+$price_per_minute = isset($fare) ? $fare->price_per_minute : 0;
 $fee_waiting_time = isset($fare) ? $fare->fee_waiting_time : '';
 $waiting_price_per_minute = isset($fare) ? $fare->waiting_price_per_minute : '';
 $gst_charge = isset($fare) ? $fare->gst_charge : '';
@@ -18,8 +18,8 @@ $nsw_gtl_charge = isset($fare) ? $fare->nsw_gtl_charge : '';
 $nsw_ctp_charge = isset($fare) ? $fare->nsw_ctp_charge : '';
 $booking_charge = isset($fare) ? $fare->booking_charge : '';
 $cancel_charge = isset($fare) ? $fare->cancel_charge : '';
-$free_ride_minute = isset($fare) ? $fare->free_ride_minute : '';
-$price_per_ride_minute = isset($fare) ? $fare->price_per_ride_minute : '';
+$minimum_fare = isset($fare) ? $fare->minimum_fare : 0;
+$after_minimum_fare = isset($fare) ? $fare->after_minimum_fare : 0;
 $baby_seat_charge = isset($fare) && !is_null($fare->baby_seat_charge)? $fare->baby_seat_charge : '';
 $pet_charge = isset($fare) && !is_null($fare->pet_charge) ? $fare->pet_charge : '';
 $btnName = isset($fare) ? 'Update' : 'Save';
@@ -366,34 +366,34 @@ $btnName = isset($fare) ? 'Update' : 'Save';
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label"></div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <h3>Ride Time Charges</h3>
+                                            <h3>Ride Charges</h3>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="free_ride_minute">Free Ride Per Minute</label>
+                                        <label for="free_ride_minute">Minimum Fare</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="free_ride_minute" name="free_ride_minute"
-                                                    class="form-control" placeholder="Enter Free Ride Minute"
-                                                    value="{{ $free_ride_minute }}" />
+                                                <input type="text" id="free_ride_minute" name="minimum_fare"
+                                                    class="form-control" placeholder="Enter Minimum Fare"
+                                                    value="{{ $minimum_fare }}" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="price_per_ride_minute">Ride Per Minute</label>
+                                        <label for="price_per_ride_minute">After Minimum Fare</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="price_per_ride_minute" name="price_per_ride_minute"
-                                                    class="form-control" placeholder="Enter Price Per Ride Minute"
-                                                    value="{{ $price_per_ride_minute }}" />
+                                                <input type="text" id="price_per_ride_minute" name="after_minimum_fare"
+                                                    class="form-control" placeholder="Enter After Minimum Fare"
+                                                    value="{{ $after_minimum_fare }}" />
                                             </div>
                                         </div>
                                     </div>

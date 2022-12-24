@@ -22,8 +22,15 @@
     </style>
 @endsection
 
+@php
+$banner_image = isset($content->banner_cdnimage) ? $content->banner_cdnimage : '';
+if(trim($banner_image) == ""){
+	$banner_image = isset($content->banner_image) ? asset($content->banner_image) : '';
+}
+@endphp
+
 @section('content')
-    <section class="abd-banner-wrapper" style="background-image:url({{isset($content->banner_image) ? asset($content->banner_image) : asset('images/banner_default.jpg')}})">
+    <section class="abd-banner-wrapper" style="background-image:url({{isset($banner_image) ? $banner_image : asset('images/banner_default.jpg')}})">
         <div class="banner-caption">
             <h1 class="banner-title">{{isset($content->banner_title) ? $content->banner_title : ''}}</h1>
             <p class="banner-description">{{isset($content->banner_description) ? $content->banner_description : ''}}</p>
@@ -59,7 +66,13 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="crs-image">
-                                        <img src="{{asset($servicetype->image)}}" />
+                                        	@php
+				                            		$servicetype_image = isset($servicetype->cdnimage) ? $servicetype->cdnimage : '';
+															if(trim($servicetype_image) == ""){
+																$servicetype_image = isset($servicetype->image) ? asset($servicetype->image) : '';
+															}
+				                            	@endphp
+                                        <img src="{{$servicetype_image}}" />
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +86,13 @@
                         <div class="crs-bar-roll">
                             @foreach($servicetypes as $servicetype)
                             <div class="crs-bar-roll-item">
-                                <img src="{{asset($servicetype->image)}}" />
+                            	@php
+                            		$servicetype_image = isset($servicetype->cdnimage) ? $servicetype->cdnimage : '';
+											if(trim($servicetype_image) == ""){
+												$servicetype_image = isset($servicetype->image) ? asset($servicetype->image) : '';
+											}
+                            	@endphp
+                                <img src="{{$servicetype_image}}" />
                                 <p>{{$servicetype->name}}</p>
                             </div>
                             @endforeach
@@ -170,7 +189,13 @@
                                 <li class="text-center">
                                     <h3>{{$partner->organization}}</h3>
                                     <a href="{{$partner->url}}" target="_blank">
-                                    <img src="{{asset($partner->avatar)}}" alt="{{$partner->organization}}" style="width:550px;margin:auto;display: block!important;height: 309px;">
+                                    @php
+		                            		$partner_image = isset($partner->cdnimage) ? $partner->cdnimage : '';
+													if(trim($partner_image) == ""){
+														$partner_image = isset($partner->avatar) ? asset($partner->avatar) : '';
+													}
+		                            	@endphp
+                                    <img src="{{$partner_image}}" alt="{{$partner->organization}}" style="width:550px;margin:auto;display: block!important;height: 309px;">
                                     </a>
                                 </li>
                             @endforeach
@@ -181,6 +206,38 @@
         </div>
     </section>
     <!-- our partner -->
+
+    <section class="abd-donation-wrapper white-bg abd-bg abd-pt abd-pb">
+        <div class="section-title">
+            Thanks To Our Donors
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="slider donation-slider">
+                        @foreach($donors as $donor)
+                            <div class="donation">
+                            		 @php
+	                            		$donor_image = isset($donor->cdnimage) ? $donor->cdnimage : '';
+												if(trim($donor_image) == ""){
+													$donor_image = isset($donor->avatar) ? asset($donor->avatar) : '';
+												}
+	                            	@endphp
+                                <img src="{{ isset($donor_image) && trim($donor_image) != '' ? $donor_image  : asset('images/no-person.png') }}" />
+                                <span class="donation-name">{{ $donor->name }}</span>
+                                <span class="donation-partner-name">{{ $donor->partner->organization }}</span>
+                                <div class="donation-price">
+                                    <span class="donation-caption">Donated</span>
+                                    <span class="price">A${{ $donor->partner_income }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- testimonial -->
     <section class="abd-testimonial-wrapper abd-pt abd-pb">
         <div class="container">
@@ -196,7 +253,18 @@
                         <article class="abd-single-testimonial">
                             @if($comment->rider_id != null)
                             <div class="abd-testimonial-fig">
-                                <img src="{{isset($comment->rider->avatar) ? asset($comment->rider->avatar) : asset('images/user.png')}}" alt="{{$comment->rider->name}}">
+                            	 @php
+	                         		
+
+											if(isset($comment->rider->cdnimage)){
+												$rider_image = $comment->rider->cdnimage ;
+                                                
+											} else {
+
+                                                $rider_image = isset($comment->rider->avatar) ? asset($comment->rider->avatar) : '';
+                                            }
+                         	   @endphp 
+                                <img src="{{isset($rider_image) ? asset($rider_image) : asset('images/user.png')}}" alt="{{$comment->rider->name}}" >
                             </div>
                             <div class="abd-testimonial-caption">
                                 <p>{{$comment->content}}</p>
@@ -206,7 +274,13 @@
                             @endif
                             @if($comment->driver_id != null)
                             <div class="abd-testimonial-fig">
-                                <img src="{{isset($comment->driver->avatar) ? asset($comment->driver->avatar) : asset('images/user.png')}}" alt="{{$comment->driver->name}}">
+                             @php
+                         		$driver_image = isset($comment->driver->cdnimage) ? $donor->driver->cdnimage : '';
+										if(trim($driver_image) == ""){
+											$driver_image = isset($comment->driver->avatar) ? asset($comment->driver->avatar) : '';
+										}
+                         	@endphp
+                                <img src="{{isset($driver_image) ? $driver_image : asset('images/user.png')}}" alt="{{$comment->driver->name}}">
                             </div>
                             <div class="abd-testimonial-caption">
                                 <p>{{$comment->content}}</p>
@@ -215,8 +289,16 @@
                             </div>
                             @endif
                             @if($comment->partner_id != null)
+                           
+                             @php
+                         		$partner_image = isset($comment->partner->cdnimage) ? $donor->partner->cdnimage : '';
+										if(trim($partner_image) == ""){
+											$partner_image = isset($comment->partner->avatar) ? asset($comment->partner->avatar) : '';
+										}
+                         	@endphp
+                           
                             <div class="abd-testimonial-fig">
-                                <img src="{{isset($comment->partner->avatar) ? asset($comment->partner->avatar) : asset('images/user.png')}}" alt="{{$comment->partner->name}}">
+                                <img src="{{isset($partner_image) ? $partner_image : asset('images/user.png')}}" alt="{{$comment->partner->name}}">
                             </div>
                             <div class="abd-testimonial-caption">
                                 <p>{{$comment->content}}</p>

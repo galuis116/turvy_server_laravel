@@ -105,20 +105,24 @@
 </head>
 
 <body>
-
     <div id="wrapper">
-
         @include('rider.partials.header')
         @php
             $rider = Auth::guard('rider')->user();
             $route = \Request::route()->getName();
+           
+            $rider_rating = \App\RiderRating::where('rider_id',$rider->id)->avg('rating');
+            $rider_rating = round($rider_rating);
+            $remaining_rt = 5-$rider_rating;
+            //echo "RATING -- ".$rider_rating;
+            
         @endphp
-
         <section class="mt-30">
 
             <div class="container fluid" style="width: 100%; padding-left: 10%; padding-right: 10%;">
 
                 <div class="row mt-60 mb-100 pt-20 pb-20 profile_content">
+
 
                     <div class="tabs-vertical-env">
 
@@ -138,7 +142,15 @@
 
                                             <div class="driver_car_number">{{$rider->mobile}}</div>
 
-                                            <div class="driver_rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> </div>
+                                            <div class="driver_rating">
+                                            			@for ($i = 0; $i < $rider_rating; $i++)
+                                            			<i class="fa fa-star"></i>
+                                            			@endfor
+                                            			@for ($i = 0; $i < $remaining_rt; $i++)
+                                            			<i class="fa fa-star-o"></i>
+                                            			@endfor
+                                            				
+                                            			</div>
 
                                         </div>
 
@@ -165,6 +177,8 @@
                                         <li @if($route=='rider.trips' ) class="active" @endif><a href="{{route('rider.trips')}}">My Rides</a></li>
 
                                         <li @if($route=='rider.payments' ) class="active" @endif><a href="{{route('rider.payments', 'today')}}">My payments</a></li>
+                                        
+                                        <li @if($route=='rider.myrecepits' ) class="active" @endif><a href="{{route('rider.myrecepits','1')}}">My Receipts</a></li>
 
                                         <li @if($route=='rider.charity' ) class="active" @endif><a href="{{route('rider.charity')}}">My Charity</a></li>
 

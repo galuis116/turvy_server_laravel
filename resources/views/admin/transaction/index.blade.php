@@ -1,9 +1,6 @@
 @extends('admin.layouts.app')
-
 @section('title', 'Transactions')
-
 @section('content')
-
     <section class="content">
         <div class="container-fluid">
             <!-- Basic Examples -->
@@ -36,10 +33,10 @@
                                     <td>{{$index+1}}</td>
                                     <td>{{$transaction->id}}</td>
                                     <td>{{$transaction->transaction_id}}</td>
-                                    <td>{{$transaction->rider->name}}</td>
-                                    <td>{{$transaction->driver->name}}</td>
+                                    <td>@if(isset($transaction->rider) && isset($transaction->rider->name)){{$transaction->rider->name}}@endif</td>
+                                    <td>@if(isset($transaction->driver) && isset($transaction->driver->name)){{$transaction->driver->name}} @endif</td>
                                     <td>{{$transaction->amount}}</td>
-                                    <td>{{$transaction->paymentMode->name}}</td>
+                                    <td>@if(isset($transaction->paymentMode) && isset($transaction->paymentMode->name)){{$transaction->paymentMode->name}}@endif</td>
                                     <td>{{date('Y-m-d', strtotime($transaction->created_at))}}</td>
                                     <td>
                                         @if($transaction->status)

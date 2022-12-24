@@ -3,7 +3,7 @@
 @section('title', 'Drivers availability Stats on Map')
 
 @section('content')
-
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <section class="content">
     <div class="container-fluid">
         <div class="row clearfix">
@@ -99,20 +99,44 @@
 
 @section('scripts')
 <script>
+ // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('389d667a3d4a50dc91a6', {
+      cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('turvy-channel');
+    /*
+    	channel.bind('my-event', function(data) {
+      alert(JSON.stringify(data));
+    });
+    */
+    
+    channel.bind('driver_online_event', function(res) {
+      console.log('driver_online_event', res);
+      getmapmarker(map);
+    });
+    channel.bind('driver_offline_event', function(res) {
+      console.log('driver_offline_event', res);
+      getmapmarker(map);
+    });
+    
     var map;
     var markers = [
         @foreach($drivers as $driver)
-        { driver_id: "{{ $driver->driverId }}",name: "{{ $driver->driver->name }}", lat: {{ $driver->lat }}, lng: {{ $driver->lng }}, available: {{ $driver->driver->is_available }} },
+        @if(isset($driver->driver->name) && $driver->driver->name != '')
+        {driver_id: "{{ $driver->driverId }}",name: "{{ $driver->driver->name }}", lat: {{ $driver->lat }}, lng: {{ $driver->lng }}, available: 1 },
+        @endif
         @endforeach
     ];
 
     var mapIcons = [
         // 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-        '{{ asset('images/map-marker-red.png') }}',
-        '{{ asset('images/map-marker-blue.png') }}',
+        '{{ asset('images/available_car.png') }}',
+        '{{ asset('images/available_car.png') }}',
        // 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
     ];
-
+	//setInterval(initMap, 2000); // Time in milliseconds
     var mapMarkers = [];
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -121,38 +145,17 @@
             minZoom: 1,
             mapId: 'af9935eed520f3ec'
         });
-
-        /*
-        var input = document.getElementById('pac-input');
-        var button = document.getElementById('location-search');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map);
-        var infowindow = new google.maps.InfoWindow();
-        */
-
-        markers.forEach( function(element, index) {
-            var dURL = "/admin/user/driver/"+ element.driver_id +"/show"
-            var url = '{{url("/")}}' + dURL
-            marker = new google.maps.Marker({
-                position: {lat: element.lat, lng: element.lng},
-                map: map,
-                title: element.name,
-                icon: mapIcons[element.available],
-            });
-
-            mapMarkers.push(marker);
-            google.maps.event.addListener(marker, 'click', function() {
-                window.location.href = url;
-            });
-        });
-
+        
+			 getmapmarker(map);
+			//setInterval(function() { getmapmarker(map); }, 3000);
+			
         var legend = document.getElementById('legend');
         var div = document.createElement('div');
-        div.innerHTML = '<img src="' + mapIcons[0] + '"> ' + 'Unavailable';
+        div.innerHTML = '<img src="' + mapIcons[0] + '" width="24"> ' + 'Available';
         legend.appendChild(div);
-        var div = document.createElement('div');
-        div.innerHTML = '<img src="' + mapIcons[1] + '"> ' + 'Available';
-        legend.appendChild(div);
+       // var div = document.createElement('div');
+        //div.innerHTML = '<img src="' + mapIcons[1] + '"> ' + 'Available';
+        //legend.appendChild(div);
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
         /*
         function search() {
@@ -224,6 +227,83 @@
 
         */
 
+    }
+    
+    function getmapmarker(map){
+    		//alert("here");
+    		  //clearMarkers();
+    		  //console.log("PREVIOUS DATA",mapMarkers);
+    		  if(mapMarkers && mapMarkers.length > 0){
+    		  	  //console.log("PREVIOUS DATA LENGTH ",mapMarkers.length);
+	    		  for (let i = 0; i < mapMarkers.length; i++) {
+				    mapMarkers[i].setMap(null);
+				  }
+			   }
+
+    		//var mapMarkers = [];
+			 $.ajax({ 
+		        type: 'GET', 
+		        url: 'https://www.turvy.net/admin/maps/drveraval_data', 
+		        success: function (data) { 
+		        	//console.log(data);
+		        	markers = data['data'];
+		        	//console.log("Length",markers.length);
+			    if(markers){
+			    	//markers.setMap(null);
+		        	markers.forEach( function(element, index) {
+		        console.log("ELEMT DATA ",element.driver_id);
+	            var dURL = "/admin/user/driver/"+ element.driver_id +"/show"
+	            var url = '{{url("/")}}' + dURL;
+            var icon = {
+				    url: mapIcons[element.available], // url
+				    scaledSize: new google.maps.Size(24, 34), // scaled size
+				    origin: new google.maps.Point(0,0), // origin
+				    anchor: new google.maps.Point(0, 0) // anchor
+				};
+            marker = new google.maps.Marker({
+                position: {lat: Number(element.lat), lng: Number(element.lng)},
+                map: map,
+                title: element.name,
+                icon:icon,
+            });
+
+            mapMarkers.push(marker);
+            //console.log("MARKER",mapMarkers);
+            const contentString =
+				    '<div id="content">' +
+				    '<div id="siteNotice">' +
+				    "</div>" +
+				    '<a href="'+url+'">'+element.name+'</a>' +
+				    "</div>";
+			    var infowindow = new google.maps.InfoWindow({
+			        content: contentString,
+			        disableAutoPan: true
+			    });
+			     infowindow.open(map, marker);
+           /* google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
+            	
+				});
+				*/
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location.href = url;
+            });
+             
+        });
+		          //markers 
+		          }
+		        }
+		    });
+        /*
+        var input = document.getElementById('pac-input');
+        var button = document.getElementById('location-search');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        var infowindow = new google.maps.InfoWindow();
+        */
+			//console.log("AMRKERS ",markers);
+        
+
+    
     }
 
 </script>
