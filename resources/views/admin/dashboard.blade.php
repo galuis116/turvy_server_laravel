@@ -202,7 +202,7 @@
                         </div>
                         <div class="content">
                             <div class="text">RIDERS REWARD POINTS</div>
-                            <div class="number count-to" data-from="0" data-to="{{$ride_total}}" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="{{$earnings->rider_reward_points}}" data-speed="15" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -212,8 +212,8 @@
                             <i class="material-icons">supervisor_account</i>
                         </div>
                         <div class="content">
-                            <div class="text">DRIVERS</div>
-                        <div class="number count-to" data-from="0" data-to="{{$ongoing}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">DRIVERS (A$)</div>
+                        <div class="number count-to" data-from="0" data-to="{{$earnings->drivers}}" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -224,12 +224,10 @@
                         </div>
                         <div class="content">
                             <div class="text">GOVERNMENT LEVY/GST</div>
-                            <div class="number count-to" data-from="0" data-to="{{$cancelled}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="{{$earnings->gst}}" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                </a>
-                <a @can('completedride-list') href="{{route('admin.ride.completed.list', 'done')}}" @endcan>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-orange hover-expand-effect">
                         <div class="icon">
@@ -237,14 +235,12 @@
                         </div>
                         <div class="content">
                             <div class="text">TURVY</div>
-                            <div class="number count-to" data-from="0" data-to="{{$completed}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="{{$earnings->turvy}}" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                </a>
             </div>
             <div class="row clearfix">
-                <a @can('activeride-list') href="{{route('admin.ride.active.list', 'new')}}" @endcan>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
@@ -252,11 +248,10 @@
                         </div>
                         <div class="content">
                             <div class="text">CHARITY</div>
-                            <div class="number count-to" data-from="0" data-to="{{$newRides}}" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="{{$earnings->charity}}" data-speed="15" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                </a>
             </div>
         </div>
     </section>

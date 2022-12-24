@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Appointment;
 use App\Driver;
+use App\DriverTransactions;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Partner;
 use App\PaymentRequest;
+use App\Rewards;
 use App\User;
 
 class DashboardController extends Controller
@@ -34,6 +36,13 @@ class DashboardController extends Controller
         $manual_active_ride = Appointment::where('is_manual', 1)->whereIn('status', [1,3])->count();
         $manual_completed_ride = Appointment::where('is_manual', 1)->where('status', 9)->count();
 
+        $earnings = json_decode(json_encode(array(
+            'rider_reward_points' => Rewards::sum("point"),
+            'drivers' => DriverTransactions::where('status', 'active')->sum("total_amount"),
+            'gst' => 0,
+            'turvy' => 0,
+            'charity' => 0
+        )));
 
         return view('admin.dashboard')
             ->with('driver_total', $driver_total)
@@ -48,6 +57,7 @@ class DashboardController extends Controller
             ->with('manual_ride_total', $manual_ride_total)
             ->with('manual_active_ride', $manual_active_ride)
             ->with('manual_completed_ride', $manual_completed_ride)
+            ->with('earnings', $earnings)
             ->with('page', 'dashboard');
     }
 }
