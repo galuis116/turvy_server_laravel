@@ -212,8 +212,8 @@
                             <i class="material-icons">supervisor_account</i>
                         </div>
                         <div class="content">
-                            <div class="text">DRIVERS (A$)</div>
-                        <div class="number count-to" data-from="0" data-to="{{$earnings->drivers}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">DRIVERS</div>
+                        <div class="number">A${{$earnings->drivers}}</div>
                         </div>
                     </div>
                 </div>
@@ -224,7 +224,7 @@
                         </div>
                         <div class="content">
                             <div class="text">GOVERNMENT LEVY/GST</div>
-                            <div class="number count-to" data-from="0" data-to="{{$earnings->gst}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number">A${{$earnings->gst}}</div>
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                         </div>
                         <div class="content">
                             <div class="text">TURVY</div>
-                            <div class="number count-to" data-from="0" data-to="{{$earnings->turvy}}" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number">A${{$earnings->turvy}}</div>
                         </div>
                     </div>
                 </div>
@@ -248,7 +248,7 @@
                         </div>
                         <div class="content">
                             <div class="text">CHARITY</div>
-                            <div class="number count-to" data-from="0" data-to="{{$earnings->charity}}" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number">A${{$earnings->charity}}</div>
                         </div>
                     </div>
                 </div>

@@ -36,12 +36,17 @@ class DashboardController extends Controller
         $manual_active_ride = Appointment::where('is_manual', 1)->whereIn('status', [1,3])->count();
         $manual_completed_ride = Appointment::where('is_manual', 1)->where('status', 9)->count();
 
+        $total_drivers_earnings = DriverTransactions::where('status', 'active')->sum("total_amount");
+        $total_gst = $total_drivers_earnings * 0.1;
+        $total_charity_earnings = DriverTransactions::where('status', 'active')->sum("charity_amount");
+        $total_turvy_earnings = DriverTransactions::where('status', 'active')->sum("company_amount");
+
         $earnings = json_decode(json_encode(array(
             'rider_reward_points' => Rewards::sum("point"),
-            'drivers' => DriverTransactions::where('status', 'active')->sum("total_amount"),
-            'gst' => 0,
-            'turvy' => 0,
-            'charity' => 0
+            'drivers' => number_format($total_drivers_earnings,2),
+            'gst' => number_format($total_gst,2),
+            'turvy' => number_format($total_turvy_earnings,2),
+            'charity' => number_format($total_charity_earnings,2)
         )));
 
         return view('admin.dashboard')
