@@ -144,10 +144,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::get('/terms', 'Admin\CMSController@terms')->name('terms');
         Route::post('/terms', 'Admin\CMSController@storeTerms')->name('terms');
-        
+
         Route::get('/page', 'Admin\CMSController@page')->name('page');
         Route::post('/savepage', 'Admin\CMSController@storepage')->name('page.save');
-        
+
         Route::get('/pagelist', 'Admin\CMSController@pageList')->name('page.list');
         Route::get('/{id}/delete-page', 'Admin\CMSController@pageDelete')->name('page.delete');
         Route::get('/{id}/edit', 'Admin\CMSController@editPage')->name('page.edit');
@@ -527,6 +527,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/rider', 'Admin\RatingController@rider')->name('rider');
         Route::get('/rider/{id}/changeStatus', 'Admin\RatingController@riderChangeStatus')->name('rider.status');
     });
+
+    Route::group(['prefix' => 'earnings', 'as' => 'earnings.'], function () {
+        Route::get('/rider-reward-points', 'Admin\EarningsController@rewards')->name('rewards');
+        Route::get('/drivers', 'Admin\EarningsController@drivers')->name('drivers');
+        Route::get('/government', 'Admin\EarningsController@government')->name('government');
+        Route::get('/turvy', 'Admin\EarningsController@turvy')->name('turvy');
+        Route::get('/charity', 'Admin\EarningsController@charity')->name('charity');
+    });
 });
 
 //- Rider -//
@@ -544,7 +552,7 @@ Route::prefix('rider')->group(function () {
     Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('rider.password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset.admin');
-    
+
     Route::get('/email/verify', 'Auth\VerificationController@show')->name('rider.verification.notice');
     Route::get('/email/verify/{id}/{type}', 'Auth\LoginController@verifyMail')->name('rider.verification.verify');
     Route::get('/email/resend', 'Auth\VerificationController@resend')->name('rider.verification.resend');
@@ -598,7 +606,7 @@ Route::prefix('driver')->group(function () {
 	  //Route::post('/password/email', 'Auth\AdminForgotPaswordController@sendresetEmail')->name('admin.passemail');
     Route::get('password/reset/{token}', 'Auth\DriverForgotPaswordController@showResetForm')->name('password.reset.driver');
     Route::post('password/reset/{token}', 'Auth\DriverForgotPaswordController@showResetForm')->name('password.reset.driver');
-	 
+
     Route::middleware(['verified'])->group(function () {
         Route::get('/dashboard', 'Driver\DashboardController@index')->name('driver.dashboard');
         Route::get('/profile', 'Driver\ProfileController@index')->name('driver.profile');

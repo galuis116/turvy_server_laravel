@@ -352,6 +352,39 @@
                     </ul>
                 </li>
                 @endcanany
+                <li @if($page == 'earnings') class="active" @endif>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">monetization_on</i>
+                        <span>Earnings Management</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li @if($page == 'earnings' && $subpage == 'rewards')class="active" @endif>
+                            <a href="{{route('admin.earnings.rewards')}}">
+                                <span>Riders Reward Points</span>
+                            </a>
+                        </li>
+                        <li @if($page == 'earnings' && $subpage == 'drivers')class="active" @endif>
+                            <a href="{{route('admin.earnings.drivers')}}">
+                                <span>Drivers</span>
+                            </a>
+                        </li>
+                        <li @if($page == 'earnings' && $subpage == 'government')class="active" @endif>
+                            <a href="{{route('admin.earnings.government')}}">
+                                <span>Government Levy / GST</span>
+                            </a>
+                        </li>
+                        <li @if($page == 'earnings' && $subpage == 'turvy')class="active" @endif>
+                            <a href="{{route('admin.earnings.turvy')}}">
+                                <span>Turvy</span>
+                            </a>
+                        </li>
+                        <li @if($page == 'earnings' && $subpage == 'charity')class="active" @endif>
+                            <a href="{{route('admin.earnings.charity')}}">
+                                <span>Charity</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 @canany(['riderreward-list','driverloyalty-list'])
                 <li @if($page == 'point') class="active" @endif>
                     <a href="javascript:void(0);" class="menu-toggle">
@@ -556,7 +589,7 @@
                         @endcan
                     </ul>
                 </li>
-                
+
                 @can('home')
                 <li @if($page == 'home') class="active" @endif>
                     <a href="{{route('admin.cms.home')}}">

@@ -195,6 +195,7 @@
                 </div>
             </div>
             <div class="row clearfix">
+                <a href="{{route('admin.earnings.rewards')}}">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
@@ -206,6 +207,8 @@
                         </div>
                     </div>
                 </div>
+                </a>
+                <a href="{{route('admin.earnings.drivers')}}">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-cyan hover-expand-effect">
                         <div class="icon">
@@ -217,6 +220,8 @@
                         </div>
                     </div>
                 </div>
+                </a>
+                <a href="{{route('admin.earnings.government')}}">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-green hover-expand-effect">
                         <div class="icon">
@@ -228,6 +233,8 @@
                         </div>
                     </div>
                 </div>
+                </a>
+                <a href="{{route('admin.earnings.turvy')}}">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-orange hover-expand-effect">
                         <div class="icon">
@@ -239,8 +246,10 @@
                         </div>
                     </div>
                 </div>
+                </a>
             </div>
             <div class="row clearfix">
+                <a href="{{route('admin.earnings.charity')}}">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
@@ -252,6 +261,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
     </section>
