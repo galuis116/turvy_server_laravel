@@ -34,16 +34,14 @@ class DriverController extends Controller
         $drivers = Driver::all();
         foreach($drivers as $k => $item){
             $grantAmt = 0;
-            $transactionsInfo = DriverTransactions::where('driver_id',$item['id'])
-            ->where('status','active')
-            ->orderBy('id', 'DESC')
-            ->limit(1)
-            ->first();
-            if($transactionsInfo){
-                $grantAmt = number_format($transactionsInfo->total_amount,2);
-                $grantAmt = ($grantAmt > 0) ? '$'.$grantAmt : str_replace('-', '-$', $grantAmt);
+            $transactions = DriverTransactions::where('driver_id',$item['id'])->where('pay_type', '<>', 'withdraw')->get();
+            foreach($transactions as $t){
+                $grantAmt += $t->amount;
+                if($t->tip_amount)
+                    $grantAmt += $t->tip_amount;
             }
-            
+            $grantAmt = number_format($grantAmt,2);
+            $grantAmt = '$'.$grantAmt;
             $drivers[$k]['grandtotal'] = $grantAmt;
         }
 
@@ -167,7 +165,7 @@ class DriverController extends Controller
     public function TransactionDriver($id)
     {
         $driver = Driver::find($id);
-        
+
         $page = 1;
         $items_per_page = 10;
         $offset = ($page - 1) * $items_per_page;
@@ -281,7 +279,7 @@ class DriverController extends Controller
         ->limit(1)
         ->first();
 
-        //$grantAmt = number_format($grantAmt,2);      
+        //$grantAmt = number_format($grantAmt,2);
         $grantAmt = number_format($transactionsInfo->total_amount,2);
 
         $grantAmt = ($grantAmt > 0) ? '$'.$grantAmt : str_replace('-', '-$', $grantAmt);
@@ -322,10 +320,10 @@ class DriverController extends Controller
             $DriverTransactions->updated_at = date('Y-m-d H:i:s');
             $DriverTransactions->save();
         }
-        
+
 
         return redirect()->back()->with('message', 'Amount been saved successfully.');
         }
-    } 
+    }
 
 }

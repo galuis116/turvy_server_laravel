@@ -36,20 +36,16 @@ class DashboardController extends Controller
         $manual_active_ride = Appointment::where('is_manual', 1)->whereIn('status', [1,3])->count();
         $manual_completed_ride = Appointment::where('is_manual', 1)->where('status', 9)->count();
 
-        /* TODO: calculate total driver's earnings */
         $drivers = Driver::all();
         $total_drivers_earnings = 0;
         foreach($drivers as $k => $item){
-            $transactionsInfo = DriverTransactions::where('driver_id',$item['id'])
-            ->where('status','active')
-            ->orderBy('id', 'DESC')
-            ->limit(1)
-            ->first();
-            if($transactionsInfo){
-                $total_drivers_earnings += $transactionsInfo->total_amount;
+            $transactions = DriverTransactions::where('driver_id',$item['id'])->where('pay_type', '<>', 'withdraw')->get();
+            foreach($transactions as $transaction) {
+                $total_drivers_earnings += $transaction->amount;
+                if($transaction->tip_amount)
+                    $total_drivers_earnings += $transaction->tip_amount;
             }
         }
-
         $total_gst = $total_drivers_earnings * 0.1;
         $total_charity_earnings = DriverTransactions::where('status', 'active')->sum("charity_amount");
         $total_turvy_earnings = DriverTransactions::where('status', 'active')->sum("company_amount");
