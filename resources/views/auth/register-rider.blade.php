@@ -393,7 +393,13 @@
         });
 
 
-        $('#btn-finish').click(function(){
+        $('#btn-finish').click(function(event){
+            event.preventDefault();
+
+            $('#register-step-1').hide();
+            $('#register-step-2').hide();
+            $('#register-step-3').hide();
+            $('#register-step-4').hide();
             var first_name = $('#first_name').val();
             var last_name = $('#last_name').val();
             var email = $('#email').val();
@@ -436,6 +442,8 @@
                 url: "{{route('rider.register')}}",
                 type: "POST",
                 data: formData,
+                processData: false,
+                contentType: false,
                 success: function(result){
                     console.log(result);
                     if(result.status == 1){
