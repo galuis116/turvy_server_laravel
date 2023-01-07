@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'gender', 'email', 'password', 'mobile', 'mobile_verified_at', 'verification_code', 'partner_id','email_verified_at', 'ip_address', 'device_type', 'device_token'
+        'first_name', 'last_name', 'gender', 'email', 'password', 'mobile', 'mobile_verified_at', 'verification_code', 'avatar', 'partner_id','email_verified_at', 'ip_address', 'device_type', 'device_token'
     ];
 
     /**
@@ -62,9 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail
 		            $partner_income = $admin_income * 0.05;
 		            $total_partner_income += $partner_income;
             	 }
-              
+
             }
-           
+
         }
         return $total_partner_income;
     }
