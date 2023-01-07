@@ -12,7 +12,7 @@
             display: none;
         }
         #register-error-message, #register-step-2, #register-step-3, #register-step-4 {
-            display: block;
+            display: none;
         }
         .photo-upload-box {
             width: 100%;
