@@ -320,6 +320,7 @@
             var last_name = $('#last_name').val();
             var partnerID = $('#partner').val();
             var is_selected_photo = $('#photo')[0].files[0];
+
             if(first_name === '')
             {
                 $('#register-error-message').show();
@@ -338,7 +339,7 @@
                 $('#register-error-message p').text('Please choose your partner.');
                 return false;
             }
-            if(is_selected_photo) {
+            if(!is_selected_photo) {
                 $('#register-error-message').show();
                 $('#register-error-message p').text('Please upload your photo.');
                 return false;
