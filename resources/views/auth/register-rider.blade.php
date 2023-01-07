@@ -12,7 +12,7 @@
             display: none;
         }
         #register-error-message, #register-step-2, #register-step-3, #register-step-4 {
-            display: none;
+            display: block;
         }
         .photo-upload-box {
             width: 100%;
@@ -319,7 +319,7 @@
             var first_name = $('#first_name').val();
             var last_name = $('#last_name').val();
             var partnerID = $('#partner').val();
-            var is_selected_photo = $('#photo').val();
+            var is_selected_photo = $('#photo')[0].files[0];
             if(first_name === '')
             {
                 $('#register-error-message').show();
