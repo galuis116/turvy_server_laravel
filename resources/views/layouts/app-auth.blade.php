@@ -24,6 +24,9 @@
         <!-- responsive -->
         <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
 
+        <!-- Bootstrap fileinput -->
+        <link href="{{asset('admin-panel/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" />
+
         @yield('styles')
 
         <!-- site title -->
@@ -51,6 +54,9 @@
         <!-- custom scripts -->
         <script src="{{asset('js/scripts.js')}}"></script>
 
+        <!-- Bootstrap Fileinput -->
+        <script src="{{asset('admin-panel/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}"></script>
+
         @yield('scripts')
 
         <script>
@@ -66,12 +72,12 @@
             $(document).bind("contextmenu",function(e){
                 return false;
             });
-            
+
             document.onkeydown = function(e) {
-                if (e.ctrlKey && 
-                    (e.keyCode === 67 || 
-                    e.keyCode === 86 || 
-                    e.keyCode === 85 || 
+                if (e.ctrlKey &&
+                    (e.keyCode === 67 ||
+                    e.keyCode === 86 ||
+                    e.keyCode === 85 ||
                     e.keyCode === 117)) {
                     return false;
                 } else {

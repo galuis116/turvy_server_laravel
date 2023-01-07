@@ -64,6 +64,7 @@ class RegisterController extends Controller
             'partnerID' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'photo' => ['required']
         ]);
     }
 
@@ -73,9 +74,9 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(array $data, $file)
     {
-        
+
         $validator = $this->validator($data);
 
         if($validator->fails() )
@@ -86,6 +87,7 @@ class RegisterController extends Controller
 
 
             $mobile = $data['phonecode'].$data['user_phone'];
+
             return User::create([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -97,6 +99,7 @@ class RegisterController extends Controller
                 'mobile_verified_at' => date('Y-m-d H:i:s'),
                 'partner_id' => $data['partnerID'],
                 'password' => Hash::make($data['password']),
+                'avatar' => upload_file($file, 'user/rider')
             ]);
 
         }
@@ -141,7 +144,7 @@ class RegisterController extends Controller
             'ip_address' => $request->ip()
         ]);
 
-        $rider = $this->create($request->all());
+        $rider = $this->create($request->all(), $request->file('photo'));
         Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
@@ -179,7 +182,7 @@ class RegisterController extends Controller
         $token = config("services.twilio.authtoken");
         $twilio_sid = config("services.twilio.sid");
         $twilio_verify_sid = config("services.twilio.verifysid");
-   
+
         $twilio = new Client($twilio_sid, $token);
         $verification = $twilio->verify->v2->services($twilio_verify_sid)
             ->verificationChecks

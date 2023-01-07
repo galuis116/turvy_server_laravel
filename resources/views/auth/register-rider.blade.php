@@ -14,6 +14,37 @@
         #register-error-message, #register-step-2, #register-step-3, #register-step-4 {
             display: none;
         }
+        .photo-upload-box {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        .photo-upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .photo-upload-form input[type="file"] {
+            display: none;
+        }
+        .photo-upload-form button {
+            padding: 0 10px;
+            background-color: #226CA8;
+            border: 0;
+            color: white;
+        }
+        button#btn-image-remove {
+            background-color: red;
+            display: none;
+        }
+        .photo-upload-form button:hover {
+            opacity: 0.75;
+        }
+        .photo-upload-description p {
+            font-size: 12pt;
+        }
     </style>
 @endsection
 
@@ -93,6 +124,20 @@
                                     </select>
                                     @endif
                                 </div>
+                                <div class="abd-single-inpt">
+                                    <!-- Photo Upload Section -->
+                                    <div class="photo-upload-box">
+                                        <div class="photo-upload-form">
+                                            <img id="preview-photo" src="{{asset("images/no-person.png")}}" width="150px" height="150px" alt=""/>
+                                            <input type="file" name="photo" id="photo" />
+                                            <button id="btn-image-upload" type="button">Upload photo</button>
+                                            <button id="btn-image-remove" type="button">Remove photo</button>
+                                        </div>
+                                        <div class="photo-upload-description">
+                                            <p>Uploading a photo is compulsory. If registering on a mobile phone, they will take photos or upload from a file</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="abd-single-inpt signin-signup">
                                     <button id="btn-next-step-3" type="button">Next</button>
                                 </div>
@@ -129,7 +174,7 @@
 @endsection
 
 @section('scripts')
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>    
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script>
     var firebaseConfig = {
@@ -164,18 +209,18 @@
             if(str.length>1) {
                 var patt = new RegExp("^[1-9][0-9]");
                 var res = patt.test(str);
-                
+
                 //remove starting zero from phone no field
                     str = str.replace(/^0+/, '')
                     $(this).val(str);
-                    
+
 
                 if(!res) {
                     $('.form-validation-error').show();
                     $(this).css('border', '1px solid red');
                 }
                 else{
-                  
+
                     $('.form-validation-error').hide();
                     $(this).css('border', '1px solid #e1e1e1');
                 }
@@ -205,22 +250,22 @@
                 return false;
             }
             var number = phone_code + phone_number;
-            
+
             var appVerifier = window.recaptchaVerifier;
             firebase
             .auth()
             .signInWithPhoneNumber(number, appVerifier)
             .then(function(confirmationResult) {
-                window.confirmationResult = confirmationResult;                    
+                window.confirmationResult = confirmationResult;
                 $('#span-phone-number').text(number);
                 $('#register-step-1').hide();
                 $('#register-step-2').show();
             })
             .catch(function(error) {
-                //console.log('Error1:',error);                    
+                //console.log('Error1:',error);
                 $('#register-error-message').show();
                 $('#register-error-message p').text(error);
-            });            
+            });
         });
         $('#btn-next-step-2').click(function(){
             var otp_code = $('#otp').val();
@@ -239,13 +284,13 @@
             .then(function(result) {
                 var user = result.user;
                 //console.log(user);
-                
+
                 $('#register-step-1').hide();
                 $('#register-step-2').hide();
                 $('#register-step-3').show();
             })
             .catch(function(error) {
-                //console.log(error);                
+                //console.log(error);
                 $('#register-error-message').show();
                 $('#register-error-message p').text(error);
             });
@@ -274,6 +319,7 @@
             var first_name = $('#first_name').val();
             var last_name = $('#last_name').val();
             var partnerID = $('#partner').val();
+            var is_selected_photo = $('#photo').val();
             if(first_name === '')
             {
                 $('#register-error-message').show();
@@ -290,6 +336,11 @@
             {
                 $('#register-error-message').show();
                 $('#register-error-message p').text('Please choose your partner.');
+                return false;
+            }
+            if(is_selected_photo) {
+                $('#register-error-message').show();
+                $('#register-error-message p').text('Please upload your photo.');
                 return false;
             }
             $('#register-step-1').hide();
@@ -309,6 +360,38 @@
         $('#partner').on('change', function(){
             $('#register-error-message').hide();
         });
+
+        // Script for image uploading....
+        $('#btn-image-upload').on('click', function() {
+            $('#photo').click();
+        });
+        $('#btn-image-remove').on('click', function() {
+            $("#preview-photo").attr('src', "{{asset("images/no-person.png")}}");
+            $('#btn-image-upload').show();
+            $('#btn-image-remove').hide();
+        });
+        $('#photo').on('change', function() {
+            // Get the select file from the input
+            const file = $('#photo')[0].files[0];
+
+            // Create  a new FileReader object
+            const reader = new FileReader();
+
+            // Add an event listener to the FileReader that will execute when the file has been read
+            reader.addEventListener('load', () => {
+            // Set the src attribute of the image element to the data URL of the image
+                $("#preview-photo").attr('src',reader.result);
+            });
+
+            // Start reading the file as a data URL
+            reader.readAsDataURL(file);
+
+            // Trigger the buttons
+            $('#btn-image-upload').hide();
+            $('#btn-image-remove').show();
+        });
+
+
         $('#btn-finish').click(function(){
             var first_name = $('#first_name').val();
             var last_name = $('#last_name').val();
@@ -336,19 +419,22 @@
                 $('#register-error-message p').text('Password should be 8 digits and letters.');
                 return false;
             }
+
+            const formData = new FormData();
+            formData.append('first_name', first_name);
+            formData.append('last_name', last_name);
+            formData.append('email', email);
+            formData.append('phonecode', phone_code);
+            formData.append('user_phone', phone_number);
+            formData.append('partnerID', partner_id);
+            formData.append('password', password);
+            formData.append('_token', "{{csrf_token()}}");
+            formData.append('photo', $('#photo')[0].files[0]);
+
             $.ajax({
                 url: "{{route('rider.register')}}",
                 type: "POST",
-                data: {
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "phonecode": phone_code,
-                    "user_phone": phone_number,
-                    "partnerID": partner_id,
-                    "email": email,
-                    "password": password,
-                    "_token": "{{csrf_token()}}"
-                },
+                data: formData,
                 success: function(result){
                     console.log(result);
                     if(result.status == 1){
