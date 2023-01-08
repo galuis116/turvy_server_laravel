@@ -30,7 +30,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'device_type' => ['required'],
-            
+
         ]);
     }
 
@@ -48,12 +48,12 @@ class AuthController extends Controller
             'make_id' => ['required', 'numeric'],
             'model_id' => ['required', 'numeric'],
             'plate' => ['required', 'string', 'max:15'],
-            'device_type' => ['required']
-            
+            'device_type' => ['required'],
+            'avatar' => ['required']
         ]);
     }
 
-    protected function createRider(array $data)
+    protected function createRider(array $data, $avatar)
     {
         return User::create([
             'first_name' => $data['first_name'],
@@ -65,7 +65,8 @@ class AuthController extends Controller
             'mobile_verified_at' => date('Y-m-d H:i:s'),
             'password' => Hash::make($data['password']),
             'device_type' => $data['device_type'],
-            'device_token' => $data['device_token']
+            'device_token' => $data['device_token'],
+            'avatar' => upload_file($avatar, 'user/rider')
         ]);
     }
 
@@ -163,7 +164,7 @@ class AuthController extends Controller
         {
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
-      
+
         try{
                 $rider = User::where('mobile', $request->phone)->first();
 
@@ -228,7 +229,7 @@ class AuthController extends Controller
         }
         */
     }
-  
+
   public function verifyOTP(Request $request){
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'numeric'],
@@ -255,7 +256,7 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
     }
-  
+
 
 /*
     public function verifyOTP(Request $request){
@@ -312,7 +313,7 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
 
-        $rider = $this->createRider($request->all());
+        $rider = $this->createRider($request->all(), $request->file('avatar'));
 
         /*try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
@@ -322,7 +323,7 @@ class AuthController extends Controller
         */
 	          $Email_data = new RiderEmailVerification($rider);
 	       	 $html = $Email_data->render();
-    		
+
     		    $from = "admin@turvy.net";
 			    $to = $request->email;
 			    $subject = "Rider Email Verification";
@@ -332,7 +333,7 @@ class AuthController extends Controller
 			    $headers .= "MIME-Version: 1.0\r\n";
 				 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 			    mail($to,$subject,$message, $headers);
-		
+
         return response()->json(['status' => 1, 'message' => 'Rider created.']);
     }
 
@@ -462,10 +463,10 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         } */
-        
+
         $Email_data = new DriverEmailVerification($driver);
     	  $html = $Email_data->render();
- 		
+
 	 		 $from = "admin@turvy.net";
 		    $to = $request->email;
 		    $subject = "Driver Email Verification";
@@ -475,11 +476,11 @@ class AuthController extends Controller
 		    $headers .= "MIME-Version: 1.0\r\n";
 			 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 		    mail($to,$subject,$message, $headers);
-			    
+
 
         return response()->json(['status' => 1, 'message' => 'Driver created.']);
     }
-  
+
   	//new fun 4-8-21
   	//get access token if phone is register.
   	public function loginOTP(Request $request){
@@ -490,14 +491,14 @@ class AuthController extends Controller
         {
             return response()->json(['status' => 0, 'message' => $validator->errors()->first()]);
         }
-    
+
     	$driver = Driver::where('mobile', $request->phone)->get();
         if($driver->count() == 0){
             return response()->json(['status' => 0, 'message' => 'Not registered yet.']);
         }
-         
+
         try{
-          
+
            $driver = Driver::where('mobile', $request->phone)->first();
 
                 Auth::guard('driver')->login($driver);
@@ -554,9 +555,9 @@ class AuthController extends Controller
         }
         */
     }//end of fun
-  
+
    	public function gettoken(Request $request){
-     
+
      $rider = User::where('mobile', $request->phone)->first();
 
                 Auth::guard('rider')->login($rider);
@@ -565,5 +566,5 @@ class AuthController extends Controller
        return response()->json(['status' => 1, 'message' => $token]);
 
    }
-  	
+
 }
