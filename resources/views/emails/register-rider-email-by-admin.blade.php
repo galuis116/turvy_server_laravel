@@ -7,17 +7,11 @@
     </div>
 
     <div style="padding-left: 70px; padding-top: 20px">
-        <h3>Thanks for registering with turvy family.</h3>
+        <h5>Attention:</h5>
 
-        <p>Please login to your admin by clicking on the link to Update the following </p>
+        <p>A new rider {{ $user_name }} has registered. Proceed to admin to complete his/hers activation.</p>
 
-      <ul>
-            <li>Profile</li>
-            <li>Payment Method</li>
-
-        </ul>
-
-        <a href="{{url('/rider/email/verify/'.$verification_code.'/rider')}}">Click</a>
+        <a href="{{ $link }}">Click</a>
 
     </div>
 

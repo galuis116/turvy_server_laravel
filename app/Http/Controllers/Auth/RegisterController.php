@@ -6,6 +6,7 @@ use App\Country;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Mail\RiderEmailVerification;
+use App\Mail\RiderEmailVerificationByAdmin;
 use App\Partner;
 use App\VehicleMake;
 use Exception;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -149,6 +151,7 @@ class RegisterController extends Controller
         Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
+            Mail::to(App::config('mail.from.address'))->send(new RiderEmailVerificationByAdmin($rider));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
