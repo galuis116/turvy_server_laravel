@@ -9,7 +9,7 @@
     <div style="padding-left: 70px; padding-top: 20px">
         <h3>Attention:</h3>
 
-        <p>A new rider {{ $user_name }} has registered. Proceed to admin to complete his/hers activation.</p>
+        <p>A new driver {{ $user_name }} has registered. Proceed to admin to complete his/hers activation.</p>
 
         <a href="{{ $link }}">Click</a>
 

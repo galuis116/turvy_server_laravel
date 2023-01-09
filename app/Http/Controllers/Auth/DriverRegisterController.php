@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Partner;
 use App\VehicleMake;
 use App\Mail\DriverEmailVerification;
+use App\Mail\DriverEmailVerificationByAdmin;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -41,15 +43,15 @@ class DriverRegisterController extends Controller
         $verification_code = substr(md5(rand()),0,29);
 
         /*$hask_key=Cache::get('sec_key');
-        
+
       	print"<pre>";
       	print_r($hask_key);
-      	exit;  
+      	exit;
         if(!$hask_key || !Hash::check('world', $hask_key)){
             return redirect()->back()->with(['error' => 'You are hacker!']);
         }
         */
-        
+
 
         $request->merge([
             'verification_code'=>$verification_code,
@@ -60,6 +62,7 @@ class DriverRegisterController extends Controller
         Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new DriverEmailVerification($driver));
+            Mail::to(App::config('mail.staff.address'))->send(new DriverEmailVerificationByAdmin($driver));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }

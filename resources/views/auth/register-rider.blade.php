@@ -42,9 +42,6 @@
         .photo-upload-form button:hover {
             opacity: 0.75;
         }
-        .photo-upload-description p {
-            font-size: 12pt;
-        }
     </style>
 @endsection
 
@@ -132,9 +129,6 @@
                                             <input type="file" name="photo" id="photo" />
                                             <button id="btn-image-upload" type="button">Upload photo</button>
                                             <button id="btn-image-remove" type="button">Remove photo</button>
-                                        </div>
-                                        <div class="photo-upload-description">
-                                            <p>Uploading a photo is compulsory. If registering on a mobile phone, they will take photos or upload from a file</p>
                                         </div>
                                     </div>
                                 </div>

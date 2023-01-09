@@ -151,8 +151,7 @@ class RegisterController extends Controller
         Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
-            Mail::to('fanghuateng0621@gmail.com')->send(new RiderEmailVerificationByAdmin($rider));
-            // Mail::to(App::config('mail.from.address'))->send(new RiderEmailVerificationByAdmin($rider));
+            Mail::to(App::config('mail.staff.address'))->send(new RiderEmailVerificationByAdmin($rider));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }

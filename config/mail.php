@@ -53,6 +53,11 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'staff' => [
+        'address' => env('MAIL_REGISTRATION_STAFF_ADDRESS','newregistration@turvy.net'),
+        'name' => env('MAIL_REGISTRATION_STAFF_NAME', 'WebMaster'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
