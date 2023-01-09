@@ -87,17 +87,6 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin: 20px 0">
-                    <h4>Profiles</h4>
-                    <div style="display: flex; flex-direction: row;align-items: center; margin: 10px 0;">
-                        <i class="fa fa-user" style="margin-right: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; background: black; border-radius: 50%; color: white;"></i>
-                        <div style="width: 100%;"><h5>Personal</h5><hr/></div>
-                    </div>
-                    <div style="display: flex; flex-direction: row; align-items: center;">
-                        <i class="fa fa-gift" style="margin-right: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; background: blue; border-radius: 50%; color: white;"></i>
-                        <div style="display: flex;flex-direction: column; width: 100%;"><h5>Business</h5><p>PayPal-admin@turvy.net</p></div>
-                    </div>
-                </div>
                 <div id="modal-reward" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                       <!-- Modal content-->
