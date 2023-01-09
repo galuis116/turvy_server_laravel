@@ -61,16 +61,18 @@
                                     <div class="dropdown-content">
 
                                         <a href="{{route('rider.dashboard')}}">Profile<i class="fa fa-user"></i></a>
-                                        
-                         					 <a href="{{route('rider.messages')}}">Messages<i class="fa fa-envelope"></i></a>
-                         					 
+
+                         				<a href="{{route('rider.messages')}}">Messages<i class="fa fa-envelope"></i></a>
+
                                         <a href="{{route('rider.booking')}}">Book Your Ride<i class="fa fa-envelope"></i></a>
 
                                         <a href="{{route('rider.trips')}}">My Rides<i class="fa fa-car"></i></a>
 
                                         <a href="{{route('rider.payments', 'today')}}">My Payments<i class="fa fa-credit-card"></i></a>
-                                        
+
                                         <a href="{{route('rider.myrecepits','1')}}">My Receipts<i class="fa fa-credit-card"></i></a>
+
+                                        <a href="{{route('rider.charity')}}">My Charity<i class="fa fa-credit-card"></a>
 
                                         <a href="{{route('rider.ratecard')}}">Rate Card<i class="fa fa-gift"></i></a>
 

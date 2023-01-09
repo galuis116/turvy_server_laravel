@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="rider-charity">
-                        <li><b>My Charity:</b> {{ $rider->partner->name }}</li>
+                        <li><b>My Charity:</b> {{ $rider->partner->organization }}</li>
                         <li><b>Partner's Income:</b> {{ currency_format($rider->partner_income) }}</li>
                     </ul>
                 </div>
