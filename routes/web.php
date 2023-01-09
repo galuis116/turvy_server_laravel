@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\DriverEmailVerification;
 
 use App\Driver;
+use Illuminate\Support\Facades\App;
 
 Route::get('/cache-clear', function () {
 
@@ -670,3 +671,7 @@ if (Schema::hasTable('settings')) {
     $results = [];
 }
 View::share('settings', $results);
+
+Route::get('/test-email-config', function (){
+    return App::config('mail.staff.address');
+});
