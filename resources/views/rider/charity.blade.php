@@ -11,7 +11,7 @@
             margin: 10px 0;
         }
         ul.rider-charity > li > a {
-            padding: 0;
+            padding: 0 !important;
             color: transparent;
         }
         .color-blue {
@@ -29,8 +29,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="rider-charity">
-                        <li><a href="{{ $rider->partner->url }}"><img src="{{ asset($rider->partner->avatar) }}" width="300" /></a></li>
-                        <li><h3 class="color-blue">{{ $rider->partner->organization }}</h3></li>
+                        <li><a href="{{ $rider->partner->url }}"><img src="{{ asset($rider->partner->avatar) }}" width="100%" /></a></li>
+                        <li><h4 class="color-blue">{{ $rider->partner->organization }}</h4></li>
                         <li><b>Partner's Income:</b> <span class="color-blue">{{ currency_format($rider->partner_income) }}</span></li>
                     </ul>
                 </div>
