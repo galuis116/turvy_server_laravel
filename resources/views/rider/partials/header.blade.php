@@ -72,7 +72,7 @@
 
                                         <a href="{{route('rider.myrecepits','1')}}">My Receipts<i class="fa fa-credit-card"></i></a>
 
-                                        <a href="{{route('rider.charity')}}">My Charity<i class="fa fa-credit-card"></a>
+                                        <a href="{{route('rider.charity')}}">My Charity<i class="fa fa-credit-card"></i></a>
 
                                         <a href="{{route('rider.ratecard')}}">Rate Card<i class="fa fa-gift"></i></a>
 
