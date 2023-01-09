@@ -62,7 +62,7 @@ class DriverRegisterController extends Controller
         Cache::forget('sec_key');
         try {
             Mail::to($request->email)->send(new DriverEmailVerification($driver));
-            Mail::to(App::config('mail.staff.address'))->send(new DriverEmailVerificationByAdmin($driver));
+            Mail::to(config('mail.staff.address'))->send(new DriverEmailVerificationByAdmin($driver));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }

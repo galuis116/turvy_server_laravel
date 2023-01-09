@@ -17,7 +17,7 @@ class GetFromEmailFromAppConfig extends TestCase
      */
     public function test()
     {
-        $expected = App::config('mail.staff.address');
+        $expected = config('mail.staff.address');
         Log::info(">>> From email address:".$expected);
         $actual = 'register@turvy.net';
         $this->assertEquals($expected, $actual);

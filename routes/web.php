@@ -15,23 +15,11 @@ use App\Setting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\DriverEmailVerification;
-
-use App\Driver;
-use Illuminate\Support\Facades\App;
-
 Route::get('/cache-clear', function () {
-
-
     Artisan::call('config:cache');
-
     Artisan::call('cache:clear');
-
     Artisan::call('view:clear');
-
     Artisan::call('queue:restart');
-
     return "Cache clear";
 });
 
@@ -646,5 +634,5 @@ if (Schema::hasTable('settings')) {
 View::share('settings', $results);
 
 Route::get('/test/check-email-config', function (){
-    return App::config('mail.staff.address');
+    return config('mail.staff.address');
 });
