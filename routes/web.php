@@ -35,30 +35,6 @@ Route::get('/cache-clear', function () {
     return "Cache clear";
 });
 
-Route::get('test', function () {
-
-    $driver = Driver::create([
-        'first_name' => 'first',
-        'last_name' => 'ast',
-        'gender' => 1,
-        'email' => 'monolit2048@gmail.com',
-        'mobile' => '123',
-        'mobile_verified_at' => date('Y-m-d H:i:s'),
-        'country_id' => 13,
-        'state_id' => 2,
-        'city_id' => 11,
-        'password' => Hash::make('password'),
-
-    ]);
-
-    //Mail::to($driver->email)->send(new DriverEmailVerification($driver));
-
-    return view('emails.register-driver-email')
-        ->with([
-            'verification_code' => encrypt($driver->id),
-        ]);
-});
-
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/charity', 'HomeController@charity')->name('charity');
 
@@ -69,9 +45,6 @@ Route::get('/policy', 'HomeController@policy')->name('policy');
 Route::post('/feedback', 'HomeController@feedback')->name('feedback');
 Route::get('/login-guide', 'HomeController@loginGuide')->name('login.guide');
 Route::get('/register-guide', 'HomeController@registerGuide')->name('register.guide');
-
-
-
 
 //- Common API -//
 Route::get('/getModelByMake', 'CommonController@getModelByMake')->name('getModelByMake');
@@ -672,6 +645,6 @@ if (Schema::hasTable('settings')) {
 }
 View::share('settings', $results);
 
-Route::get('/test-email-config', function (){
+Route::get('/test/check-email-config', function (){
     return App::config('mail.staff.address');
 });
