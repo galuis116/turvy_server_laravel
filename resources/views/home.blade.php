@@ -19,6 +19,12 @@
             padding: 0 15px;
             border-right: 2px solid white;
         }
+        .vision-content {
+            text-align: left;
+        }
+        .vision-content ol {
+            margin-left: 1rem;
+        }
     </style>
 @endsection
 
@@ -118,7 +124,11 @@ if(trim($banner_image) == ""){
                         </div>
                         <div class="abd-wcard-caption">
                             <h3 class="main-color">{{isset($content->workflow_title1) ? $content->workflow_title1 : null}}</h3>
-                            <p style="text-align: left;">{{isset($content->workflow_description1) ? $content->workflow_description1 : null}}</p>
+                            <div class="vision-content">
+                                @if(isset($content->workflow_description1))
+                                {!! $content->workflow_description1 !!}
+                                @endif
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -129,7 +139,11 @@ if(trim($banner_image) == ""){
                         </div>
                         <div class="abd-wcard-caption">
                             <h3 class="main-color">{{isset($content->workflow_title2) ? $content->workflow_title2 : null}}</h3>
-                            <p style="text-align: left;">{{isset($content->workflow_description2) ? $content->workflow_description2 : null}}</p>
+                            <div class="vision-content">
+                                @if(isset($content->workflow_description2))
+                                {!! $content->workflow_description2 !!}
+                                @endif
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -140,7 +154,11 @@ if(trim($banner_image) == ""){
                         </div>
                         <div class="abd-wcard-caption">
                             <h3 class="main-color">{{isset($content->workflow_title3) ? $content->workflow_title3 : null}}</h3>
-                            <p style="text-align: left;">{{isset($content->workflow_description3) ? $content->workflow_description3 : null}}</p>
+                            <div class="vision-content">
+                                @if(isset($content->workflow_description3))
+                                {!! $content->workflow_description3 !!}
+                                @endif
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -151,7 +169,11 @@ if(trim($banner_image) == ""){
                         </div>
                         <div class="abd-wcard-caption">
                             <h3 class="main-color">{{isset($content->workflow_title4) ? $content->workflow_title4 : null}}</h3>
-                            <p style="text-align: left;">{{isset($content->workflow_description4) ? $content->workflow_description4 : null}}</p>
+                            <div class="vision-content">
+                                @if(isset($content->workflow_description4))
+                                {!! $content->workflow_description4 !!}
+                                @endif
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -254,16 +276,16 @@ if(trim($banner_image) == ""){
                             @if($comment->rider_id != null)
                             <div class="abd-testimonial-fig">
                             	 @php
-	                         		
+
 
 											if(isset($comment->rider->cdnimage)){
 												$rider_image = $comment->rider->cdnimage ;
-                                                
+
 											} else {
 
                                                 $rider_image = isset($comment->rider->avatar) ? asset($comment->rider->avatar) : '';
                                             }
-                         	   @endphp 
+                         	   @endphp
                                 <img src="{{isset($rider_image) ? asset($rider_image) : asset('images/user.png')}}" alt="{{$comment->rider->name}}" >
                             </div>
                             <div class="abd-testimonial-caption">
@@ -289,14 +311,14 @@ if(trim($banner_image) == ""){
                             </div>
                             @endif
                             @if($comment->partner_id != null)
-                           
+
                              @php
                          		$partner_image = isset($comment->partner->cdnimage) ? $donor->partner->cdnimage : '';
 										if(trim($partner_image) == ""){
 											$partner_image = isset($comment->partner->avatar) ? asset($comment->partner->avatar) : '';
 										}
                          	@endphp
-                           
+
                             <div class="abd-testimonial-fig">
                                 <img src="{{isset($partner_image) ? $partner_image : asset('images/user.png')}}" alt="{{$comment->partner->name}}">
                             </div>
