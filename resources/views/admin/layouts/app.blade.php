@@ -40,6 +40,9 @@
     <!-- JQuery DataTable Css -->
     <link href="{{asset('admin-panel/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
 
+    <!-- DateRangePicker CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <!-- Bootstrap Select Css -->
     {{-- <link href="{{asset('admin-panel/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" /> --}}
 
@@ -145,6 +148,9 @@
 
 <!-- Ckeditor -->
 <script src="{{asset('admin-panel/plugins/ckeditor/ckeditor.js')}}"></script>
+
+<!-- DateRangePicker Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <!-- Custom Js -->
 <script src="{{asset('admin-panel/js/admin.js')}}"></script>

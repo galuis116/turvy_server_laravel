@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DriverTransactions;
 use App\Http\Controllers\Controller;
 use App\Rewards;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EarningsController extends Controller
@@ -16,10 +17,20 @@ class EarningsController extends Controller
             ->with('page', 'earnings')
             ->with('subpage', 'rewards');
     }
-    public function drivers() {
-        $transactions = DriverTransactions::where('status', 'active')->orderBy('created_at', 'desc')->get();
+    public function drivers(Request $request) {
+        $startDate = Carbon::now()->startOfWeek();
+        $endDate = Carbon::now()->endOfWeek();
+        if ($request->has('startDate') && $request->has('endDate')) {
+            $startDate = $request->get('startDate');
+            $endDate = $request->get('endDate');
+        }
+        $transactions = DriverTransactions::where('status', 'active')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('admin.earnings.drivers')
             ->with('transactions', $transactions)
+            ->with('startDate', $startDate)
+            ->with('endDate', $endDate)
             ->with('page', 'earnings')
             ->with('subpage', 'drivers');
     }

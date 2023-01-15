@@ -2,6 +2,17 @@
 
 @section('title', 'Drivers Earnings')
 
+@section('styles')
+    <style>
+        .daterange-container {
+            margin-top: 10px;
+        }
+        #daterange {
+            width: 170px;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <section class="content">
@@ -13,6 +24,11 @@
                             <h2>
                                 Drivers Earnings
                             </h2>
+                            <div class="daterange-container">
+                                <button id="prev-week"> < </button>
+                                <input type="text" id="daterange" name="daterange"/>
+                                <button id="next-week"> > </button>
+                            </div>
                         </div>
                         <div class="body table-responsive">
                             <table class="table  table-bordered table-striped table-hover js-basic-example dataTable">
@@ -62,4 +78,55 @@
         </div>
     </section>
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            startDate: moment("{{ $startDate }}"),
+            endDate: moment("{{ $endDate }}"),
+            opens: 'right',
+            drops: 'down',
+            ranges: {
+                'This Week': [moment().startOf('week'), moment().endOf('week')],
+                'Previous Week': [moment().add(-1, 'weeks').startOf('week'), moment().add(1, 'weeks').endOf('week')],
+                'Next Week': [moment().add(1, 'weeks').startOf('week'), moment().add(1, 'weeks').endOf('week')],
+            },
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-default',
+            separator: ' to ',
+            locale: {
+                format: 'MM/DD/YYYY',
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        }, function(start, end, label) {
+            window.location = "{{ route('admin.earnings.drivers') }}" + `?startDate=${start.format('YYYY-MM-DD')}&endDate=${end.format('YYYY-MM-DD')}`;
+        });
+        $("#prev-week").on("click", function() {
+            var startDate = $("#daterange").data('daterangepicker').startDate;
+            var newStartDate = startDate.subtract(7, 'days');
+            var newEndDate = newStartDate.clone().add(6, 'days');
+            $("#daterange").data('daterangepicker').setStartDate(newStartDate);
+            $("#daterange").data('daterangepicker').setEndDate(newEndDate);
+            window.location = "{{ route('admin.earnings.drivers') }}" + `?startDate=${newStartDate.format('YYYY-MM-DD')}&endDate=${newEndDate.format('YYYY-MM-DD')}`;
+        });
+        $("#next-week").on("click", function() {
+            var startDate = $("#daterange").data('daterangepicker').startDate;
+            var newStartDate = startDate.add(7, 'days');
+            var newEndDate = newStartDate.clone().add(6, 'days');
+            $("#daterange").data('daterangepicker').setStartDate(newStartDate);
+            $("#daterange").data('daterangepicker').setEndDate(newEndDate);
+            window.location = "{{ route('admin.earnings.drivers') }}" + `?startDate=${newStartDate.format('YYYY-MM-DD')}&endDate=${newEndDate.format('YYYY-MM-DD')}`;
+        });
+    });
+    </script>
 @endsection
