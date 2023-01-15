@@ -19,11 +19,14 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Book ID</th>
-                                    <th>Driver</th>
-                                    <th>Rider</th>
-                                    <th>Amount</th>
-                                    <th>DateTime</th>
+                                    <th>Driver ID</th>
+                                    <th>Driver Name / Car Rego</th>
+                                    <th>Starting Date / Time</th>
+                                    <th>Ending Date / Time</th>
+                                    <th>Total Weekly Amount</th>
+                                    <th>Transfered To</th>
+                                    <th>Date Paid</th>
+                                    <th>Current Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
