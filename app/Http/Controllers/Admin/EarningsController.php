@@ -24,8 +24,9 @@ class EarningsController extends Controller
             $startDate = $request->get('startDate');
             $endDate = $request->get('endDate');
         }
-        $transactions = DriverTransactions::where('status', 'active')
-            ->orderBy('created_at', 'desc')
+        $transactions = DriverTransactions::whereDate('created_at', '>=', $startDate)
+            ->whereDate('created_at', '<=', $endDate)
+            ->groupBy('driver_id')
             ->get();
         return view('admin.earnings.drivers')
             ->with('transactions', $transactions)

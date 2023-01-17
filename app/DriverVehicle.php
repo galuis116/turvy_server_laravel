@@ -9,7 +9,7 @@ class DriverVehicle extends Model
     protected $fillable = [
         'driver_id', 'make_id', 'model_id', 'servicetype_id', 'plate', 'color', 'year', 'front_photo'
     ];
-    protected $appends = ['servicetype'];
+    protected $appends = ['servicetype', 'carrego'];
     public function make()
     {
         return $this->hasOne(VehicleMake::class, 'id', 'make_id');
@@ -21,7 +21,7 @@ class DriverVehicle extends Model
     }
 
     public function getServicetypeAttribute()
-    {        
+    {
         if($this->servicetype_id){
             $servicetypeIDs = explode(",", $this->servicetype_id);
             $servicetype = [];
@@ -33,5 +33,10 @@ class DriverVehicle extends Model
         }else{
             return false;
         }
+    }
+
+    public function getCarregoAttribute()
+    {
+        return $this->make->name . ' ' . $this->model->name;
     }
 }

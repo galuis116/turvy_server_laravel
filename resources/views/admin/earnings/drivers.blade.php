@@ -10,6 +10,14 @@
         #daterange {
             width: 170px;
         }
+        .paid {
+            font-size: 14pt;
+            color: green;
+        }
+        .pending {
+            font-size: 14pt;
+            color: red;
+        }
     </style>
 @endsection
 
@@ -49,23 +57,38 @@
                                     @foreach($transactions as $idx => $transaction)
                                     <tr>
                                         <td>{{ $idx+1 }}</td>
-                                        <td>#{{ $transaction->book_id }}</td>
-                                        <td>
-                                            @if(isset($transaction->rider))
-                                            <a href={{route('admin.user.rider.show', $transaction->rider_id)}}>{{ $transaction->rider->name }}</a>
-                                            @else
-                                            Deleted Rider (#{{$transaction->rider_id}})
-                                            @endif
-                                        </td>
+                                        <td><a href={{route('admin.user.driver.show', $transaction->driver_id)}}>{{ $transaction->driver_id }}</a></td>
                                         <td>
                                             @if(isset($transaction->driver))
-                                            <a href={{route('admin.user.driver.show', $transaction->driver_id)}}>{{ $transaction->driver->name }}</a>
+                                            {{ $transaction->driver->name }} <br/> {{ $transaction->driver->vehicle->carrego }} <br/> {{ $transaction->driver->vehicle->plate}}
                                             @else
                                             Deleted Driver (#{{$transaction->driver_id}})
                                             @endif
                                         </td>
+                                        <td>
+                                            {{ Carbon\Carbon::parse($startDate)->format('F j, Y') }}
+                                        </td>
+                                        <td>
+                                            {{ Carbon\Carbon::parse($endDate)->format('F j, Y') }}
+                                        </td>
                                         <td>A${{ number_format($transaction->total_amount, 2) }}</td>
-                                        <td>{{ $transaction->created_at }}</td>
+                                        <td>
+                                            @if(isset($transaction->driver->bank))
+                                                <a href="#">{{$transaction->driver->bank->bank_name}}</a>
+                                            @else
+                                                Not Available
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $transaction->status == 'active' ? '---' : $transaction->updated_at }}
+                                        </td>
+                                        <td>
+                                            @if($transaction->status == 'active')
+                                            <span class="pending">Pending</span>
+                                            @else
+                                            <span class="paid">Paid</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>

@@ -71,4 +71,9 @@ class Driver extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(DriverVehicle::class, 'driver_id');
     }
+
+    public function bank()
+    {
+        return $this->hasOne(DriverBank::class, 'driver_id');
+    }
 }
