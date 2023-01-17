@@ -117,5 +117,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin-panel/js/pages/forms/editors.js')}}"></script>
+    <script>
+        CKEDITOR.ClassicEditor.create(document.getElementById("ckeditor"), CKEditorConfig);
+    </script>
 @endsection

@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                         <label for="title">Page Slug</label>
@@ -82,5 +82,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin-panel/js/pages/forms/editors.js')}}"></script>
+    <script>
+        CKEDITOR.ClassicEditor.create(document.getElementById("ckeditor"), CKEditorConfig);
+    </script>
 @endsection

@@ -147,7 +147,7 @@
 <script src="{{asset('admin-panel/plugins/multi-select/js/jquery.multi-select.js')}}"></script>
 
 <!-- Ckeditor -->
-<script src="{{asset('admin-panel/plugins/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('admin-panel/plugins/ckeditor/ckeditor5.js')}}"></script>
 
 <!-- DateRangePicker Plugin -->
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
