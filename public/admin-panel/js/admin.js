@@ -488,11 +488,12 @@ const CKEditorConfig = {
         ]
     },
     // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
-    placeholder: 'Welcome to CKEditor 5!',
+    placeholder: 'Please enter a placeholder',
     // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
     fontFamily: {
         options: [
             'default',
+            'Helvetica, sans-serif',
             'Arial, Helvetica, sans-serif',
             'Courier New, Courier, monospace',
             'Georgia, serif',
@@ -500,7 +501,15 @@ const CKEditorConfig = {
             'Tahoma, Geneva, sans-serif',
             'Times New Roman, Times, serif',
             'Trebuchet MS, Helvetica, sans-serif',
-            'Verdana, Geneva, sans-serif'
+            'Verdana, Geneva, sans-serif',
+            'Roboto, sans-serif',
+            'Raleway, sans-serif',
+            'Source Sans Pro, sans-serif',
+            'Montserrat, sans-serif',
+            'Lato, sans-serif',
+            'Poppins, sans-serif',
+            'Open Sans, sans-serif',
+            'Sans-serif, sans-serif',
         ],
         supportAllValues: true
     },
