@@ -66,10 +66,19 @@ class TripController extends Controller
         $html2pdf_path = base_path() . '/public/html2pdf/vendor/autoload.php';
         require_once($html2pdf_path);
 
+        // Convert JPG to base64
+        $headerLogoPath = base_path() . '/public/images/receipt-header-logo.jpg';
+        $headerLogoRawData = file_get_contents($headerLogoPath);
+        $base64ForHeaderLogo = 'data:image/jpeg;base64,' . base64_encode($headerLogoRawData);
+
+        $emailFooterLogoPath = base_path() . '/public/images/email-footer-logo.jpg';
+        $emailFooterLogoRawData = file_get_contents($emailFooterLogoPath);
+        $base64ForEmailFooterLogo = 'data:image/jpeg;base64,' . base64_encode($emailFooterLogoRawData);
+
         $content = '
             <page backtop="10mm" backbottom="10mm" backleft="20mm" backright="20mm">
                 <div style="width: 100%; height: 80px; border-bottom: solid 1px #000">
-                    <img src="' . asset('images/receipt-header-logo.jpg') . '" width="114" height="74" >
+                    <img src="' . $base64ForHeaderLogo . '" width="114" height="74" >
                 </div>
                 <table cellpadding="0" cellspacing="0"  >
                     <tr>
@@ -145,7 +154,7 @@ class TripController extends Controller
             </table>
             <div style="width: 80%; height: 10px; margin: 110px auto 0 auto; border-bottom: solid 1px #000;"></div>
             <div style="width: 100%; height: 225px; margin-top: 50px; background-color: #216da9;">
-                <img src="' . asset('images/email-footer-logo.jpg') . '" width="114" height="79" style="margin-left: 20px; margin-top: 15px">
+                <img src="'.$base64ForEmailFooterLogo.'" width="424" height="161" style="margin-left: 20px; margin-top: 15px">
             </div>
             <div style="width: 100%; height: 28px; background-color: #000000; text-align: center; color: #ffffff;  font-size: 12px; padding-top: 10px">
                 Copyright 2010 by Turvy Pty Ltd. All rights Reserved
@@ -156,7 +165,6 @@ class TripController extends Controller
         $html2pdf->WriteHTML($content);
         $html2pdf->Output(base_path() . '/public/uploads/receipts/report_' . $book_id . '.pdf', 'F');
         $file = url('/') . '/uploads/receipts/report_' . $book_id . '.pdf';
-        $data['file'] = $file;
 
         return view('rider.receipt')->with([
             'recepit_data' => $item,
