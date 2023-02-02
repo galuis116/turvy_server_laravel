@@ -21,6 +21,7 @@
         "lcobucci/jwt": "^3.4",
         "pusher/pusher-php-server": "3.3.0",
         "spatie/laravel-permission": "^5.4",
+        "spipu/html2pdf": "^5.2",
         "twilio/sdk": "^6.31"
     },
     "require-dev": {

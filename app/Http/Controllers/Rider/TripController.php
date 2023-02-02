@@ -6,7 +6,7 @@ use App\Appointment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-//use App\Mail\RiderEmailRecepit;
+use Spipu\Html2Pdf\Html2Pdf;
 
 
 class TripController extends Controller
@@ -62,9 +62,6 @@ class TripController extends Controller
         if ($surchagreinfo != '') {
             $surchagrearr = json_decode(stripslashes($surchagreinfo));
         }
-
-        $html2pdf_path = base_path() . '/public/html2pdf/vendor/autoload.php';
-        require_once($html2pdf_path);
 
         // Convert JPG to base64
         $headerLogoPath = base_path() . '/public/images/receipt-header-logo.jpg';
@@ -161,7 +158,7 @@ class TripController extends Controller
             </div>
         </page>';
 
-        $html2pdf = new \Spipu\Html2Pdf\Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
+        $html2pdf = new Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
         $html2pdf->WriteHTML($content);
         $html2pdf->Output(base_path() . '/public/uploads/receipts/report_' . $book_id . '.pdf', 'F');
         $file = url('/') . '/uploads/receipts/report_' . $book_id . '.pdf';
