@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PaymentRequest;
+use App\RiderTransaction;
 use Illuminate\Support\Facades\Auth;
 
 class EarnController extends Controller
@@ -16,16 +17,10 @@ class EarnController extends Controller
 
     public function index($page_search)
     {
-
-
         $rider_id = Auth::guard('rider')->user()->id;
-        $rider_id = Auth::guard('rider')->user()->id;
+        $transactions = RiderTransaction::where('rider_id', $rider_id)->orderBy('updated_at', 'DESC')->get();
 
-        $PaymentRequest = new PaymentRequest;
-        $riderPaymentHistory =   $PaymentRequest->getRiderPaymentHistory($rider_id, $page_search);
-
-
-        return view('rider.payments')->with('payments', $riderPaymentHistory)
+        return view('rider.payments')->with('payments', $transactions)
                                      ->with('page_search', $page_search);
 
     }
