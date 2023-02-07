@@ -14,6 +14,8 @@
 
     <link rel="stylesheet" href="{{asset('rider-panel/css/bootstrap.css')}}" type="text/css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+
     <link rel="stylesheet" href="{{asset('driver-panel/css/material.min.css')}}"/>
 
     <style>
@@ -110,12 +112,12 @@
         @php
             $rider = Auth::guard('rider')->user();
             $route = \Request::route()->getName();
-           
+
             $rider_rating = \App\RiderRating::where('rider_id',$rider->id)->avg('rating');
             $rider_rating = round($rider_rating);
             $remaining_rt = 5-$rider_rating;
             //echo "RATING -- ".$rider_rating;
-            
+
         @endphp
         <section class="mt-30">
 
@@ -149,7 +151,7 @@
                                             			@for ($i = 0; $i < $remaining_rt; $i++)
                                             			<i class="fa fa-star-o"></i>
                                             			@endfor
-                                            				
+
                                             			</div>
 
                                         </div>
@@ -177,7 +179,7 @@
                                         <li @if($route=='rider.trips' ) class="active" @endif><a href="{{route('rider.trips')}}">My Rides</a></li>
 
                                         <li @if($route=='rider.payments' ) class="active" @endif><a href="{{route('rider.payments', 'today')}}">My payments</a></li>
-                                        
+
                                         <li @if($route=='rider.myrecepits' ) class="active" @endif><a href="{{route('rider.myrecepits','1')}}">My Receipts</a></li>
 
                                         <li @if($route=='rider.charity' ) class="active" @endif><a href="{{route('rider.charity')}}">My Charity</a></li>
@@ -228,6 +230,8 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1qYGiK9hiBs6q6mkYdydTKDovdU2C-wE&libraries=places"></script>
 

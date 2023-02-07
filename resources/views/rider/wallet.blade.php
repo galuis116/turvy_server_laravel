@@ -31,22 +31,22 @@
                     <div class="card-box" style="background:#D0D0D0;">
                         <span class="caption">Balance</span>
                         <h3>A$0.00</h3>
-                        <p>Payout scheduled: 13 December</p>
-                        <button type="button" style="padding: 10px; border-radius: 17px; width: 100px; margin: 10px 0;"><i
-                                class="fa fa-star"></i> Cash out</button>
                     </div>
                 </div>
+                @if(isset($rewards) && $rewards->point > 0)
                 <div class="col-md-6">
                     <div class="card-box" style="background: rgb(87, 233, 135);">
                         <div style="display: flex; flex-direction: row; justify-content: space-between;color: white;">
                             <span class="caption">Reward Points</span>
                             <i class="fa fa-comment"></i>
                         </div>
-                        <div style="display: flex; flex-direction: row; justify-content: space-between;color: white;">
-                            <span>admin@turvy.net</span>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between;color: white; font-size: 24px;">
+                            <p>Points: 12</p>
+                            <p>Points to cash: A$2.00</p>
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
             <div style="margin: 20px 5px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
@@ -197,8 +197,6 @@
         </div>
     </div>
 @endsection
-
-
 
 @section('script')
     <script type="text/javascript">
