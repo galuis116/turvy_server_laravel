@@ -16,6 +16,7 @@ function getVisIpAddr() {
     else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
+    $ip = "1.0.7.7";
     try {
         $response = Http::get("http://ipinfo.io/{$ip}/json");
         $data = $response->json();

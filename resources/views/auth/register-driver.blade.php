@@ -48,12 +48,12 @@
                                     <select id="rider_country" name="country_id">
                                         <option selected>Select Country</option>
                                         @foreach($countries as $country)
-                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}" >{{$country->name}}</option>
+                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}" @if($country->iso == $user_country_iso) selected @endif>{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="abd-single-inpt">
-                                    <input type="text" id="rider_phonecode" name="phonecode" class="cn_code" readonly>
+                                    <input type="text" id="rider_phonecode" name="phonecode" class="cn_code" value="<?php echo '+'.$user_country_phonecode; ?>" readonly>
                                     <div class="bnr_input_group1">
                                         <input type="number" style="padding-left:60px !important;" id="rider_phone" name="user_phone" class="phone_input user-phone" placeholder="Phone Number" autocomplete="off">
                                     </div>
@@ -157,6 +157,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>    
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script>
+    
     var firebaseConfig = {
         apiKey: "AIzaSyDxfJG2fkdNLuMKaBPQTliNQwdUy0wwmEs",
         authDomain: "turvy-1501496198977.firebaseapp.com",
@@ -183,6 +184,16 @@
     }
     );
     $(document).ready(function(){
+        $.ajax({
+                type: "get",
+                url: "{{route('getStatesBelongCountry')}}",
+                data: "country_id="+$('#rider_country').val(),
+                success:
+                    function(data) {
+                        $('#state').html(data);
+                    }
+            });
+
         $('.user-phone').on('keyup', function(){
             $('#register-error-message').hide();
             var str = $(this).val();

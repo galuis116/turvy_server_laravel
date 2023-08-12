@@ -138,6 +138,7 @@ Route::group(['prefix' => 'driver'], function(){
         Route::post('/device/update', 'API\DriverController@updateDevice');
         Route::post('/online', 'API\DriverController@onlineDriver');
         Route::get('/offline', 'API\DriverController@offlineDriver');
+        Route::get('/logout', 'API\DriverController@logoutDriver');
         Route::get('/profile', 'API\DriverController@getDriverInfo');
         Route::post('/profile', 'API\DriverController@putProfileInfo');
         Route::post('/changePassword', 'API\DriverController@changePassword');

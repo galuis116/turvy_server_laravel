@@ -143,6 +143,39 @@ class DriverController extends Controller
         ]);
     }
 
+    public function logoutDriver(){
+        $driver = Auth::guard('apidriver')->user();
+
+        $driver_db = Driver::find($driver->id);
+        $driver_db->is_online = 0;
+        $driver_db->is_login = 0;
+        $driver_db->save();
+
+        DriverLocation::where('driverId', $driver->id)->delete();
+
+        $socket = $this->getPusherSocket();
+        $data['name'] = $driver->name;
+        $data['id'] = $driver->id;
+        $data['status'] = 'Offline';
+        $socket->trigger('turvy-channel', 'driver_offline_event', $data);
+
+        $drTime = DrivingTime::where('driver_id', $driver->id)
+        ->whereDate('created_at', Carbon::today())
+        ->first();
+
+        if($drTime){
+            $drTime->driverOfflineTime = date('Y-m-d H:i:s');
+            $drTime->save();
+        }
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'You are released from our obseverablity and logged out',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => null
+        ]);
+    }
+
     public function getDriverInfo(){
         $driver = Auth::guard('apidriver')->user();
         return response()->json([

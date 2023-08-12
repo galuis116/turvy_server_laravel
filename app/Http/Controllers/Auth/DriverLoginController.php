@@ -6,6 +6,7 @@ use App\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Driver;
 
 class DriverLoginController extends Controller
 {
@@ -35,6 +36,12 @@ class DriverLoginController extends Controller
         ]);
         $mobile = $request->phonecode.$request->mobile;
         if(Auth::guard('driver')->attempt(['mobile' => $mobile, 'password' => $request->password])){
+            $driver = Auth::guard('driver')->user();
+
+            $driver_db = Driver::find($driver->id);
+            // $driver_db->is_online = 1;
+            $driver_db->is_login = 1;
+            $driver_db->save();
             return redirect()->intended(route('driver.dashboard'));
         }
 
@@ -42,6 +49,13 @@ class DriverLoginController extends Controller
     }
     public function logout()
     {
+        $driver = Auth::guard('driver')->user();
+
+        $driver_db = Driver::find($driver->id);
+        // $driver_db->is_online = 0;
+        $driver_db->is_login = 0;
+        $driver_db->save();
+
         Auth::guard('driver')->logout();
         return redirect()->route('driver');
     }

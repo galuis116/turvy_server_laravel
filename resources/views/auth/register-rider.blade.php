@@ -70,12 +70,12 @@
                                     <select id="rider_country" name="country_id">
                                         <option selected>Select Country</option>
                                         @foreach($countries as $country)
-                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}">{{$country->name}}</option>
+                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}" @if($country->iso == $user_country_iso) selected @endif>{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="abd-single-inpt">
-                                    <input type="text" id="rider_phonecode" name="phonecode" class="cn_code" readonly>
+                                    <input type="text" id="rider_phonecode" name="phonecode" class="cn_code" value="<?php echo '+'.$user_country_phonecode; ?>" readonly>
                                     <div class="bnr_input_group1">
                                         <input type="number" style="padding-left:60px !important;" id="rider_phone" name="user_phone" class="phone_input user-phone" placeholder="Phone Number" autocomplete="off">
                                     </div>
