@@ -17,9 +17,9 @@ class AdminsTableSeeder extends Seeder
         $admin = Admin::create([
             'first_name' => 'Admin',
             'last_name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'mobile' => '+61417691066',
-            'password' => bcrypt('admin123'),
+            'email' => 'admin@turvy.net',
+            'mobile' => '+61478755540',
+            'password' => bcrypt('Hurricane@#2022'),
             'is_approved' => 1
         ]);
 

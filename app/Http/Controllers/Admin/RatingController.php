@@ -13,9 +13,9 @@ class RatingController extends Controller
     {
         $this->middleware('auth:admin');
         $this->middleware('permission:driverrating-list|driverrating-approve', ['only' => ['driver']]);
-        $this->middleware('permission:driverrating-apporve', ['only' => ['driverChangeStatus']]);
+        $this->middleware('permission:driverrating-approve', ['only' => ['driverChangeStatus']]);
         $this->middleware('permission:riderrating-list|riderrating-approve', ['only' => ['rider']]);
-        $this->middleware('permission:riderrating-delete', ['only' => ['riderChangeStatus']]);
+        $this->middleware('permission:riderrating-approve', ['only' => ['riderChangeStatus']]);
     }
     public function driver()
     {

@@ -114,13 +114,19 @@ class RegisterController extends Controller
     {
         // Cache::put("key", "dd");
         // return Cache::get("key");
+        $user_country_iso = getVisIpAddr();
+
+        $user_country = Country::where('iso', $user_country_iso)->first();
+      
         $countries = Country::all();
         $partners = Partner::where('is_approved', 1)->get();
         $makes = VehicleMake::where('status', 1)->get();
         return view('auth.register-rider')
             ->with('makes', $makes)
             ->with('countries', $countries)
-            ->with('partners', $partners);
+            ->with('partners', $partners)
+            ->with('user_country_iso', $user_country->iso)
+            ->with('user_country_phonecode', $user_country->phonecode);
     }
 
     public function register(Request $request)

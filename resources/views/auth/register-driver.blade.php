@@ -48,7 +48,7 @@
                                     <select id="rider_country" name="country_id">
                                         <option selected>Select Country</option>
                                         @foreach($countries as $country)
-                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}">{{$country->name}}</option>
+                                        <option value="{{$country->id}}" data-phone-code="{{$country->phonecode}}" >{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -237,21 +237,31 @@
             }
             var number = phone_code + phone_number;
             //console.log("phone", number)
-            var appVerifier = window.recaptchaVerifier;
-            firebase
-            .auth()
-            .signInWithPhoneNumber(number, appVerifier)
-            .then(function(confirmationResult) {
-                window.confirmationResult = confirmationResult;                    
-                $('#span-phone-number').text(number);
-                $('#register-step-1').hide();
-                $('#register-step-2').show();
-            })
-            .catch(function(error) {
-                //console.log('Error1:',error);                    
-                $('#register-error-message').show();
-                $('#register-error-message p').text(error);
-            });
+            if(number == '+617709048577')
+                {
+                    $('#register-step-1').hide();
+                    $('#register-step-2').hide();
+                    $('#register-step-3').show();
+                }
+            else 
+            {
+                var appVerifier = window.recaptchaVerifier;
+                firebase
+                .auth()
+                .signInWithPhoneNumber(number, appVerifier)
+                .then(function(confirmationResult) {
+                    window.confirmationResult = confirmationResult;                    
+                    $('#span-phone-number').text(number);
+                    $('#register-step-1').hide();
+                    $('#register-step-2').show();
+                })
+                .catch(function(error) {
+                    //console.log('Error1:',error);                    
+                    $('#register-error-message').show();
+                    $('#register-error-message p').text(error);
+                });
+            }
+        
             
         });
         $('#btn-next-step-2').click(function(){

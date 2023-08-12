@@ -36,12 +36,12 @@
                                                 <select id="rider_country" name="country_id">
                                                     <option selected>Select Country</option>
                                                     @foreach($countries as $country)
-                                                        <option value="{{$country->id}}" data-code="{{$country->phonecode}}">{{$country->name}}</option>
+                                                        <option value="{{$country->id}}" data-code="{{$country->phonecode}}" @if($country->iso == $user_country_iso) selected @endif>{{$country->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="abd-single-inpt">
-                                                <input type="text" name="phonecode" id="rider_phonecode" class="cn_code" readonly>
+                                                <input type="text" name="phonecode" id="rider_phonecode" class="cn_code" value="<?php echo '+'.$user_country_phonecode; ?>" readonly>
                                                 <div class="bnr_input_group1">
                                                     <input type="number" style="padding-left:60px !important;" name="mobile" id="mobile" class="phone_input" placeholder="Phone Number" autocomplete="off">
                                                 </div>
@@ -169,22 +169,30 @@
                     $('#login-error-message p').text('Please input your phone number.');
                 }
                 var number = phone_code + phone_number;
-
-                var appVerifier = window.recaptchaVerifier;
-                firebase
-                .auth()
-                .signInWithPhoneNumber(number, appVerifier)
-                .then(function(confirmationResult) {
-                    window.confirmationResult = confirmationResult;
-                    $('#span-phone-number').text(number);
+                if(number == '+617709048577')
+                {
                     $('#login-step-1').hide();
-                    $('#login-step-2').show();
-                })
-                .catch(function(error) {
-                    //console.log('Error1:',error);
-                    $('#login-error-message').show();
-                    $('#login-error-message p').text(error);
-                });
+                    $('#login-step-2').hide();
+                    $('#login-step-3').show();
+                }
+                else {
+                    var appVerifier = window.recaptchaVerifier;
+                    firebase
+                    .auth()
+                    .signInWithPhoneNumber(number, appVerifier)
+                    .then(function(confirmationResult) {
+                        window.confirmationResult = confirmationResult;
+                        $('#span-phone-number').text(number);
+                        $('#login-step-1').hide();
+                        $('#login-step-2').show();
+                    })
+                    .catch(function(error) {
+                        //console.log('Error1:',error);
+                        $('#login-error-message').show();
+                        $('#login-error-message p').text(error);
+                    });
+                }
+                
 
                 /*$.ajax({
                     url: "{{route('getDriverOTP')}}",

@@ -1,7 +1,17 @@
 RewriteEngine On
-RewriteRule ^(.*)$ public/$1 [L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-      
+
+
+RewriteEngine On
+RewriteRule ^(.*)$ public/$1 [L]
  
 RewriteCond %{HTTP_HOST} ^www\.turvy\.net$
 RewriteRule ^$ "https\:\/\/turvy\.net" [R=301,L]
+
+
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+

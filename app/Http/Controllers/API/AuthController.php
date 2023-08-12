@@ -48,8 +48,8 @@ class AuthController extends Controller
             'make_id' => ['required', 'numeric'],
             'model_id' => ['required', 'numeric'],
             'plate' => ['required', 'string', 'max:15'],
-            'device_type' => ['required'],
-            'avatar' => ['required']
+            'device_type' => ['required']
+            /*'avatar' => ['required']*/
         ]);
     }
 
@@ -315,12 +315,12 @@ class AuthController extends Controller
 
         $rider = $this->createRider($request->all(), $request->file('avatar'));
 
-        /*try {
+        try {
             Mail::to($request->email)->send(new RiderEmailVerification($rider));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
         }
-        */
+        
 	          $Email_data = new RiderEmailVerification($rider);
 	       	 $html = $Email_data->render();
 
@@ -458,11 +458,11 @@ class AuthController extends Controller
         $driver = $this->createDriver($request->all());
 
         // Email integration
-        /* try {
+        try {
             Mail::to($request->email)->send(new DriverEmailVerification($driver));
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);
-        } */
+        } 
 
         $Email_data = new DriverEmailVerification($driver);
     	  $html = $Email_data->render();
@@ -500,6 +500,8 @@ class AuthController extends Controller
         try{
 
            $driver = Driver::where('mobile', $request->phone)->first();
+           $driver->is_login = 1;
+           $driver->save();
 
                 Auth::guard('driver')->login($driver);
                 $tokenResult = $driver->createToken('turvy');

@@ -47,6 +47,11 @@ class DriverController extends Controller
 {
     public function onlineDriver(Request $request){
         $driver = Auth::guard('apidriver')->user();
+        
+        $driver_db = Driver::find($driver->id);
+        $driver_db->is_online = 1;
+        $driver_db->is_login = 1;
+        $driver_db->save();
 
         $drTime = DrivingTime::where('driver_id', $driver->id)
         ->whereDate('created_at', Carbon::today())
@@ -108,6 +113,11 @@ class DriverController extends Controller
 
     public function offlineDriver(){
         $driver = Auth::guard('apidriver')->user();
+
+        $driver_db = Driver::find($driver->id);
+        $driver_db->is_online = 0;
+        $driver_db->save();
+
         DriverLocation::where('driverId', $driver->id)->delete();
 
         $socket = $this->getPusherSocket();
@@ -191,6 +201,10 @@ class DriverController extends Controller
         $ride->start_time = date('Y-m-d H:m:s');
         $ride->save();
 
+        $driver_db = Driver::find($ride->driver_id);
+        $driver_db->is_busy = 1;
+        $driver_db->save();
+
         $socket = $this->getPusherSocket();
         $data['book_id'] = $book_id;        
         $data['status'] = 'Book Accept';
@@ -232,6 +246,10 @@ class DriverController extends Controller
     {
         
         $driver_id = Auth::guard('apidriver')->user()->id;
+
+        $driver_db = Driver::find($driver_id);
+        $driver_db->is_busy = 0;
+        $driver_db->save();
 
         $reason = $request->reason;
         $ride = Appointment::find($book_id);
@@ -320,6 +338,10 @@ class DriverController extends Controller
         $waitingTime = $request->waitingTime;
 
         $ride = Appointment::find($book_id);
+        
+        $driver_db = Driver::find($ride->driver_id);
+        $driver_db->is_busy = 0;
+        $driver_db->save();
 
         if($trip_distance <= 0){
             $trip_distance = $ride->trip_distance;
@@ -786,10 +808,11 @@ class DriverController extends Controller
             $feedback->comment = '';
         }
         
-        $arr = $this->getRateAnsStr($feedback->rating, $request->option);
+        // $arr = $this->getRateAnsStr($feedback->rating, $request->option);
 
-        $feedback->que = $arr['que'];
-        $feedback->ans = $arr['ans'];
+        // $feedback->que = $arr['que'];
+        // $feedback->ans = $arr['ans'];
+        $feedback->que = $request->option;
         
         $feedback->status = 0;
         $feedback->save();

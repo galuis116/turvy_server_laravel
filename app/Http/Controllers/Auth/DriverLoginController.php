@@ -13,11 +13,18 @@ class DriverLoginController extends Controller
     {
         $this->middleware('guest:driver', ['except' => ['logout']]);
     }
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
+
+        $user_country_iso = getVisIpAddr();
+
+        $user_country = Country::where('iso', $user_country_iso)->first();
+        
         $countries = Country::all();
         return view('auth.login-driver')
-            ->with('countries', $countries);
+            ->with('countries', $countries)
+            ->with('user_country_iso', $user_country->iso)
+            ->with('user_country_phonecode', $user_country->phonecode);
     }
     public function login(Request $request)
     {

@@ -43,9 +43,16 @@ class LoginController extends Controller
    }
    public function showLoginForm()
    {
+
+      $user_country_iso = getVisIpAddr();
+
+      $user_country = Country::where('iso', $user_country_iso)->first();
+      
       $countries = Country::all();
       return view('auth.login-rider')
-         ->with('countries', $countries);
+         ->with('countries', $countries)
+         ->with('user_country_iso', $user_country->iso)
+         ->with('user_country_phonecode', $user_country->phonecode);
    }
    public function login(Request $request)
    {

@@ -568,6 +568,7 @@ class RiderController extends Controller
     	  $rider_id = Auth::guard('api')->user()->id;
         $book = Appointment::find($book_id);
         $book->status = 0;
+        $book->driver_id = null;
         $book->save();
         
         if($book->payment_id == 3){
@@ -789,10 +790,12 @@ class RiderController extends Controller
         	 $feedback->comment = $request->comment;
         }
         
-        $arr = $this->getRateAnsStr($feedback->rating, $request->option);
+        // $arr = $this->getRateAnsStr($feedback->rating, $request->option);
 
-        $feedback->que = $arr['que'];
-        $feedback->ans = $arr['ans'];
+        // $feedback->que = $arr['que'];
+        // $feedback->ans = $arr['ans'];
+        $feedback->que = $request->option;
+
         
         
         $feedback->status = 0;

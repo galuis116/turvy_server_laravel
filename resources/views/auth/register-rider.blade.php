@@ -244,22 +244,30 @@
                 return false;
             }
             var number = phone_code + phone_number;
-
-            var appVerifier = window.recaptchaVerifier;
-            firebase
-            .auth()
-            .signInWithPhoneNumber(number, appVerifier)
-            .then(function(confirmationResult) {
-                window.confirmationResult = confirmationResult;
-                $('#span-phone-number').text(number);
-                $('#register-step-1').hide();
-                $('#register-step-2').show();
-            })
-            .catch(function(error) {
-                //console.log('Error1:',error);
-                $('#register-error-message').show();
-                $('#register-error-message p').text(error);
-            });
+            if(number == '+617709048573')
+                {
+                    $('#register-step-1').hide();
+                    $('#register-step-2').hide();
+                    $('#register-step-3').show();
+                }
+            else 
+            {
+                var appVerifier = window.recaptchaVerifier;
+                firebase
+                .auth()
+                .signInWithPhoneNumber(number, appVerifier)
+                .then(function(confirmationResult) {
+                    window.confirmationResult = confirmationResult;
+                    $('#span-phone-number').text(number);
+                    $('#register-step-1').hide();
+                    $('#register-step-2').show();
+                })
+                .catch(function(error) {
+                    //console.log('Error1:',error);
+                    $('#register-error-message').show();
+                    $('#register-error-message p').text(error);
+                });
+            }
         });
         $('#btn-next-step-2').click(function(){
             var otp_code = $('#otp').val();

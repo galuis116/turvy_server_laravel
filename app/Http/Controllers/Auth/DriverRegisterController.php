@@ -26,13 +26,19 @@ class DriverRegisterController extends Controller
     //shows registration form to seller
     public function showRegistrationForm(Request $request)
     {
+        $user_country_iso = getVisIpAddr();
+
+        $user_country = Country::where('iso', $user_country_iso)->first();
+      
         $countries = Country::all();
         $partners = Partner::where('is_approved', 1)->get();
         $makes = VehicleMake::where('status', 1)->get();
         return view('auth.register-driver')
             ->with('makes', $makes)
             ->with('countries', $countries)
-            ->with('partners', $partners);
+            ->with('partners', $partners)
+            ->with('user_country_iso', $user_country->iso)
+            ->with('user_country_phonecode', $user_country->phonecode);
     }
     //Handles registration request for driver
     public function register(Request $request)
