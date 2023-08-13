@@ -5,13 +5,13 @@
     {
         $title = 'Rider ratings';
         $action = 'admin.rating.rider.status';
-        $edit_rating_action = 'admin.rating.rider.rating';
+        $edit_rating_action = 'admin.rating.rider.edit';
     }
     else
     {
         $title = 'Driver ratings';
         $action = 'admin.rating.driver.status';
-        $edit_rating_action = 'admin.rating.driver.rating';
+        $edit_rating_action = 'admin.rating.driver.edit';
     }        
 @endphp
 
@@ -60,6 +60,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route($action, $rating->id)}}" class="btn {{$rating->status ? 'bg-green' : 'bg-grey'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$rating->status ? 'Pending' : 'Approve'}}"><i class="material-icons">done</i></a>
+                                            <a href="{{route($edit_rating_action, $rating->id)}}" class="btn bg-cyan waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><i class="material-icons">edit</i></a>
                                         </td>
                                     </tr>
                                 @endforeach

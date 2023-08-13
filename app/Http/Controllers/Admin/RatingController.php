@@ -33,6 +33,24 @@ class RatingController extends Controller
 
         return redirect()->back()->with('message', 'It has been changed successfully.');
     }
+    public function driverChangeRating($id)
+    {
+        $rating = DriverRating::find($id);
+        return view('admin.rating.edit')
+            ->with('rating', $rating)
+            ->with('page', 'rating')
+            ->with('subpage', 'driver');
+    }
+    public function driverUpdateRating(Request $request, $id)
+    {
+        $rating = DriverRating::find($id);
+        $rating->rating = $request->rating;
+        $rating->comment = $request->comment;
+        $rating->que = $request->que;
+        $rating->save();
+        
+        return redirect()->back()->with('message', 'It has been updated successfully.');
+    }
     public function rider()
     {
         $ratings = RiderRating::all();
@@ -48,5 +66,25 @@ class RatingController extends Controller
         $rating->save();
 
         return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
+    public function riderChangeRating($id)
+    {
+        $rating = RiderRating::find($id);
+        return view('admin.rating.edit')
+            ->with('rating', $rating)
+            ->with('page', 'rating')
+            ->with('subpage', 'rider');
+
+        return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
+    public function riderUpdateRating(Request $request, $id)
+    {
+        $rating = RiderRating::find($id);
+        $rating->rating = $request->rating;
+        $rating->comment = $request->comment;
+        $rating->que = $request->que;
+        $rating->save();
+        
+        return redirect()->back()->with('message', 'It has been updated successfully.');
     }
 }

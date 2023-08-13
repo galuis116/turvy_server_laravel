@@ -486,8 +486,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'rating', 'as' => 'rating.'], function () {
         Route::get('/driver', 'Admin\RatingController@driver')->name('driver');
         Route::get('/driver/{id}/changeStatus', 'Admin\RatingController@driverChangeStatus')->name('driver.status');
+        Route::get('/driver/{id}/edit', 'Admin\RatingController@driverChangeRating')->name('driver.edit');
+        Route::post('/driver/{id}/update', 'Admin\RatingController@driverUpdateRating')->name('driver.update');
         Route::get('/rider', 'Admin\RatingController@rider')->name('rider');
         Route::get('/rider/{id}/changeStatus', 'Admin\RatingController@riderChangeStatus')->name('rider.status');
+        Route::get('/rider/{id}/edit', 'Admin\RatingController@riderChangeRating')->name('rider.edit');
+        Route::post('/rider/{id}/update', 'Admin\RatingController@riderUpdateRating')->name('rider.update');
     });
 
     Route::group(['prefix' => 'earnings', 'as' => 'earnings.'], function () {
