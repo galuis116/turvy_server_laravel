@@ -7,6 +7,7 @@ use App\Country;
 use App\Driver;
 use App\DriverVehicle;
 use App\DriverNote;
+use App\DriverRating;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -129,10 +130,12 @@ class DriverController extends Controller
         $driver = Driver::find($id);
         $driver_vehicle = DriverVehicle::where('driver_id', $id)->first();
         $driver_notes = DriverNote::where('driver_id', $id)->get();
+        $driver_ratings = DriverRating::where('driver_id', $id)->get();
         return view('admin.driver.show')
             ->with('driver', $driver)
             ->with('driver_vehicle', $driver_vehicle)
             ->with('driver_notes', $driver_notes)
+            ->with('driver_ratings', $driver_ratings)
             ->with('page', 'user')
             ->with('subpage', 'driver');
     }

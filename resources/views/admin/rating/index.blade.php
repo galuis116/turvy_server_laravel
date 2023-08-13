@@ -5,12 +5,13 @@
     {
         $title = 'Rider ratings';
         $action = 'admin.rating.rider.status';
+        $edit_rating_action = 'admin.rating.rider.rating';
     }
     else
     {
         $title = 'Driver ratings';
         $action = 'admin.rating.driver.status';
-
+        $edit_rating_action = 'admin.rating.driver.rating';
     }        
 @endphp
 
@@ -36,6 +37,7 @@
                                     <th>Driver</th>
                                     <th>Rating</th>
                                     <th>Comment</th>
+                                    <th>What went wrong</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -48,6 +50,7 @@
                                         <td>{{$rating->driver_id == null ? 'Not set' : $rating->driver->name}}</td>
                                         <td>{{$rating->rating}}</td>
                                         <td>{{$rating->comment}}</td>
+                                        <td>{{$rating->que}}</td>
                                         <td>
                                             @if($rating->status)
                                                 <span class="badge bg-green">Approved</span>

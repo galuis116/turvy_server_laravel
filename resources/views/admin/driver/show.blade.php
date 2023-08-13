@@ -87,10 +87,36 @@
                                             </li>
                                         </div>
                                         <div role="tabpanel" class="tab-pane animated flipInX" id="ratings">
-                                            <b>Ratings</b>
-                                            <p>
-                                                No activities
-                                            </p>
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Rider</th>
+                                                    <th>Rating</th>
+                                                    <th>Comment</th>
+                                                    <th>What went wrong</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($driver_ratings as $index => $rating)
+                                                    <tr>
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{$rating->rider_id == null ? 'Not set' : $rating->rider->name}}</a></td>
+                                                        <td>{{$rating->rating}}</td>
+                                                        <td>{{$rating->comment}}</td>
+                                                        <td>{{$rating->que}}</td>
+                                                        <td>
+                                                            @if($rating->status)
+                                                                <span class="badge bg-green">Approved</span>
+                                                            @else
+                                                                <span class="badge bg-red">Pending</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div role="tabpanel" class="tab-pane animated flipInX" id="documents">
                                             <b>Ratings</b>

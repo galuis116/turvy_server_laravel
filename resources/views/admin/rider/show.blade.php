@@ -66,10 +66,36 @@
                                             </li>
                                         </div>
                                         <div role="tabpanel" class="tab-pane animated flipInX" id="profile_animation_1">
-                                            <b>Ratings</b>
-                                            <p>
-                                                No activities
-                                            </p>
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Driver</th>
+                                                    <th>Rating</th>
+                                                    <th>Comment</th>
+                                                    <th>What went wrong</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($rider_ratings as $index => $rating)
+                                                    <tr>
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{$rating->driver_id == null ? 'Not set' : $rating->driver->name}}</a></td>
+                                                        <td>{{$rating->rating}}</td>
+                                                        <td>{{$rating->comment}}</td>
+                                                        <td>{{$rating->que}}</td>
+                                                        <td>
+                                                            @if($rating->status)
+                                                                <span class="badge bg-green">Approved</span>
+                                                            @else
+                                                                <span class="badge bg-red">Pending</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div role="tabpanel" class="tab-pane animated flipInX" id="messages_animation_1">
                                             <b>Comments Content</b>

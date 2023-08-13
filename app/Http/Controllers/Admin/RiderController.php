@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUser;
 use App\User;
+use App\RiderRating;
 
 class RiderController extends Controller
 {
@@ -52,8 +53,10 @@ class RiderController extends Controller
     public function showRider($id)
     {
         $rider = User::find($id);
+        $rider_ratings = RiderRating::where('rider_id', $id)->get();
         return view('admin.rider.show')
             ->with('rider', $rider)
+            ->with('rider_ratings', $rider_ratings)
             ->with('page', 'user')
             ->with('subpage', 'rider');
     }
