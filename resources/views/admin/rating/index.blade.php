@@ -35,6 +35,8 @@
                                     <th>No</th>
                                     <th>Rider</th>
                                     <th>Driver</th>
+                                    <th>Trip</th>
+                                    <th>Date/Time</th>
                                     <th>Rating</th>
                                     <th>Comment</th>
                                     <th>What went wrong</th>
@@ -48,6 +50,8 @@
                                         <td>{{$index+1}}</td>
                                         <td>{{$rating->rider_id == null ? 'Not set' : $rating->rider->name}}</a></td>
                                         <td>{{$rating->driver_id == null ? 'Not set' : $rating->driver->name}}</td>
+                                        <td style="text-align:center">{{$rating->book->origin}} <br> To <br> {{$rating->book->destination}}</td>
+                                        <td>{{$rating->book->booking_date}} <br> {{$rating->book->booking_time}}</td>
                                         <td>{{$rating->rating}}</td>
                                         <td>{{$rating->comment}}</td>
                                         <td>{{$rating->que}}</td>

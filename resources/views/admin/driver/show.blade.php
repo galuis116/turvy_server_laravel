@@ -12,7 +12,7 @@
             </div>
             <!-- Basic Examples -->
             <div class="row clearfix">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="body">
                             <div class="row clearfix">
@@ -92,6 +92,8 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Rider</th>
+                                                    <th>Trip</th>
+                                                    <th>Date/Time</th>
                                                     <th>Rating</th>
                                                     <th>Comment</th>
                                                     <th>What went wrong</th>
@@ -103,6 +105,8 @@
                                                     <tr>
                                                         <td>{{$index+1}}</td>
                                                         <td>{{$rating->rider_id == null ? 'Not set' : $rating->rider->name}}</a></td>
+                                                        <td style="text-align:center">{{$rating->book->origin}} <br> To <br> {{$rating->book->destination}}</td>
+                                                        <td>{{$rating->book->booking_date}} <br> {{$rating->book->booking_time}}</td>
                                                         <td>{{$rating->rating}}</td>
                                                         <td>{{$rating->comment}}</td>
                                                         <td>{{$rating->que}}</td>

@@ -14,4 +14,8 @@ class RiderRating extends Model
     {
         return $this->hasOne(Driver::class, 'id', 'driver_id');
     }
+    public function book()
+    {
+        return $this->hasOne(Appointment::class, 'id', 'book_id');
+    }
 }
