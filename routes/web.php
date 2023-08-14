@@ -329,6 +329,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/show', 'Admin\RiderController@showRider')->name('show');
             Route::get('/{id}/edit', 'Admin\RiderController@editRider')->name('edit');
             Route::get('/{id}/approve', 'Admin\RiderController@approveRider')->name('approve');
+            Route::get('/{id}/active', 'Admin\RiderController@activeRider')->name('active');
             Route::post('/{id}/update', 'Admin\RiderController@updateRider')->name('update');
             Route::get('/{id}/delete', 'Admin\RiderController@deleteRider')->name('delete');
         });
@@ -341,6 +342,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/show', 'Admin\DriverController@showDriver')->name('show');
             Route::get('/{id}/edit', 'Admin\DriverController@editDriver')->name('edit');
             Route::get('/{id}/approve', 'Admin\DriverController@approveDriver')->name('approve');
+            Route::get('/{id}/active', 'Admin\DriverController@activeDriver')->name('active');
             Route::post('/{id}/update', 'Admin\DriverController@updateDriver')->name('update');
             Route::get('/{id}/delete', 'Admin\DriverController@deleteDriver')->name('delete');
             Route::get('/{id}/transactions', 'Admin\DriverController@TransactionDriver')->name('transactionsdriver');

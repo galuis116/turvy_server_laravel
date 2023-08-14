@@ -63,6 +63,7 @@
                                             <a href="{{route('admin.user.rider.edit', $rider->id)}}" class="btn bg-cyan waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><i class="material-icons">edit</i></a>
                                             <a href="{{route('admin.user.rider.approve', $rider->id)}}" class="btn {{$rider->status ? 'bg-green' : 'bg-grey'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$rider->status ? 'Pending' : 'Approve'}}"><i class="material-icons">done</i></a>
                                             <a href="{{route('admin.user.rider.delete', $rider->id)}}" class="btn bg-red waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><i class="material-icons">delete</i></a>
+                                            <a href="{{route('admin.user.rider.active', $rider->id)}}" class="btn {{$rider->is_active ? 'bg-red' : 'bg-green'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$rider->is_active ? 'Block' : 'Active'}}"><p style="margin-bottom:0px; font-size:16px">{{$rider->is_active ? 'Block' : 'Active'}}</p></a>
                                         </td>
                                     </tr>
                                 @endforeach

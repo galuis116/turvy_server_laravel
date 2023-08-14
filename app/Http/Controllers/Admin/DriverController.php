@@ -260,6 +260,13 @@ class DriverController extends Controller
         $driver->save();
         return redirect()->back()->with('message', 'It has been changed successfully.');
     }
+    public function activeDriver($id)
+    {
+        $driver = Driver::find($id);
+        $driver->is_active = !$driver->is_active;
+        $driver->save();
+        return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
     public function deleteDriver($id)
     {
         $driver = Driver::find($id);

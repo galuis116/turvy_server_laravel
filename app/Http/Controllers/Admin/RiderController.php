@@ -93,6 +93,13 @@ class RiderController extends Controller
         $user->save();
         return redirect()->back()->with('message', 'It has been changed successfully.');
     }
+    public function activeRider($id)
+    {
+        $user = User::find($id);
+        $user->is_active = !$user->is_active;
+        $user->save();
+        return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
     public function deleteRider($id)
     {
         $rider = User::find($id);

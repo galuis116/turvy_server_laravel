@@ -79,6 +79,7 @@
                                             <a href="{{route('admin.user.driver.edit', $driver->id)}}" class="btn bg-cyan waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><i class="material-icons">edit</i></a>
                                             <a href="{{route('admin.user.driver.approve', $driver->id)}}" class="btn {{$driver->is_approved ? 'bg-green' : 'bg-grey'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$driver->is_approved ? 'Pending' : 'Approve'}}"><i class="material-icons">done</i></a>
                                             <a href="{{route('admin.user.driver.delete', $driver->id)}}" class="btn bg-red waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><i class="material-icons">delete</i></a>
+                                            <a href="{{route('admin.user.driver.active', $driver->id)}}" class="btn {{$driver->is_active ? 'bg-red' : 'bg-green'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$driver->is_active ? 'Block' : 'Active'}}"><p style="margin-bottom:0px; font-size:16px">{{$driver->is_active ? 'Block' : 'Active'}}</p></a>
                                         </td>
                                     </tr>
                                 @endforeach
