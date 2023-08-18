@@ -16,6 +16,7 @@ use App\User;
 use App\VehicleMake;
 use App\VehicleModel;
 use App\VehicleType;
+use App\FatigueContent;
 use App\Airport;
 use Twilio\Rest\Client;
 use Twilio\TwiML\VoiceResponse;
@@ -119,8 +120,15 @@ class CommonController extends Controller
             'datetime' => date('Y-m-d H:i'),
             'data' => $servicetypes
         ]);
-        
-        
+    }
+
+    public function drivingtimepolicy(){
+        $fatiguecontents = FatigueContent::all();
+        return response()->json([
+            'status' => 1,
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $fatiguecontents
+        ]);
     }
 
     public function farecard($state_id, $vehicletype_id){

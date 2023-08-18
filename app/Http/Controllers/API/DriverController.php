@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Driver;
 use App\DriverLocation;
 use App\BookDecline;
+use App\DriverLoyalty;
 use App\DriverVehicle;
 use App\PaymentRequest;
 use App\DriverRating;
@@ -1439,6 +1440,8 @@ class DriverController extends Controller
     */
     public function getDocuments(Request $request)
     {
+        $serverDomain = 'https://turvy.net/';
+        // $serverDomain = 'http://10.0.2.2:8000/';
         $driver = Auth::guard('apidriver')->user();
 
         $result=[];
@@ -1450,15 +1453,22 @@ class DriverController extends Controller
                 $result[$index] = [];
                 $result[$index]['document_id'] = $document->id;
                 $result[$index]['document_name'] = $document->name;
+                $result[$index]['document_title'] = $document->title;
+                $result[$index]['document_description'] = $document->description;
+                $result[$index]['document_imageurl'] = $document->url;
+                if($result[$index]['document_imageurl']){
+                    $result[$index]['document_imageurl'] = $serverDomain.$result[$index]['document_imageurl'];
+                }
                 $driver_document = DriverDocument::where('driver_id', $driver->id)->where('document_id', $document->id)->first();
                 if($driver_document){
                     $result[$index]['document_url'] = $driver_document->document_url;
 
                     if($result[$index]['document_url']){
-                        $result[$index]['document_url'] = 'https://turvy.net/'.$result[$index]['document_url'];
+                        $result[$index]['document_url'] = $serverDomain.$result[$index]['document_url'];
                     }
 
                     $result[$index]['document_expire_date'] = $driver_document->expiredate;
+                    $result[$index]['document_status'] = $driver_document->status;
                 }else{
                     $result[$index]['document_url'] = '';
                     $result[$index]['document_expire_date'] = '';
@@ -1517,7 +1527,7 @@ class DriverController extends Controller
     */
     public function updateDriverDocuments(Request $request, $document_id, $driver_id)
     {
-        
+        $document_expiredate = $request->input('document_expiredate');
 
         if(isset($_FILES)){
             $file_name = time();
@@ -1533,12 +1543,14 @@ class DriverController extends Controller
 
             if($driver_document){
                 $driver_document->document_url = $filepath.".".$fileExtension;
+                $driver_document->expiredate = $document_expiredate;
                 $driver_document->save(); 
             }else{
                 $driver_document = new DriverDocument;            
                 $driver_document->document_url = $filepath.".".$fileExtension;
                 $driver_document->driver_id = $driver_id;
                 $driver_document->document_id = $document_id;
+                $driver_document->expiredate = $document_expiredate;
                 $driver_document->save(); 
             }
 
@@ -2576,6 +2588,34 @@ class DriverController extends Controller
         }
 
     }//end of fun
+
+    /**
+    * get peaktime for driver
+    * @response - JSON object    
+    * @call from Recommended.js
+    */
+    public function getLoyalty(){
+        $driver_id = Auth::guard('apidriver')->user()->id;
+        $loyalty = DriverLoyalty::where('name', 'Driver Loyalty')->first();
+        $qualifyPoints = $loyalty->trips_per_day * $loyalty->available_days_per_week * 4 * 7;
+        $totalPoints = $loyalty->trips_per_day * $loyalty->available_days_per_week * 4 * 12;
+        $bkdecline = BookDecline::where('driver_id',$driver_id)
+            ->where(function($q) {
+                $q->where('declineBy','=','manual')
+                    ->orWhere('declineBy','=', 'aftercancel');
+            })->get();
+        $declineCounts = $bkdecline->count();
+        $data['declineCounts'] = $declineCounts;
+        $data['qualifyPoints'] = $qualifyPoints;
+        $data['totalPoints'] = $totalPoints;
+        return response()->json([
+            'status' => 1,
+            'message' => 'Driver Loyality',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $data
+        ]);
+        
+    }
 
     /**
     * get driver inbox messages

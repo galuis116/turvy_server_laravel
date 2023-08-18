@@ -24,6 +24,7 @@ Route::get('/partners', 'API\CommonController@partners');
 Route::get('/makes', 'API\CommonController@makes');
 Route::get('/models/{make_id}', 'API\CommonController@models');
 Route::get('/servicetypes', 'API\CommonController@servicetypes');
+Route::get('/drivingtimepolicy', 'API\CommonController@drivingtimepolicy');
 Route::get('/farecard/{state_id}/{vehicletype_id}', 'API\CommonController@farecard');
 Route::get('/farecardall/{state_id}', 'API\CommonController@farecardall');
 Route::get('/websockettest','API\WebSocketCont@index');
@@ -183,6 +184,7 @@ Route::group(['prefix' => 'driver'], function(){
         Route::post('/add_queue', 'API\DriverController@add_queue');
         Route::get('/remove_queue', 'API\DriverController@remove_queue');
         Route::get('/peaktime', 'API\DriverController@getPeaktime');
+        Route::get('/loyalty', 'API\DriverController@getloyalty');
         Route::get('/inbox', 'API\DriverController@inbox');
         Route::get('/tap-depart/{book_id}', 'API\DriverController@driverStartTrip');
         Route::get('/trip-detail/{book_id}', 'API\DriverController@getDriverTripDetails');

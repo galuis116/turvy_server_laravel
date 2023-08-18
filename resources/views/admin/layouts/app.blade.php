@@ -95,6 +95,9 @@
 
 @yield('content')
 
+<!-- jQuery -->
+<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+
 <!-- Jquery Core Js -->
 <script src="{{asset('admin-panel/plugins/jquery/jquery.min.js')}}"></script>
 

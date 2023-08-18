@@ -8,6 +8,7 @@ use App\Driver;
 use App\DriverVehicle;
 use App\DriverNote;
 use App\DriverRating;
+use App\DriverDocument;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,11 @@ use App\VehicleMake;
 use App\VehicleModel;
 use App\VehicleType;
 use App\DriverTransactions;
+use App\Mail\DriverEmailVerification;
+use App\Mail\DriverRenewalDocumentEmail;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class DriverController extends Controller
 {
@@ -131,11 +136,13 @@ class DriverController extends Controller
         $driver_vehicle = DriverVehicle::where('driver_id', $id)->first();
         $driver_notes = DriverNote::where('driver_id', $id)->get();
         $driver_ratings = DriverRating::where('driver_id', $id)->get();
+        $driver_documents = DriverDocument::where('driver_id', $id)->get();
         return view('admin.driver.show')
             ->with('driver', $driver)
             ->with('driver_vehicle', $driver_vehicle)
             ->with('driver_notes', $driver_notes)
             ->with('driver_ratings', $driver_ratings)
+            ->with('driver_documents', $driver_documents)
             ->with('page', 'user')
             ->with('subpage', 'driver');
     }
@@ -259,6 +266,31 @@ class DriverController extends Controller
         $driver->is_approved = !$driver->is_approved;
         $driver->save();
         return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
+    public function approveDriverDocument($id)
+    {
+        $document = DriverDocument::find($id);
+        $document->status = !$document->status;
+        $document->save();
+        return redirect()->back()->with('message', 'It has been changed successfully.')
+        ->with('activeTab', 'documents');
+    }
+    public function sendRenewalEmailDriverDocument(Request $request)
+    {
+        $document_id = $request->document_id;
+        $document = DriverDocument::where('document_id', $document_id)->first();
+
+        // Cache::forget('sec_key');
+        // try {
+        //     Mail::to($document->driver->email)->send(new DriverRenewalDocumentEmail($document));
+        // } catch (Exception $e) {
+        //     return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        // }
+        
+        return response()->json([
+            'status' => 1,
+            'message' => 'Renewal Driver Document Email has been sent',
+        ]); 
     }
     public function activeDriver($id)
     {

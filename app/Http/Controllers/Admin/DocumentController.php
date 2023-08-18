@@ -44,6 +44,12 @@ class DocumentController extends Controller
         $request->validated();
         $document = new Document();
         $document->name = $request->name;
+        $document->title = $request->title;
+        $document->description = $request->description;
+        if($request->hasFile('url')) {
+            $file = $request->file('url');
+            $document->url = upload_file($file, 'admin/document');;
+        }
         $document->save();
 
         return redirect()->back()->with('message', 'It has been saved successfully.');
@@ -61,6 +67,12 @@ class DocumentController extends Controller
         $request->validated();
         $document = Document::find($id);
         $document->name = $request->name;
+        $document->title = $request->title;
+        $document->description = $request->description;
+        if($request->hasFile('url')) {
+            $file = $request->file('url');
+            $document->url = upload_file($file, 'admin/document');;
+        }
         $document->save();
 
         return redirect()->back()->with('message', 'It has been updated successfully.');

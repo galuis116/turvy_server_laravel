@@ -162,6 +162,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         });
     });
 
+    Route::group(['prefix' => 'driverfatigue', 'as' => 'driverfatigue.'], function () {
+        Route::get('/list', 'Admin\DriverFatigueController@fatigueContentList')->name('list');
+        Route::get('/add', 'Admin\DriverFatigueController@addFatigueContent')->name('add');
+        Route::post('/add', 'Admin\DriverFatigueController@storeFatigueContent')->name('store');
+        Route::get('/{id}/edit', 'Admin\DriverFatigueController@editFatigueContent')->name('edit');
+        Route::post('/{id}/update', 'Admin\DriverFatigueController@updateFatigueContent')->name('update');
+        Route::get('/{id}/delete', 'Admin\DriverFatigueController@deleteFatigueContent')->name('delete');
+    });
+
     Route::group(['prefix' => 'region', 'as' => 'region.'], function () {
         Route::group(['prefix' => 'country', 'as' => 'country.'], function () {
             Route::get('/list', 'Admin\RegionController@countryList')->name('list');
@@ -342,6 +351,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/show', 'Admin\DriverController@showDriver')->name('show');
             Route::get('/{id}/edit', 'Admin\DriverController@editDriver')->name('edit');
             Route::get('/{id}/approve', 'Admin\DriverController@approveDriver')->name('approve');
+            Route::get('/{id}/approvedocument', 'Admin\DriverController@approveDriverDocument')->name('approve.document');
+            Route::get('/sendrenewalemail', 'Admin\DriverController@sendRenewalEmailDriverDocument')->name('send.email.document');
             Route::get('/{id}/active', 'Admin\DriverController@activeDriver')->name('active');
             Route::post('/{id}/update', 'Admin\DriverController@updateDriver')->name('update');
             Route::get('/{id}/delete', 'Admin\DriverController@deleteDriver')->name('delete');
@@ -588,7 +599,8 @@ Route::prefix('driver')->group(function () {
         Route::get('/bank', 'Driver\BankController@index')->name('driver.bank');
         Route::post('/bank', 'Driver\BankController@update')->name('driver.bank');
         Route::get('/document', 'Driver\DocumentController@index')->name('driver.document');
-        Route::post('/document', 'Driver\DocumentController@update')->name('driver.document');
+        Route::post('/document/update/{id}', 'Driver\DocumentController@update')->name('driver.document.update');
+        Route::get('/document/edit/{id}', 'Driver\DocumentController@edit')->name('driver.document.edit');
         Route::get('/abn', 'Driver\ABNController@index')->name('driver.abn');
         Route::post('/abn', 'Driver\ABNController@store')->name('driver.abn');
         Route::get('/vehicle', 'Driver\VehicleController@index')->name('driver.vehicle');

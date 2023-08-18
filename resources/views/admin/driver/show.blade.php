@@ -6,7 +6,7 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="block-header col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="block-header col-lg-12 col-md-8 col-sm-12 col-xs-12">
                 <h2>Driver details</h2>
                 <a href="{{route('admin.user.driver.list')}}" class="btn bg-grey waves-effect pull-right"><i class="material-icons">keyboard_backspace</i><span>Back</span></a>
             </div>
@@ -15,6 +15,8 @@
                 <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="body">
+                            @include('partials.message')
+                            <div id="flash-message-container" class="mt-3"></div>
                             <div class="row clearfix">
                                 <div class="d-flex justify-content-start text-center">
                                     <div class="image-container">
@@ -29,9 +31,9 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                        <li role="presentation" class="active"><a href="#private" data-toggle="tab">PRIVATE INFO</a></li>
+                                        <li role="presentation" class="{{Session::has('activeTab') ? '' :'active' }}"><a href="#private" data-toggle="tab">PRIVATE INFO</a></li>
                                         <li role="presentation"><a href="#vehicle" data-toggle="tab">VEHICLE INFO</a></li>
-                                        <li role="presentation"><a href="#documents" data-toggle="tab">DOCUMENTS</a></li>
+                                        <li role="presentation" class="{{Session::has('activeTab') ? 'active' :'' }}"><a href="#documents" data-toggle="tab">DOCUMENTS</a></li>
                                         <li role="presentation"><a href="#ratings" data-toggle="tab">RATINGS</a></li>
                                         <li role="presentation"><a href="#comments" data-toggle="tab">COMMENTS</a></li>
                                         <li role="presentation"><a href="#notes" data-toggle="tab">NOTES</a></li>
@@ -39,7 +41,7 @@
 
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane animated flipInX active" id="private">
+                                        <div role="tabpanel" class="tab-pane animated flipInX {{Session::has('activeTab') ? '' :'active' }}" id="private">
                                             <li class="list-group-item clearfix">
                                                 Name <label class="control-label pull-right">{{$driver->name}}</label>
                                             </li>
@@ -122,11 +124,51 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div role="tabpanel" class="tab-pane animated flipInX" id="documents">
-                                            <b>Ratings</b>
-                                            <p>
-                                                No activities
-                                            </p>
+                                        <div role="tabpanel" class="tab-pane animated flipInX {{Session::has('activeTab') ? 'active' :'' }}" id="documents">
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Document Name</th>
+                                                    <th>Document</th>
+                                                    <th>Expire Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($driver_documents as $index => $document)
+                                                    <tr>
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{$document->document_id == null ? 'Not set' : $document->document->name}}</a></td>
+                                                        <td><img src = "{{isset($document->document_url) ? asset($document->document_url) : asset('images/no-image.png')}}" width="70px" height="70px" class="zoom"/></a></td>
+                                                        <td>{{$document->expiredate}}
+                                                        @php
+                                                            $expireDate = DateTime::createFromFormat('Y-m-d', $document->expiredate);
+                                                            $now = new DateTime();
+                                                            $interval = $now->diff($expireDate);
+                                                            $daysRemaining = $interval->days;
+                                                        @endphp
+                                                        @if ($daysRemaining <= 28)
+                                                            <bttuon class="btn bg-red waves-effect btn-xs send-renewal-email" data-document-id="{{$document->id}}" 
+                                                            data-toggle="tooltip" data-placement="bottom" data-original-title="{{'Send renewal alert email'}}" 
+                                                            style="padding-bottom:4px"><i class="material-icons">warning</i></button>
+                                                        @endif
+                                                        </td>
+                                                        <td>
+                                                            @if($document->status)
+                                                                <span class="badge bg-green">Approved</span>
+                                                            @else
+                                                                <span class="badge bg-red">Pending</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin.user.driver.approve.document', $document->id)}}" class="btn {{$document->status ? 'bg-green' : 'bg-grey'}} waves-effect btn-xs" data-toggle="tooltip" data-placement="bottom" data-original-title="{{$document->status ? 'Pending' : 'Approve'}}"><i class="material-icons">done</i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div role="tabpanel" class="tab-pane animated flipInX" id="vehicle">
                                             <li class="list-group-item clearfix">
@@ -217,5 +259,46 @@
             <!-- #END# Basic Examples -->
         </div>
     </section>
+ @style
+    <style>
+        .zoom {
+            transition: transform .2s; /* Animation */
+        }
+        .zoom:hover {
+            transform: scale(10); 
+        }
+    </style>
+@endstyle
 
+@endsection
+
+
+
+@section('scripts')
+    <script>
+    $(document).ready(function() {
+        $('.send-renewal-email').click(function() {
+            var documentId = $(this).data('document-id');
+            console.log(documentId);
+            // Make an AJAX call to your API
+            $.ajax({
+                type: "get",
+                url: "{{route('admin.user.driver.send.email.document')}}",
+                data: "document_id="+documentId,
+                success:
+                    function(data) {
+                        console.log(data);
+                        $('#flash-message-container').html('<div class="alert alert-success" style="display:flex; justify-content:center; align-items:center;">' + ' <i class="material-icons" style="margin-right:5px">info</i>' + data.message + '</div>');
+                        
+                        // Make the flash message disappear after 5 seconds
+                        setTimeout(function() {
+                            $('#flash-message-container').fadeOut(500, function() {
+                                $(this).empty().show();
+                            });
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                    }
+            });
+        });
+    });
+    </script>
 @endsection

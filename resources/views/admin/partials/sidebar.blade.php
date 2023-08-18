@@ -441,6 +441,14 @@
                     </a>
                 </li>
                 @endcan
+                @can('coupon-list')
+                <li @if($page == 'driverfatigue') class="active" @endif>
+                    <a href="{{route('admin.driverfatigue.list')}}">
+                        <i class="material-icons">receipt</i>
+                        <span>Driving Time Policy Content Management</span>
+                    </a>
+                </li>
+                @endcan
                 @can('cancelreason-list')
                 <li @if($page == 'cancelreason') class="active" @endif>
                     <a href="javascript:void(0);" class="menu-toggle">

@@ -30,6 +30,7 @@ class DocumentController extends Controller
                 if($driver_document){
                     $result[$index]['document_url'] = $driver_document->document_url;
                     $result[$index]['document_expire_date'] = $driver_document->expiredate;
+                    $result[$index]['document_status'] = $driver_document->status;
                 }else{
                     $result[$index]['document_url'] = '';
                     $result[$index]['document_expire_date'] = '';
@@ -38,32 +39,50 @@ class DocumentController extends Controller
         }
         return view('driver.document')->with('documents', $result);
     }
-    public function update(Request $request)
+
+    public function edit($id)
     {
         $driver = Auth::guard('driver')->user();
-        $documentstates = DocumentState::where('state_id', $driver->state_id)->first();
-        $documentIds = explode(',', $documentstates->document_ids);
-        foreach($documentIds as $documentId){
-        		if(Document::where('id', $documentId)->count() > 0){
-	            if(DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->count() > 0){
-	                $driverdocument = DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->first();
-	            }else{
-	                $driverdocument = new DriverDocument();
-	            }
-	            if($request->hasFile('document'.$documentId)) {
-	                $file = $request->file('document'.$documentId);
-	                $driverdocument->document_url = upload_file($file, 'document');;
-	            }
-	            if($request->has('date'.$documentId)){
-	                $time = strtotime($request->get('date'.$documentId));
-	                $newformat = date('Y-m-d',$time);
-	                $driverdocument->expiredate = $newformat;
-	            }
-	            $driverdocument->driver_id = $driver->id;
-	            $driverdocument->document_id = $documentId;
-	            $driverdocument->save();
-           }
+        $document = Document::find($id);
+        $result['document_id'] = $document->id;
+        $result['document_name'] = $document->name;
+        $result['document_title'] = $document->title;
+        $result['document_description'] = $document->description;
+        $result['document_imageurl'] = $document->url;
+        $driver_document = DriverDocument::where('driver_id', $driver->id)->where('document_id', $document->id)->first();
+        if($driver_document){
+            $result['document_url'] = $driver_document->document_url;
+            $result['document_expire_date'] = $driver_document->expiredate;
+            $result['document_status'] = $driver_document->status;
+        }else{
+            $result['document_url'] = '';
+            $result['document_expire_date'] = '';
         }
-        return redirect()->back()->with('flash_success', 'It has done successfully');
+        return view('driver.document_edit')->with('document', $result);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $driver = Auth::guard('driver')->user();
+        $documentId = $id;
+        
+        if(DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->count() > 0){
+            $driverdocument = DriverDocument::where('document_id', $documentId)->where('driver_id', $driver->id)->first();
+        }else{
+            $driverdocument = new DriverDocument();
+        }
+        if($request->hasFile('document_file')) {
+            $file = $request->file('document_file');
+            $driverdocument->document_url = upload_file($file, 'document');;
+        }
+        if($request->has('document_expiredate')){
+            $time = strtotime($request->get('document_expiredate'));
+            $newformat = date('Y-m-d',$time);
+            $driverdocument->expiredate = $newformat;
+        }
+        $driverdocument->driver_id = $driver->id;
+        $driverdocument->document_id = $documentId;
+        $driverdocument->save();
+        return redirect()->back()->with('message', 'It has done successfully');
     }
 }

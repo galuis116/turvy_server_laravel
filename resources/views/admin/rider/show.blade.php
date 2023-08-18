@@ -6,7 +6,7 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="block-header col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="block-header col-lg-12 col-md-8 col-sm-12 col-xs-12">
                 <h2>Rider details</h2>
                 <a href="{{route('admin.user.rider.list')}}" class="btn bg-grey waves-effect pull-right"><i class="material-icons">keyboard_backspace</i><span>Back</span></a>
             </div>
