@@ -67,7 +67,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="description" name="description" class="form-control" placeholder="Enter document description" value="{{$description}}"/>
+                                                <textarea type="text" id="description" name="description" class="form-control" placeholder="Enter document description" rows="3">{{$description}}</textarea>
                                             </div>
                                         </div>
                                     </div>

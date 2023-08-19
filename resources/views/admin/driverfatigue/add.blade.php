@@ -42,7 +42,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title of Driving Time Policy Content Item" value="{{$title}}"/>
+                                                <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title of Driving Time Policy Content Item" value="{{$title}}" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" id="description" name="description" class="form-control" placeholder="Enter Description of Driving Time Policy Content Item" value="{{$description}}"/>
+                                                <textarea type="text" id="description" name="description" class="form-control" placeholder="Enter Description of Driving Time Policy Content Item" rows="3" required>{{$description}}</textarea>
                                             </div>
                                         </div>
                                     </div>
