@@ -17,9 +17,10 @@ class DriverRenewalDocumentEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(Document $document)
+    public function __construct($document, $document_expiredate)
     {
         $this->document = $document;
+        $this->document_expiredate = $document_expiredate;
     }
 
     /**
@@ -30,7 +31,8 @@ class DriverRenewalDocumentEmail extends Mailable
     public function build()
     {
 
-        return $this->view('emails.register-driver-email')
-            ->with('document', $this->document);
+        return $this->view('emails.renewal-driver-document-email')
+            ->with(['document' => $this->document,
+                'document_expiredate' => $this->document_expiredate]);
     }
 }

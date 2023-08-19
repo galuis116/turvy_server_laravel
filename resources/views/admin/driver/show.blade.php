@@ -150,7 +150,7 @@
                                                             $daysRemaining = $interval->days;
                                                         @endphp
                                                         @if ($daysRemaining <= 28)
-                                                            <bttuon class="btn bg-red waves-effect btn-xs send-renewal-email" data-document-id="{{$document->id}}" 
+                                                            <bttuon class="btn bg-red waves-effect btn-xs send-renewal-email" data-document-id="{{$document->id}}" data-driver-id="{{$document->driver->id}}" 
                                                             data-toggle="tooltip" data-placement="bottom" data-original-title="{{'Send renewal alert email'}}" 
                                                             style="padding-bottom:4px"><i class="material-icons">warning</i></button>
                                                         @endif
@@ -279,12 +279,17 @@
     $(document).ready(function() {
         $('.send-renewal-email').click(function() {
             var documentId = $(this).data('document-id');
+            var driverId = $(this).data('driver-id');
             console.log(documentId);
+            console.log(driverId);
             // Make an AJAX call to your API
             $.ajax({
                 type: "get",
                 url: "{{route('admin.user.driver.send.email.document')}}",
-                data: "document_id="+documentId,
+                data: {
+                    document_id: documentId,
+                    driver_id: driverId  // Add driverId to the data object
+                },
                 success:
                     function(data) {
                         console.log(data);

@@ -9,6 +9,7 @@ use App\DriverVehicle;
 use App\DriverNote;
 use App\DriverRating;
 use App\DriverDocument;
+use App\Document;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -277,16 +278,19 @@ class DriverController extends Controller
     }
     public function sendRenewalEmailDriverDocument(Request $request)
     {
-        $document_id = $request->document_id;
-        $document = DriverDocument::where('document_id', $document_id)->first();
+        $documentId = $request->input('document_id');
+        $driverId = $request->input('driver_id');
+        $driver_document = DriverDocument::find($documentId);
+        $document = Document::find($driver_document->document_id);
+        $driver = Driver::find($driverId);
 
-        // Cache::forget('sec_key');
-        // try {
-        //     Mail::to($document->driver->email)->send(new DriverRenewalDocumentEmail($document));
-        // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'message' => $e->getMessage()]);
-        // }
-        
+        Cache::forget('sec_key');
+        try {
+            Mail::to($driver->email)->send(new DriverRenewalDocumentEmail($document, $driver_document->expiredate));
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
+
         return response()->json([
             'status' => 1,
             'message' => 'Renewal Driver Document Email has been sent',
