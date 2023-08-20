@@ -1685,6 +1685,9 @@ class DriverController extends Controller
         //}
 
         $driverStat['driver_points'] = $this->getDriverPoints($driver_id);
+        $loyalty = DriverLoyalty::where('name', 'Driver Loyalty')->first();
+        $qualifyPoints = $loyalty->trips_per_day * $loyalty->available_days_per_week * 4 * 7;
+        $driverStat['qualify_points'] = $qualifyPoints;
         
         if($driverStat){          
           return response()->json([
@@ -2599,13 +2602,7 @@ class DriverController extends Controller
         $loyalty = DriverLoyalty::where('name', 'Driver Loyalty')->first();
         $qualifyPoints = $loyalty->trips_per_day * $loyalty->available_days_per_week * 4 * 7;
         $totalPoints = $loyalty->trips_per_day * $loyalty->available_days_per_week * 4 * 12;
-        $bkdecline = BookDecline::where('driver_id',$driver_id)
-            ->where(function($q) {
-                $q->where('declineBy','=','manual')
-                    ->orWhere('declineBy','=', 'aftercancel');
-            })->get();
-        $declineCounts = $bkdecline->count();
-        $data['declineCounts'] = $declineCounts;
+        $data['driverPoints'] = $this->getDriverPoints($driver_id);
         $data['qualifyPoints'] = $qualifyPoints;
         $data['totalPoints'] = $totalPoints;
         return response()->json([

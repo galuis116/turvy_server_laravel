@@ -352,6 +352,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/edit', 'Admin\DriverController@editDriver')->name('edit');
             Route::get('/{id}/approve', 'Admin\DriverController@approveDriver')->name('approve');
             Route::get('/{id}/approvedocument', 'Admin\DriverController@approveDriverDocument')->name('approve.document');
+            Route::post('/{id}/updateexpiredate', 'Admin\DriverController@updateExpiredateDriverDocument')->name('updatedate.document');
+            Route::get('/{id}/editdocument', 'Admin\DriverController@editDriverDocument')->name('edit.document');
             Route::get('/sendrenewalemail', 'Admin\DriverController@sendRenewalEmailDriverDocument')->name('send.email.document');
             Route::get('/{id}/active', 'Admin\DriverController@activeDriver')->name('active');
             Route::post('/{id}/update', 'Admin\DriverController@updateDriver')->name('update');

@@ -276,6 +276,34 @@ class DriverController extends Controller
         return redirect()->back()->with('message', 'It has been changed successfully.')
         ->with('activeTab', 'documents');
     }
+    public function updateExpiredateDriverDocument(Request $request, $id)
+    {
+        $document = DriverDocument::find($id);
+        if($request->has('document_expiredate')){
+            $time = strtotime($request->get('document_expiredate'));
+            $newformat = date('Y-m-d',$time);
+            $document->expiredate = $newformat;
+        }
+        $document->save();
+        return redirect()->back()->with('message', 'It has done successfully')->with('activeTab', 'documents');
+    } 
+    public function editDriverDocument($id)
+    {   
+        $driver_document = DriverDocument::find($id);
+        $document = Document::find($driver_document->document_id);
+
+        $result['document_name'] = $document->name;
+        $result['document_id'] =  $driver_document->document_id;
+        if($driver_document){
+            $result['document_url'] = $driver_document->document_url;
+            $result['document_expire_date'] = $driver_document->expiredate;
+            $result['document_status'] = $driver_document->status;
+        }else{
+            $result['document_url'] = '';
+            $result['document_expire_date'] = '';
+        }
+        return view('admin.driver.edit_document')->with('document', $result)->with('page', 'document')->with('subpage', 'document');
+    }
     public function sendRenewalEmailDriverDocument(Request $request)
     {
         $documentId = $request->input('document_id');
