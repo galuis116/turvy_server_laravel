@@ -62,7 +62,7 @@ class DriverController extends Controller
             $drTime = new DrivingTime;
             $drTime->driver_id = $driver->id;
             $drTime->created_at = date('Y-m-d H:i:s');
-            $drTime->driving_time = 43200;
+            $drTime->driving_time = 46800;
             $drTime->offline_time = 0;
             $drTime->driverOnlineTime = date('Y-m-d H:i:s');
             $drTime->drivingTimeDiff = date('Y-m-d H:i:s');
@@ -1893,12 +1893,12 @@ class DriverController extends Controller
             $drTime->offline_time_text = $this->secondsToTime($drTime->offline_time);
 
             if($drTime->offline_time > 0){
-                $drTime->offline_per = number_format(($drTime->offline_time/43200),2);
+                $drTime->offline_per = number_format(($drTime->offline_time/46800),2);
             }else{
                 $drTime->offline_per = 0;
             }
             if($drTime->driving_time > 0){
-                $drTime->driving_per = number_format(($drTime->driving_time/43200),2);
+                $drTime->driving_per = number_format(($drTime->driving_time/46800),2);
             }else{
                 $drTime->driving_per = 0;
             }
@@ -1924,7 +1924,7 @@ class DriverController extends Controller
                 $drTime->offline_per = 0;
             }
             if($drTime->driving_time > 0){
-                $drTime->driving_per = number_format(($drTime->driving_time/43200),2);
+                $drTime->driving_per = number_format(($drTime->driving_time/46800),2);
                 $drTime->offline_per = 0;
                 $drTime->offline_time_text = $this->secondsToTime(0);
             }else{
@@ -1979,7 +1979,7 @@ class DriverController extends Controller
                 $drTime->offline_time = $drTime->driving_time;
             } */
 
-            $drTime->offline_time = (43200 - $drTime->driving_time);
+            $drTime->offline_time = (46800 - $drTime->driving_time);
 
             $driving_time = ($drTime->driving_time - $timeDiff);
             $driving_time = ($driving_time > 0) ? $driving_time : 0;
@@ -1995,12 +1995,12 @@ class DriverController extends Controller
             $drTime->offline_time_text = $this->secondsToTime($drTime->offline_time);
 
             if($drTime->offline_time > 0){
-                $drTime->offline_per = number_format(($drTime->offline_time/43200),2);
+                $drTime->offline_per = number_format(($drTime->offline_time/46800),2);
             }else{
                 $drTime->offline_per = 0;
             }
             if($drTime->driving_time > 0){
-                $drTime->driving_per = number_format(($drTime->driving_time/43200),2);
+                $drTime->driving_per = number_format(($drTime->driving_time/46800),2);
                 
             }else{
                 $drTime->driving_per = 0;
@@ -2099,7 +2099,7 @@ class DriverController extends Controller
                 $drTime->offline_per = 0;
             }
             if($drTime->driving_time > 0){
-                $drTime->driving_per = number_format(($drTime->driving_time/43200),2);
+                $drTime->driving_per = number_format(($drTime->driving_time/46800),2);
             }else{
                 $drTime->driving_per = 0;
             }

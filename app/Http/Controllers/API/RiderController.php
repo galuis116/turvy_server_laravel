@@ -2054,7 +2054,7 @@ class RiderController extends Controller
         $rideraddressexist = RiderAddresses::where('address',trim($request->address))->get()->count();
         if($rideraddressexist <= 0 && $request->addresastype == 'source-dest' ){
       
-	        if($rideraddresscount >= 3) {
+	        if($rideraddresscount >= 5) {
 	        	$rideraddress = RiderAddresses::where('rider_id',$rider_id)->orderBy('id', 'ASC')->first();
 	        	if(isset($rideraddress->id)){
 	        		RiderAddresses::where('id', $rideraddress->id)->delete();
@@ -2063,6 +2063,7 @@ class RiderController extends Controller
 	        $RiderAddresses = new RiderAddresses;
 	        $RiderAddresses->rider_id =  $rider_id;
 	        $RiderAddresses->address =  trim($request->address);
+            $RiderAddresses->main_address =  trim($request->main_address);
 	        $RiderAddresses->coordinates =  json_encode($request->coordinates);
 	        $RiderAddresses->addresastype =  $request->addresastype;
 	        $RiderAddresses->save();
@@ -2078,6 +2079,7 @@ class RiderController extends Controller
         	 	  $RiderAddresses = new RiderAddresses;
 		        $RiderAddresses->rider_id =  $rider_id;
 		        $RiderAddresses->address =  trim($request->address);
+                $RiderAddresses->main_address =  trim($request->main_address);
 		        $RiderAddresses->coordinates =  json_encode($request->coordinates);
 		        $RiderAddresses->addresastype =  $request->addresastype;
 		        $RiderAddresses->save();
@@ -2098,16 +2100,45 @@ class RiderController extends Controller
   
         $rider_id = Auth::guard('api')->user()->id;
         //$rideraddresscount = RiderAddresses::where('rider_id',$rider_id)->get()->count();
-        $rideraddressList = RiderAddresses::where('rider_id',$rider_id)->get();
+        $rideraddressList = RiderAddresses::where('rider_id',$rider_id)->where('addresastype', 'source-dest')->get();
         $address_array = array();
         if(count($rideraddressList) > 0){
 				foreach($rideraddressList as $kk=>$item){
-					if($item->addresastype != 'source-dest'){
-						$address_array[$kk]['structured_formatting']['main_text'] =$item->addresastype;
-					}else{
-						$address_array[$kk]['structured_formatting']['main_text'] ='';
-					}
+					$address_array[$kk]['savedname'] =$item->addresastype;
+					$address_array[$kk]['structured_formatting']['main_text'] =$item->main_address;
+					$address_array[$kk]['structured_formatting']['secondary_text'] = $item->address;
+					$address_array[$kk]['structured_formatting']['coordinates'] = $item->coordinates;
+				   $cordinates = json_decode($item->coordinates,true);
+				 //  print"<pre>";
+				   //print_r($cordinates);
+				   if(count($cordinates) > 0){
+						$address_array[$kk]['latitude'] = floatval($cordinates['latitude']);
+						$address_array[$kk]['longitude'] =floatval($cordinates['longitude']);
+				   }
 					
+				}        
+        } // end of function 
+        
+        return response()->json([
+            'status' => 1,
+            'message' => 'address Saved',
+            'datetime' => date('Y-m-d H:i'),
+            'data' => $address_array,
+        ]);
+     
+     }
+
+    public function getSavedRiderAddress()
+    {
+  
+        $rider_id = Auth::guard('api')->user()->id;
+        //$rideraddresscount = RiderAddresses::where('rider_id',$rider_id)->get()->count();
+        $rideraddressList = RiderAddresses::where('rider_id',$rider_id)->whereNotIn('addresastype', ['source-dest'])->get();
+        $address_array = array();
+        if(count($rideraddressList) > 0){
+				foreach($rideraddressList as $kk=>$item){
+					$address_array[$kk]['savedname'] =$item->addresastype;
+					$address_array[$kk]['structured_formatting']['main_text'] =$item->main_address;
 					$address_array[$kk]['structured_formatting']['secondary_text'] = $item->address;
 					$address_array[$kk]['structured_formatting']['coordinates'] = $item->coordinates;
 				   $cordinates = json_decode($item->coordinates,true);

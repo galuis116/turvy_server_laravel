@@ -111,6 +111,7 @@ Route::group(['prefix' => 'rider'], function(){
         Route::post('/readmessages', 'API\RiderController@updateUnreadMessage');
         Route::post('/sendMessageToRider', 'API\RiderController@sendmessages');
         Route::post('/addRiderAddress', 'API\RiderController@addRiderAddress');
+        Route::get('/getSavedRiderAddress', 'API\RiderController@getSavedRiderAddress');
         Route::get('/getRiderAddress', 'API\RiderController@getRiderAddress');
         Route::post('/addAStop', 'API\RiderController@addAStop');
         Route::post('/getBookingRiderMessage', 'API\RiderController@getMessagesBYBooking');
