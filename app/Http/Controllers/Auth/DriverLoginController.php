@@ -35,6 +35,10 @@ class DriverLoginController extends Controller
             'password' => 'required|min:6'
         ]);
         $mobile = $request->phonecode.$request->mobile;
+        // $driver_DB = Driver::where('mobile', $mobile)->first();
+        // if($driver_DB && $driver_DB->is_active == 0) {
+        //     return redirect()->back()->withInput($request->only('username'))->withErrors('Your Account Is Blocked. Contact Administration');
+        // }
         if(Auth::guard('driver')->attempt(['mobile' => $mobile, 'password' => $request->password])){
             $driver = Auth::guard('driver')->user();
 

@@ -100,6 +100,18 @@ class RiderController extends Controller
         $user->save();
         return redirect()->back()->with('message', 'It has been changed successfully.');
     }
+    public function suspendRider($id)
+    {
+        $user = User::find($id);
+        // $socket = $this->getPusherSocket();
+        // $data['id'] = $driver->id;
+        // $data['status'] = $driver->is_suspended == 1 ? 'resume' : 'suspend';
+        // $socket->trigger('turvy-channel', 'admin_suspend_driver', $data);
+
+        $user->is_suspended = !$user->is_suspended;
+        $user->save();
+        return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
     public function deleteRider($id)
     {
         $rider = User::find($id);

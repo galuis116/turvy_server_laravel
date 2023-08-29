@@ -327,7 +327,24 @@ class DriverController extends Controller
     public function activeDriver($id)
     {
         $driver = Driver::find($id);
+        $socket = $this->getPusherSocket();
+        $data['id'] = $driver->id;
+        $data['status'] = $driver->is_active == 1 ? 'blocked' : 'activated';
+        $socket->trigger('turvy-channel', 'admin_block_driver', $data);
+
         $driver->is_active = !$driver->is_active;
+        $driver->save();
+        return redirect()->back()->with('message', 'It has been changed successfully.');
+    }
+    public function suspendDriver($id)
+    {
+        $driver = Driver::find($id);
+        $socket = $this->getPusherSocket();
+        $data['id'] = $driver->id;
+        $data['status'] = $driver->is_suspended == 1 ? 'resume' : 'suspend';
+        $socket->trigger('turvy-channel', 'admin_suspend_driver', $data);
+
+        $driver->is_suspended = !$driver->is_suspended;
         $driver->save();
         return redirect()->back()->with('message', 'It has been changed successfully.');
     }
@@ -399,5 +416,23 @@ class DriverController extends Controller
         return redirect()->back()->with('message', 'Amount been saved successfully.');
         }
     }
+
+    function getPusherSocket(){
+        //require '/home/turvy.net/public_html/public/pusher/vendor/autoload.php';
+        require base_path() .'/public/pusher/vendor/autoload.php';
+
+        $options = array(
+            'cluster' => 'ap2',
+            'useTLS' => true
+        );
+        $pusher = new \Pusher\Pusher(
+            '389d667a3d4a50dc91a6', //APP_KEY
+            'e1f2e0266903857072be', //APP_SECRET
+            '1309578', //APP_ID
+            $options
+        );
+
+        return $pusher;
+    }//end of fun
 
 }

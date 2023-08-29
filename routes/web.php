@@ -339,6 +339,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/edit', 'Admin\RiderController@editRider')->name('edit');
             Route::get('/{id}/approve', 'Admin\RiderController@approveRider')->name('approve');
             Route::get('/{id}/active', 'Admin\RiderController@activeRider')->name('active');
+            Route::get('/{id}/suspend', 'Admin\RiderController@suspendRider')->name('suspend');
             Route::post('/{id}/update', 'Admin\RiderController@updateRider')->name('update');
             Route::get('/{id}/delete', 'Admin\RiderController@deleteRider')->name('delete');
         });
@@ -356,6 +357,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('/{id}/editdocument', 'Admin\DriverController@editDriverDocument')->name('edit.document');
             Route::get('/sendrenewalemail', 'Admin\DriverController@sendRenewalEmailDriverDocument')->name('send.email.document');
             Route::get('/{id}/active', 'Admin\DriverController@activeDriver')->name('active');
+            Route::get('/{id}/suspend', 'Admin\DriverController@suspendDriver')->name('suspend');
             Route::post('/{id}/update', 'Admin\DriverController@updateDriver')->name('update');
             Route::get('/{id}/delete', 'Admin\DriverController@deleteDriver')->name('delete');
             Route::get('/{id}/transactions', 'Admin\DriverController@TransactionDriver')->name('transactionsdriver');

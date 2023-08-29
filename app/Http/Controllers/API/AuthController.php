@@ -500,6 +500,9 @@ class AuthController extends Controller
         try{
 
            $driver = Driver::where('mobile', $request->phone)->first();
+        //    if($driver->is_active == 0) {
+        //     return response()->json(['status' => 0, 'message' => 'Your Account Is Blocked. Contact Administration']);
+        //    }
            $driver->is_login = 1;
            $driver->save();
 

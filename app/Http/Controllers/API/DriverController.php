@@ -48,7 +48,6 @@ class DriverController extends Controller
 {
     public function onlineDriver(Request $request){
         $driver = Auth::guard('apidriver')->user();
-        
         $driver_db = Driver::find($driver->id);
         $driver_db->is_online = 1;
         $driver_db->is_login = 1;
@@ -179,6 +178,9 @@ class DriverController extends Controller
 
     public function getDriverInfo(){
         $driver = Auth::guard('apidriver')->user();
+        // if($driver->is_active == 0) {
+        //     return response()->json(['status' => 0, 'message' => 'Your Account Is Blocked. Contact Administration']);
+        //    }
         return response()->json([
             'status' => 1,
             'message' => 'Driver personal info.',
@@ -1950,7 +1952,11 @@ class DriverController extends Controller
 
     public function checkDrivingTime(){
 
-        $driver_id = Auth::guard('apidriver')->user()->id;
+        $driver = Auth::guard('apidriver')->user();
+        // if($driver->is_active == 0) {
+        //     return response()->json(['status' => 0, 'message' => 'Your Account Is Blocked. Contact Administration']);
+        //    }
+        $driver_id = $driver->id;
 
         $drTime = DrivingTime::where('driver_id', $driver_id)
         ->whereDate('created_at', Carbon::today())
@@ -2022,8 +2028,14 @@ class DriverController extends Controller
     }//end of fun
 
     public function avialableDrivingTime(){
-        $driver_id = Auth::guard('apidriver')->user()->id;
-
+        $driver = Auth::guard('apidriver')->user();
+        // if($driver->is_active == 0 ) {
+        //     return response()->json(['status' => 0, 'message' => 'Your Account Is Blocked. Contact Administration']);
+        // } 
+        // if($driver->is_suspended == 1) {
+        //     return response()->json(['status' => 0, 'message' => 'Your Account Is Suspended. Contact Administration']);
+        // }
+        $driver_id = $driver->id;
         $drTime = DrivingTime::where('driver_id', $driver_id)
         ->whereDate('created_at', Carbon::today())
         ->first();
