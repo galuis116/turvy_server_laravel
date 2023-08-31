@@ -507,6 +507,22 @@ class RiderController extends Controller
         $rider_name = Auth::guard('api')->user()->name;
         $rider_mobile = Auth::guard('api')->user()->mobile;
         $rider_email = Auth::guard('api')->user()->email;
+        if(Auth::guard('api')->user()->is_active == 0){
+            return response()->json([
+                'status' => 0,
+                'state' => 'blocked',
+                'message' => 'Your account is blocked. Please Contact Administration',
+                'datetime' => date('Y-m-d H:i')
+            ]);
+        }
+        if(Auth::guard('api')->user()->is_suspended){
+            return response()->json([
+                'status' => 0,
+                'state' => 'suspended',
+                'message' => 'Your account is suspended. Please contact support',
+                'datetime' => date('Y-m-d H:i')
+            ]);
+        }
         $boookingdt = date("Y-m-d");
         $boookingtime = date("H:i:s");
         $is_schedule = 0;
