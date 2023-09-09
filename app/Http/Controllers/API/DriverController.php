@@ -289,7 +289,7 @@ class DriverController extends Controller
 
         $reason = $request->reason;
         $ride = Appointment::find($book_id);
-        $ride->status = 0;
+        $ride->status = 2;
         $ride->cancel_reason = $reason;
         $ride->save();
         
