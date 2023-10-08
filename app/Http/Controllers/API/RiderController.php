@@ -1078,6 +1078,7 @@ class RiderController extends Controller
             //rideinfoinprocess
             if($books->driver_id > 0){
               $driver = Driver::where('id', $books->driver_id)->first();
+              $driver->last_name = '';
             }
             
     	  }elseif($books->status == 2){
@@ -1087,6 +1088,7 @@ class RiderController extends Controller
     	  }elseif($books->status == 0){
            $message = 'not assigned';
         }
+
            $booksdata['driver'] = $driver;
            $booksdata['booking'] = $books;
            $startTime = '';

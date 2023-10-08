@@ -2163,6 +2163,7 @@ class DriverController extends Controller
 
             $serviceTypes = VehicleType::find($bookings->servicetype_id);
             $bookings->servicetype_name = $serviceTypes->name;
+            $bookings->rider_name = explode(' ', $bookings->rider_name)[0];
 
             return response()->json([
                 'status' => 1,
