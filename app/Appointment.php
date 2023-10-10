@@ -120,6 +120,7 @@ class Appointment extends Model
 	                    'payment_requests.subtotal',
 	                    'payment_requests.surge', 
 	                    'payment_requests.surgeinfo',
+						'payment_requests.violant_end',
 	                    'drivers.first_name', 
 	                    'drivers.last_name', 
 	                    'rider_ratings.rating',
@@ -181,6 +182,7 @@ class Appointment extends Model
 				$ridesFormat[$k]['subtotal'] = $ride->subtotal;
 				$ridesFormat[$k]['surge'] = $ride->surge;
 				$ridesFormat[$k]['surgeinfo'] = $ride->surgeinfo;
+				$ridesFormat[$k]['cancellation_charge'] = $ride->violant_end;
 				$ridesFormat[$k]['status'] = $ride->status;
 				$ridesFormat[$k]['cancel_reason'] = $ride->cancel_reason;
 				/*

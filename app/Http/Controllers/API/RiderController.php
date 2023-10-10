@@ -643,7 +643,7 @@ class RiderController extends Controller
         */
         $rider_id = Auth::guard('api')->user()->id;
         $book = Appointment::find($book_id);
-        $book->status = 3;
+        $book->status = 2;
         $book->save();
         
         $riderCancel = new RiderCancelreason;
@@ -749,7 +749,8 @@ class RiderController extends Controller
 		        ->first();	
 		      
 		      if(isset($request->payfull) && $request->payfull == 'yes' ){
-		      	$total_amount_rd = floatval($bookingtotal);
+		      	//$total_amount_rd = floatval($bookingtotal);
+                $total_amount_rd = 0;
 		      }else{
 		      	$total_amount_rd = floatval($bookingtotal) - floatval($request->fee);
 		      }
