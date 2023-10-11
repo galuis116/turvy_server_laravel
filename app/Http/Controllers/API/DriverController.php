@@ -292,10 +292,15 @@ class DriverController extends Controller
         $ride->status = 2;
         $ride->cancel_reason = $reason;
         $ride->save();
+
+        $charge_waiting_time_limit = 300;
         
         $BookDecline = new BookDecline;
  		  $BookDecline->cancel_reason = $reason;
  		  $BookDecline->declineBy = 'aftercancel';
+           if($request->waitingTime >= $charge_waiting_time_limit ) {
+            $BookDecline->declineBy = 'aftercancelnorider';
+           }
  		  $BookDecline->booking_id = $book_id;
  		  $BookDecline->driver_id =$driver_id;
  		  $BookDecline->save();
@@ -305,9 +310,21 @@ class DriverController extends Controller
         ->orderBy('id', 'DESC')
         ->limit(1)
         ->first();
-
+        
+        
         $cancelAmt = -15;
         $total_amount = $cancelAmt;
+
+        $waiting_charge = 0;
+        if($request->waitingTime >= $charge_waiting_time_limit ) {
+
+            $fare = Fare::where('servicetype_id', $ride->servicetype_id)->first();
+            if($fare){
+                $waiting_charge = $fare->waiting_price_per_minute * $request->waitingTime / 60 ;
+            }
+            $cancelAmt = 12 + $waiting_charge;
+            $total_amount = $cancelAmt; 
+        }
         
         if($transactionsInfo){
             $total_amount = $transactionsInfo->total_amount + $cancelAmt;
@@ -320,6 +337,9 @@ class DriverController extends Controller
         $transactions->amount = $cancelAmt;
         $transactions->total_amount = $total_amount;
         $transactions->pay_type = 'self_cancel';
+        if($request->waitingTime >= $charge_waiting_time_limit ) {
+            $transactions->pay_type = 'self_cancel_after_5min_wait';
+        }
         $transactions->status = 'active';
         $transactions->save();
 
@@ -334,6 +354,11 @@ class DriverController extends Controller
 
         $cancelAmt = 12;
         $total_amount = $cancelAmt;
+
+        if($request->waitingTime >= $charge_waiting_time_limit ) {
+            $cancelAmt = -15 - $waiting_charge;
+            $total_amount = $cancelAmt;
+        }
         
         if($riderTransactionsInfo){
             $total_amount = $riderTransactionsInfo->total_amount + $cancelAmt;
@@ -345,6 +370,9 @@ class DriverController extends Controller
         $riderTransactions->amount = $cancelAmt;
         $riderTransactions->total_amount = $total_amount;
         $riderTransactions->pay_type = 'driver_cancel';
+        if($request->waitingTime >= $charge_waiting_time_limit ) {
+            $riderTransactions->pay_type = 'driver_cancel_after_5min_wait';
+        }
         $riderTransactions->status = 'active';
         $riderTransactions->save();
 
@@ -3045,6 +3073,9 @@ class DriverController extends Controller
                 return 'Rider give you tip';
                 break;
             case 'self_cancel':
+                return 'You cancelled trip';
+                break;
+            case 'self_cancel_after_5min_wait':
                 return 'You cancelled trip';
                 break;
             case 'rider_cancel':

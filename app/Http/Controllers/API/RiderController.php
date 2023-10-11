@@ -1711,7 +1711,11 @@ class RiderController extends Controller
 	 public function getcancelAmount($book_id =  0){
     	
     	$rider_id = Auth::guard('api')->user()->id;
-		$riderTransaction = RiderTransaction::where('rider_id', $rider_id)->where('book_id',$book_id)->where('pay_type','self_cancel')->first();
+		$riderTransaction = RiderTransaction::where('rider_id', $rider_id)->where('book_id',$book_id)->where(function ($query) {
+            $query->where('pay_type', 'self_cancel')
+                  ->orWhere('pay_type', 'driver_cancel')
+                  ->orWhere('pay_type', 'driver_cancel_after_5min_wait');
+        })->first();
 		
 		if($riderTransaction){
         return response()->json([
